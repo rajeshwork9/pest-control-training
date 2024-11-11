@@ -44,8 +44,8 @@ const EnrollCourses: React.FC = () => {
                 <IonList className="coursesItem" lines="none">
                   <IonItem className="itemActive">
                     <IonThumbnail slot="start">
-                        <ion-icon icon={ribbon}></ion-icon>
-                        <div className="checkmark"><ion-icon icon={checkmark}></ion-icon></div>
+                        <IonIcon icon={ribbon}></IonIcon>
+                        <div className="checkmark"><IonIcon icon={checkmark}></IonIcon></div>
                     </IonThumbnail>
                     <IonText>
                        <div className="detailsArrow">
@@ -61,8 +61,8 @@ const EnrollCourses: React.FC = () => {
 
                   <IonItem>
                     <IonThumbnail slot="start">
-                        <ion-icon icon={ribbon}></ion-icon>
-                        <div className="checkmark"><ion-icon icon={checkmark}></ion-icon></div>
+                        <IonIcon icon={ribbon}></IonIcon>
+                        <div className="checkmark"><IonIcon icon={checkmark}></IonIcon></div>
                     </IonThumbnail>
                     <IonText>
                         <div className="detailsArrow">

@@ -44,6 +44,10 @@ import PaymentDetails from './pages/PaymentDetails';
 import PaymentConfirmation from './pages/PaymentConfirmation';
 import SelectedCourses from './pages/SelectedCourses';
 import SelectedCoursesDetails from './pages/SelectedCoursesDetails';
+import CorporateDashboard from './pages/CorporateDashboard';
+import UsersList from './pages/UsersList';
+import UserCreate from './pages/UserCreate';
+import SelectUser from './pages/SelectUser';
 
 setupIonicReact();
 const App: React.FC = () => (
@@ -93,7 +97,23 @@ const App: React.FC = () => (
 
         <Route exact path="/selected-courses-details">
           <SelectedCoursesDetails />
-        </Route>        
+        </Route>       
+
+          <Route exact path="/corporate-dashboard">
+          <CorporateDashboard />
+        </Route> 
+
+        <Route exact path="/users-list">
+          <UsersList />
+        </Route> 
+
+        <Route exact path="/user-create">
+          <UserCreate />
+        </Route> 
+
+        <Route exact path="/select-user">
+          <SelectUser />
+        </Route>
 
         <Route exact path="/home">
           <Home />
