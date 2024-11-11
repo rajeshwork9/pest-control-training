@@ -40,6 +40,8 @@ ion-textarea {
 .outlineBt{height: 47px; font-size: 0.95rem; font-weight: 600;
     ion-img{width: 21px; margin-right: 8px;}
 }
+.orangeBt{--background:#EE7303; --box-shadow:none; height:37px; 
+  --padding-start:15px;  --padding-end:15px; font-size:0.8rem;}
 .colorBg{--background:#F5FBFF;}
 .d-flex{display:flex;}
 .ion-button{--border-radius:50px;}
@@ -566,3 +568,29 @@ ion-footer{
   }
 }
 
+.innerDownloadFiles{margin-top: 15px; padding-left:12px; padding-right:12px;
+  
+ion-item{--padding-start:0px; --inner-padding-end:0px;}
+
+.filesActive{
+  color: #00A2B1;
+  border-bottom: solid 4px #00A2B1;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding-right: 20px;
+  padding-bottom: 3px;
+}
+
+.zipCard{
+  ion-item{margin-bottom:18px;
+    --padding-start:12px; --inner-padding-end:12px;
+  box-shadow:0px 2px 8px rgba(0, 0, 0, 0.1607843137);
+  .scd-downloadBt{--color:#186DDB; font-size:1.3rem;    --padding-start: 0px;
+    --padding-end: 0px;}
+  }
+  .scd-iconText{
+    ion-text{font-size:0.86rem; }
+    ion-icon{margin-right:7px; font-size:0.86rem;    font-size: 1rem; color:#000000;}
+  }
+}
+}

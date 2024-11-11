@@ -21,7 +21,7 @@ import {
   IonCol,
   } from "@ionic/react";
   import { useHistory } from 'react-router';
-import { ribbon, checkmark } from 'ionicons/icons'
+import { ribbon, checkmark, documents, download  } from 'ionicons/icons'
  
   const SelectedCoursesDetails: React.FC = () => {
     return (
@@ -63,10 +63,33 @@ import { ribbon, checkmark } from 'ionicons/icons'
                           </div>
                   </div>
 
-            <div className="InnerDownloadFiles">
+            <div className="innerDownloadFiles">
                 <IonItem color="none" lines="none">
-
+                <IonText className="filesActive">Files</IonText>
+                <IonButton slot="end" className="orangeBt" shape="round" expand="block">MARK ATTENDANCE</IonButton>
                 </IonItem>
+
+              <IonList lines="none" className="zipCard">
+                  <IonItem lines="none" className="ion-justify-content-between">
+                      <div className="scd-iconText">
+                        <ion-icon icon={documents}></ion-icon>
+                        <IonText>Curabitur efficitur turpis ut odio</IonText>
+                      </div>
+                      <IonButton slot="end" className="scd-downloadBt" fill="clear"><ion-icon slot="end" icon={download}></ion-icon>
+                      </IonButton>
+                  </IonItem>
+
+                  <IonItem lines="none" className="ion-justify-content-between">
+                      <div className="scd-iconText">
+                        <ion-icon icon={documents}></ion-icon>
+                        <IonText>Curabitur efficitur turpis ut odio</IonText>
+                      </div>
+                      <IonButton slot="end" className="scd-downloadBt" fill="clear"><ion-icon slot="end" icon={download}></ion-icon>
+                      </IonButton>
+                  </IonItem>
+
+              </IonList>
+
             </div>
 
 
