@@ -29,12 +29,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 body {
-  font-family: var(--ion-font-family);
+  font-family: var(--ion-font-family); outline: none !important;
 }
 ion-input,
 ion-select,
 ion-textarea {
   font-size: 0.86rem;
+}
+
+.inputFiledSty{
+  .fieldControl{padding: 4px 0px 0px 0px; padding: 0px;   outline: none; color: #1B428A;  font-weight:500;    font-size: 0.9rem;   border: none;}
+ .fieldName{font-size:0.7rem; font-weight:500;  color: #1B428A;  padding: 4px 0px 0px 0px;}
+ .fieldControl::placeholder {color:#768eb9;}
+ .eyePosition {
+  position: relative;
+  width: 100%;
+  .eyeButton {
+    position: absolute;
+    right: -10px;
+    top: 0px;
+    color: #3accd1;
+  }
+}
 }
 
 .outlineBt{height: 47px; font-size: 0.95rem; font-weight: 600;
@@ -141,12 +157,14 @@ ion-textarea {
 
 .mainLoginCard{display:block; width: 100%;}
 
-
+.errorMessage{
+  margin: 15px;
+}
 .loginwrapp{
   ion-button.ion-button{--padding-top: 17px;  --padding-bottom: 17px; font-size: 1rem;     margin-top: 28px;}
   .headerImg{margin-bottom:0px !important; width:65%;  }
   ion-card{box-shadow: none;  margin:0px; padding:20px;
-    ion-item.ionItemShadow{ margin-bottom:20px;   --background: #fff;  border-radius: 7px;   --padding-start:15px;
+    ion-item.ionItemShadow{ margin-bottom: 10px; margin-top: 10px;   --background: #fff;  border-radius: 7px;   --padding-start:15px;
       --padding-end:15px; --padding-top:4px; --padding-bottom:4px;  box-shadow:0px 3px 7px 0px rgb(0 0 0 / 19%);   
     ion-input{font-size: 0.9rem; --color:#1B428A; font-weight:500; --border-width:0px;}
     ion-select{font-size: 0.9rem;color:#1B428A; font-weight:500; --border-width:0px;}
@@ -157,7 +175,7 @@ ion-textarea {
       p{font-weight:400; color:#6C6C6C; margin:4px 0px 10px 0px;}
     }
     
-    .ionRemember{--padding-start: 0px; --padding-end: 0px;margin:0px;
+    .ionRemember{--padding-start: 0px; --padding-end: 0px;margin: 15px 0px;;
       .forgotpassword{
           --padding-start: 0px;
           --padding-end: 0px;
@@ -564,5 +582,15 @@ ion-footer{
     //   right: -22px;
     // }
   }
+}
+.enrollCoursesWrapp{
+  
+}
+
+.checkbox-icon {
+  border-radius: 50% !important;
+  width: 25px !important;
+  height: 25px !important;
+  border: 1px solid #ee7303 !important;            /* Ensures the checkbox icon is also round */
 }
 

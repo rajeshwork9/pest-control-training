@@ -57,7 +57,7 @@ const Dashboard: React.FC = () => {
             <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg> 
             <div className="bgSvg">     
                 <IonCard className="corporateTotalPaymentCard">
-                  <IonItem lines="none" color="none" routerLink="/selected-courses">
+                  <IonItem lines="none" color="none" routerLink="/enrollcourses">
                     <IonText className="ctpcInner" slot="start">
                          <h2>Courses</h2>
                          <p>See your all Courses details</p> 

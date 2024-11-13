@@ -45,7 +45,7 @@ const EnrollCoursesDetails: React.FC = () => {
               <IonList className="coursesDHeader" lines="none">
                   <IonItem className="itemActive">
                     <IonThumbnail slot="start">
-                        <ion-icon icon={ribbon}></ion-icon>                     
+                        <IonIcon icon={ribbon}></IonIcon>                     
                     </IonThumbnail>
                     <IonText>                      
                       <h3>Course-1</h3>
