@@ -72,19 +72,19 @@ import { ribbon, checkmark, documents, download  } from 'ionicons/icons'
               <IonList lines="none" className="zipCard">
                   <IonItem lines="none" className="ion-justify-content-between">
                       <div className="scd-iconText">
-                        <ion-icon icon={documents}></ion-icon>
+                        <IonIcon icon={documents}></IonIcon>
                         <IonText>Curabitur efficitur turpis ut odio</IonText>
                       </div>
-                      <IonButton slot="end" className="scd-downloadBt" fill="clear"><ion-icon slot="end" icon={download}></ion-icon>
+                      <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
                       </IonButton>
                   </IonItem>
 
                   <IonItem lines="none" className="ion-justify-content-between">
                       <div className="scd-iconText">
-                        <ion-icon icon={documents}></ion-icon>
+                        <IonIcon icon={documents}></IonIcon>
                         <IonText>Curabitur efficitur turpis ut odio</IonText>
                       </div>
-                      <IonButton slot="end" className="scd-downloadBt" fill="clear"><ion-icon slot="end" icon={download}></ion-icon>
+                      <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
                       </IonButton>
                   </IonItem>
 

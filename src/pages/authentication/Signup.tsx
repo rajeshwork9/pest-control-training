@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {
   IonButton,
   IonContent,
@@ -15,15 +15,22 @@ import {
 import * as Yup from "yup";
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikContext } from 'formik';
 import useLoading from '../../components/useLoading';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { useAuth } from '../../api/AuthContext';
+import { getUserTypes } from '../../api/common';
+import { set } from 'react-hook-form';
 
 const validationSchema = Yup.object({
   first_name: Yup.string().required('First Name is required'),
   last_name: Yup.string().required('Last Name is required'),
   user_type: Yup.string().required('User Type is required'),
+  company_name:Yup.string().when('registration_type', (registration_type : any , schema) => {
+    return registration_type == 'corporate'
+      ? schema.required('Company Name is required')
+      : schema.notRequired(); // Ensures phoneNumber is optional otherwise
+  }),
   registration_type: Yup.string().required('Registration Type is required'),
   email_id: Yup.string().email('Invalid email address').required('Email is required'),
   mobile_no: Yup.string().required('Mobile Number is required'),
@@ -35,13 +42,15 @@ const Signup: React.FC = () => {
   const history = useHistory();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const { register } = useAuth();
+  const [userTypes, setUserTypes] = useState<any[]>([]);
   const app_version: any = localStorage.getItem('app_version');
   const app_name: any = localStorage.getItem('app_name');
-
+  const [isCompanyRequired, setIsCompanyRequired] = useState(false);
   const initialValues = {
     first_name: "",
     last_name: "",
     user_type: "",
+    company_name: "",
     registration_type: "",
     email_id: "",
     mobile_no: "",
@@ -63,15 +72,15 @@ const Signup: React.FC = () => {
         console.log("hi")
         localStorage.setItem('token', response.data.api_token);
         localStorage.setItem('userData', JSON.stringify(response.data));
-        localStorage.setItem('userPermissions',JSON.stringify(response.data.permission_types));
+        localStorage.setItem('userPermissions', JSON.stringify(response.data.permission_types));
         toast.success(response.message);
         if (response.data.user_type == 8) {
 
           history.push("/dashboard");
-      }
-      else {
+        }
+        else {
           history.push("/dashboard");
-      }
+        }
       }
       else {
         if (response.status == 400 && response.success == false) {
@@ -108,10 +117,35 @@ const Signup: React.FC = () => {
     }
   }
 
-  const getUserTypes = (value: any) => {
+  const getUserTypeList = async (value: any) => {
+    startLoading();
+    try {
+      const payload = {
+        "registering_user": value //accepts corporate,individual
+      }
+      const response = await getUserTypes(payload);
+      if (response.status == 200 && response.success == true) {
+        console.log(response);
+        setUserTypes(response.data);
+        if (value === 'corporate') {
+          setIsCompanyRequired(true);
+        } else {
+          setIsCompanyRequired(false);
+        }
+      }
+      else {
+        setUserTypes([]);
+        toast.dismiss();
+        toast.error(response.message)
+      }
+    }
+    catch (error: any) {
+      console.log(error);
 
-    //alert(value);
-
+    }
+    finally {
+      stopLoading();
+    }
   };
   return (
     <>
@@ -191,7 +225,8 @@ const Signup: React.FC = () => {
                           onIonChange={(event) => {
                             const value = event.detail.value;
                             setFieldValue("registration_type", value); // Update Formik's state
-                            getUserTypes(value);
+                            setFieldValue("user_type", '');
+                            getUserTypeList(value);
                           }}
                         >
                           <IonSelectOption value="corporate">Corporate</IonSelectOption>
@@ -205,14 +240,34 @@ const Signup: React.FC = () => {
                       )}
                       <IonItem lines="none" className="ion-align-items-center ionItemShadow">
                         <IonSelect label="User Type" name="user_type" labelPlacement="stacked" onIonChange={handleChange} value={values.user_type} placeholder="Select User Type">
-                          <IonSelectOption value="8">Technician</IonSelectOption>
-                          <IonSelectOption value="16">Supervisor</IonSelectOption>
+                          {userTypes.map((data: any) => (
+                            <IonSelectOption key={data.id} value={data.id}>
+                              {data.role_name}
+                            </IonSelectOption>
+                          ))}
                         </IonSelect>
                       </IonItem>
                       {touched.user_type && errors.user_type && (
                         <IonText color="danger" className="errorMessage">
                           <ErrorMessage name="user_type" />
                         </IonText>
+                      )}
+                      
+                      {isCompanyRequired && (
+                        <span>
+                          <IonItem lines="none" className="ion-align-items-center ionItemShadow inputFiledSty">
+                            <div>
+                              <IonLabel className="fieldName">Company Name</IonLabel>
+                              <Field className="fieldControl" name="company_name" onIonChange={handleChange} value={values.company_name} placeholder="Enter Your Company Name"
+                                type="text" />
+                            </div>
+                          </IonItem>
+                          {touched.company_name && errors.company_name && (
+                            <IonText color="danger" className="errorMessage">
+                              <ErrorMessage name="company_name" />
+                            </IonText>
+                          )}
+                        </span>
                       )}
                       <IonItem lines="none" className="ion-align-items-center ionItemShadow inputFiledSty">
                         <div>

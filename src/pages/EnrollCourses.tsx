@@ -69,6 +69,7 @@ const EnrollCourses: React.FC = () => {
         setCourseList(response.data);
       }
       else {
+        toast.dismiss();
         toast.error(response.message);
       }
     }
@@ -105,6 +106,7 @@ const EnrollCourses: React.FC = () => {
 
   const proceed = async () => {
     if(selectedCourses.length == 0){
+      toast.dismiss();
       toast.error('Please select atleast onr course');
       return;
     }

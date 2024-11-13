@@ -88,6 +88,7 @@ const PaymentDetails: React.FC = () => {
       course.properties.every((property: any) => !property.isChecked)
     );
     if (hasUnchecked) {
+      toast.dismiss();
       toast.error('Please select atleast one Property for each course');
       return;
     }
@@ -126,10 +127,12 @@ const PaymentDetails: React.FC = () => {
           if (response.error) {
             const apiErrors = response.error;
             Object.keys(apiErrors).forEach((field) => {
+              toast.dismiss();
               toast.error(apiErrors[field][0]);
             });
           } else {
             console.error('An unexpected error occurred:', response.message);
+            toast.dismiss();
             toast.error(response.message);
           }
         }
@@ -149,6 +152,7 @@ const PaymentDetails: React.FC = () => {
       } else {
         console.error('An unexpected error occurred:', error);
       }
+      toast.dismiss();
       toast.error(error.message);
     }
     finally {

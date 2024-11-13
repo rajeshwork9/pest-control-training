@@ -153,14 +153,14 @@ const App: React.FC = () => {
               <Route path="/login" component={Login} />
               <Route path="/loginwithmobile" component={LoginWithMobile} />
               <Route path="/signup" component={Signup} />
-              <AuthGuard roles={[8]} path="/dashboard" component={Dashboard} />
-              <AuthGuard roles={[8]} path="/home" component={Home} />
-              <AuthGuard roles={[8]} path="/enrollcourses" component={EnrollCourses} />
-              <AuthGuard roles={[8]} path="/enroll-courses-details" component={EnrollCoursesDetails } />
+              <AuthGuard roles={[8,16,17]} path="/dashboard" component={Dashboard} />
+              <AuthGuard roles={[8,16,17]} path="/home" component={Home} />
+              <AuthGuard roles={[8,16,17]} path="/enrollcourses" component={EnrollCourses} />
+              <AuthGuard roles={[8,16,17]} path="/enroll-courses-details" component={EnrollCoursesDetails } />
               <AuthGuard roles={[8, 11]} path="/payment-details" component={PaymentDetails} />
-              <AuthGuard roles={[8]} path="/payment-confirmation" component={PaymentConfirmation} />
-              <AuthGuard roles={[8]} path="/selected-courses" component={SelectedCourses} />
-              <AuthGuard roles={[8]} path="/selected-courses-details" component={SelectedCoursesDetails} />
+              <AuthGuard roles={[8,16,17]} path="/payment-confirmation" component={PaymentConfirmation} />
+              <AuthGuard roles={[8,16,17]} path="/selected-courses" component={SelectedCourses} />
+              <AuthGuard roles={[8,16,17]} path="/selected-courses-details" component={SelectedCoursesDetails} />
 
               {/* <Route path="/test" component={MistingChemicalInformationTest} /> */}
               {/* <Route path="/stopwatch" component={Stopwatch} /> */}

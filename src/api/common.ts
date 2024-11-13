@@ -35,6 +35,15 @@ export const getCourseList = async (payload: any) => {
     console.error(error);
   }
 };
+export const getUserTypes = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/get-registered-user-types`, payload);
+    return response.data;
+  }
+  catch(error){
+    console.error(error);
+  }
+};
 export const enrollCourseTraining = async (payload: any) => {
   try{
     const response = await axiosInstance.post(`${apiUrl}v1/enroll-course-training`, payload);
