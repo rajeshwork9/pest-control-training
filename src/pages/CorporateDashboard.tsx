@@ -22,11 +22,12 @@ import {
   IonThumbnail,
   IonList,
   IonBackButton,
+  IonFooter,
 } from "@ionic/react";
 
 import { ellipse } from 'ionicons/icons'
 
-const Dashboard: React.FC = () => {
+const CorporateDashboard: React.FC = () => {
     return (
       <>
         <IonPage>
@@ -57,10 +58,10 @@ const Dashboard: React.FC = () => {
             <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg> 
             <div className="bgSvg">     
                 <IonCard className="corporateTotalPaymentCard">
-                  <IonItem lines="none" color="none" routerLink="/enrollcourses">
+                  <IonItem lines="none" color="none" routerLink="/users-list">
                     <IonText className="ctpcInner" slot="start">
-                         <h2>Courses</h2>
-                         <p>See your selected Courses</p> 
+                         <h2><span>36</span>Users</h2>
+                         <p>See all Users List</p> 
                          <IonButton>
                            <IonImg className="detailsArrow" src="./assets/images/details-arrow-icon.svg" />
                          </IonButton>                  
@@ -71,6 +72,17 @@ const Dashboard: React.FC = () => {
                 </IonCard>
 
                 <IonRow className="dashboardCard ion-margin-top">
+
+                <IonCol size="6">
+                        <IonCard  routerLink="/selected-courses">
+                        <div className="d-flex justify-content">
+                          <IonImg src="./assets/images/attendance-icon.svg" /> 
+                          <IonText slot="right"><h2 className="ion-no-margin">23</h2></IonText>
+                          </div>
+                          <IonText><h3>Courses</h3></IonText>
+                        </IonCard>
+                    </IonCol>
+
                     <IonCol size="6">
                         <IonCard>
                     
@@ -87,12 +99,6 @@ const Dashboard: React.FC = () => {
                         </IonCard>
                     </IonCol>
 
-                    <IonCol size="6">
-                        <IonCard>
-                          <IonImg src="./assets/images/quiz-icon.svg" /> 
-                          <IonText><h3>Quiz</h3></IonText>
-                        </IonCard>
-                    </IonCol>
 
                     <IonCol size="6">
                         <IonCard>
@@ -102,14 +108,22 @@ const Dashboard: React.FC = () => {
                     </IonCol>
                 </IonRow>
 
-                  <IonButton routerLink="/enrollcourses" className="outlineBt ion-margin-top" shape="round" expand="block" color="primary" fill="outline">
+                  {/* <IonButton className="outlineBt ion-margin-top" shape="round" expand="block" color="primary" fill="outline">
                     <IonImg src="./assets/images/enroll-courses-icon.svg" /> Enroll courses
-                  </IonButton>
-                  
+                  </IonButton> */}
+
            
                 
             </div>
           </IonContent>
+
+          <IonFooter>
+          <IonToolbar>
+            <IonButton  routerLink="/selected-courses" shape="round" expand="block" color="primary" >
+            <IonImg src="./assets/images/enroll-courses-icon.svg" /> Enroll courses
+            </IonButton>
+          </IonToolbar>
+        </IonFooter>
         </IonPage>
       </>
     );
@@ -117,4 +131,4 @@ const Dashboard: React.FC = () => {
 
 }
 
-export default Dashboard
+export default CorporateDashboard

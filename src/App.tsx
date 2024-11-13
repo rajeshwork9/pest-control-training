@@ -62,6 +62,10 @@ import AppUpdate from './components/AppUpdate';
 import NetworkSpeedCheck from './components/NetworkSpeedCheck';
 import NetworkStatus from './components/NetworkStatus';
 const { SwipeBack } = Plugins;
+import CorporateDashboard from './pages/CorporateDashboard';
+import UsersList from './pages/UsersList';
+import UserCreate from './pages/UserCreate';
+import SelectUser from './pages/SelectUser';
 
 setupIonicReact({
   swipeBackEnabled: false,
