@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonButton,
   IonCheckbox,
@@ -24,51 +24,64 @@ import {
 import { useHistory } from 'react-router';
 import { ribbon, checkmark } from 'ionicons/icons'
 const EnrollCoursesDetails: React.FC = () => {
+
+  const history = useHistory();
+
+  const queryParams: any = history.location.state;
+  const selectedCourseData = queryParams.data;
+  const [courseData, setCourseData] = useState<any>(selectedCourseData ? selectedCourseData : []);
+
+  useEffect(() => {
+    console.log(courseData);
+  }, []);
+
+
   return (
     <>
       <IonPage>
 
-      <IonHeader className="ion-header">
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton></IonBackButton>
-          </IonButtons>
-          <IonTitle>Course Details</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+        <IonHeader className="ion-header">
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonBackButton></IonBackButton>
+            </IonButtons>
+            <IonTitle>Course Details</IonTitle>
+          </IonToolbar>
+        </IonHeader>
 
 
-      <IonContent fullscreen className="colorBg coursesDetailsWrapp">    
-          <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>         
-            <div className="bgSvg">
-             
-              <IonList className="coursesDHeader" lines="none">
-                  <IonItem className="itemActive">
-                    <IonThumbnail slot="start">
-                        <IonIcon icon={ribbon}></IonIcon>                     
-                    </IonThumbnail>
-                    <IonText>                      
-                      <h3>Course-1</h3>
-                      <p>Aliquam porttitor tincidunt purus, eget molestie dui venenatis et Aliquam porttitor tincidunt purus, eget molestie dui venenatis.</p>
+        <IonContent fullscreen className="colorBg coursesDetailsWrapp">
+          <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
+          <div className="bgSvg">
 
-                      <p>Aliquam porttitor tincidunt purus, eget molestie dui venenatis et Aliquam porttitor tincidunt purus, eget molestie dui venenatis.</p>
-                    </IonText>
-                  </IonItem>
-                </IonList>
-                    <div className="coursePrice ion-padding-horizontal">
-                      <IonRow>
-                        <IonCol> <IonText><h6>Course Price</h6><h3>900 <span>AED</span></h3> </IonText></IonCol>
-                        <IonCol><IonText><h6>Exam Price</h6><h3>50 <span>AED</span></h3> </IonText></IonCol>
-                        <IonCol> <IonText><h6>License Price</h6><h3>50 <span>AED</span></h3> </IonText></IonCol>
-                      </IonRow>
-                    </div>
+            <IonList className="coursesDHeader" lines="none">
+              <IonItem className="itemActive">
+                <IonThumbnail slot="start">
+                  <IonIcon icon={ribbon}></IonIcon>
+                </IonThumbnail>
+                <IonText>
+                  <h3>{courseData.course_name}</h3>
+                  <p>{courseData.description}</p>
 
-                    <div className="ion-margin">
-                    <IonText className="daysCourse"><h2>The course includes a total of <span>10 days</span> of classes.</h2></IonText>
+                </IonText>
+              </IonItem>
+            </IonList>
+            <div className="coursePrice ion-padding-horizontal">
+              <IonRow>
+                {courseData.properties && courseData.properties.length > 0 && courseData.properties.map((res: any, propertyIndex: any) => (
+                  <IonCol key={`${courseData.id}-${res.name}`}> <IonText><h6>{res.property} Price</h6><h3>{res.price} <span>AED</span></h3> </IonText></IonCol>
+                ))}
 
-                    <IonText className="courseHeading">This course includes:</IonText>
-                    </div>
+
+              </IonRow>
             </div>
+
+            <div className="ion-margin">
+              <IonText className="daysCourse"><h2>The course includes a total of <span>10 days</span> of classes.</h2></IonText>
+
+              <IonText className="courseHeading">This course includes:</IonText>
+            </div>
+          </div>
         </IonContent>
       </IonPage>
     </>

@@ -1,15 +1,28 @@
 import React, { useEffect } from 'react';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
+import { Route, Redirect, RouteProps, useHistory } from 'react-router-dom';
 import { useAuth } from '../api/AuthContext';
 interface AuthGuardProps extends RouteProps {
-    component: React.ComponentType<any>;
-    roles : any
-  }
+  component: React.ComponentType<any>;
+  roles: any
+}
 
-const AuthGuard:React.FC<AuthGuardProps>= ({ component: Component, roles, ...rest }) => {
-    const { isLoggedIn, userData } = useAuth();
-    console.log(userData.user_type);
+const AuthGuard: React.FC<AuthGuardProps> = ({ component: Component, roles, ...rest }) => {
+  const { isLoggedIn, userData } = useAuth();
+  console.log(userData.user_type);
+  const history = useHistory();
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      // Redirect to reset password if the user needs a password reset
+      if (userData.password_reset == 1) {
+        history.replace('/reset-password');
+        return;
+      }
+    } else {
+      // Redirect to login if the user is not authenticated
+      history.replace('/login');
+    }
+  }, [isLoggedIn, history]);
   return (
     <Route {...rest} render={(props) => {
       if (!isLoggedIn) {
@@ -20,7 +33,7 @@ const AuthGuard:React.FC<AuthGuardProps>= ({ component: Component, roles, ...res
 
       return <Component {...props} />;
     }} />
-    
+
   )
 }
 

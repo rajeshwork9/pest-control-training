@@ -35,16 +35,18 @@ import { useAuth } from '../api/AuthContext';
 const PaymentDetails: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
   const history = useHistory();
-  const { userData } = useAuth(); 
+  const { userData } = useAuth();
   const selectedCourseData = JSON.stringify(localStorage.getItem('selectedCourses'));
   const [selectedCourses, setSelectedCourses] = useState<any[]>(JSON.parse(selectedCourseData ? JSON.parse(selectedCourseData) : []));
-  //const [totalAmount, setTotalAmount] = useState<any>(0);
-  const totalAmount = selectedCourses.reduce((accumulator, currentItem) => {
-    return accumulator + parseInt(currentItem.total);
-  }, 0);
+  const [totalAmount, setTotalAmount] = useState<any>(0);
+ 
 
   useEffect(() => {
-
+    if(userData.user_type == 8 || userData.user_type == 16){
+      setTotalAmount(selectedCourses.reduce((accumulator, currentItem) => {
+        return accumulator + parseInt(currentItem.total);
+      }, 0));
+    }
   }, []);
 
   useEffect(() => {
@@ -77,10 +79,10 @@ const PaymentDetails: React.FC = () => {
         }
         return course;
       })
-
     );
-
-
+    setTotalAmount(selectedCourses.reduce((accumulator, currentItem) => {
+      return accumulator + parseInt(currentItem.total);
+    }, 0));
   };
   const proceedWithPayment = async () => {
     // Check if there is at least one unchecked property (isChecked = false)
@@ -92,35 +94,43 @@ const PaymentDetails: React.FC = () => {
       toast.error('Please select atleast one Property for each course');
       return;
     }
-    const payload : any = {
+    const payload: any = {
       no_of_courses: selectedCourses.length,
       no_of_users: 1,
       total_amount: totalAmount,
       payment_status: "initiated",
       courses: [],
-      users: []
+      //users: []
     }
-    selectedCourses.map((course) =>{
-      course.properties.map((property :any)=>{
-        if(property.isChecked == true){
+    selectedCourses.map((course) => {
+      course.properties.map((property: any) => {
+        if (property.isChecked == true) {
           payload.courses.push({
             course_id: course.id,
             course_property: property.id,
-            amount: property.price
+            amount: property.price,
+            user_id: userData.id
           })
         };
       });
     });
-    payload.users.push({
-      user_id : userData.id
-    })
+    // payload.users.push({
+    //   user_id : userData.id
+    // })
 
     console.log(payload);
     try {
       const response = await enrollCourseTraining(payload);
       console.log(response);
-      if (response.status == 200 && response.success == true) {
-        
+      if ((response.status === 200 || response.status == 201) && response.success == true) {
+        localStorage.removeItem('selectedCourses');
+        toast.dismiss();
+        toast.success(response.message);
+        history.push({
+          pathname: "/payment-confirmation",
+          state: { from: 'dashboard', data: response.data }
+        });
+        //history.push("/payment-confirmation");
       }
       else {
         if (response.status == 400 && response.success == false) {
@@ -183,24 +193,12 @@ const PaymentDetails: React.FC = () => {
                 <h2>{parseFloat(totalAmount).toFixed(2)} AED</h2>
               </IonText>
             </IonCard>
-
-            {/* Corporate Start*/}
-            {/* <IonCard className="totalPaymentCard">
-                <IonText>
-                  <p>Selected Total Users</p>
-                  <div className="d-flex ion-justify-content-between">
-                    <h2>O5</h2>
-                    <IonButton shape="round" size="small" color="primary"><ion-icon icon={create}></ion-icon> Edit</IonButton>
-                  </div>
-                  </IonText>
-              </IonCard> */}
-            {/* Corporate End*/}
             {selectedCourses && selectedCourses.length > 0 && selectedCourses.map((data: any, courseIndex: any) => (
-              <IonCard className="cardPaymentDetails">
+              <IonCard className="cardPaymentDetails" key={data.id}>
                 <IonCardTitle>{data.course_name}</IonCardTitle>
                 <IonCardContent>
                   {data.properties && data.properties.length > 0 && data.properties.map((res: any, propertyIndex: any) => (
-                    <IonItem lines="none">
+                    <IonItem lines="none" key={`${data.id}-${res.name}`}>
                       <div><IonCheckbox checked={res.isChecked} onIonChange={(event) => handlePropertyChange(event, data.id, res.id)} labelPlacement="end">{res.property} Price</IonCheckbox></div>
                       {res.id === '1' && <IonText slot="end"><h5>{data.course_price}</h5></IonText>}
                       {res.id === '2' && <IonText slot="end"><h5>{data.exam_price}</h5></IonText>}
@@ -214,14 +212,6 @@ const PaymentDetails: React.FC = () => {
                 </IonCardContent>
               </IonCard>
             ))}
-            {/* Corporate Start*/}
-            {/* <IonCard className="corporateTotalPaymentCard">
-                <IonText>
-                  <p>Total Payment <span> 5 X 1000</span></p>
-                    <h2>5000 AED</h2>
-                  </IonText>
-              </IonCard> */}
-            {/* Corporate Start*/}
           </div>
         </IonContent>
 

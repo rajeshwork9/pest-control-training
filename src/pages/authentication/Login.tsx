@@ -53,7 +53,7 @@ const Login: React.FC = () => {
     useEffect(() => {
         const storedUserData: any = localStorage.getItem('userData');
         if (storedUserData) {
-            history.push('/home');
+            history.push('/dashboard');
         }
     }, []);
     const onSubmit = async (values: any) => {
@@ -78,8 +78,12 @@ const Login: React.FC = () => {
                 toast.success(response.message);
                 console.log(response.user_type, 'User Type');
 
-                if (response.data.user_type == 8 || response.data.user_type == 8) {
-                    history.push("/dashboard");
+                if (response.data.user_type == 8 || response.data.user_type == 16) {
+                    if (response.data.password_reset == 1) {
+                        history.push("/reset-password");
+                    } else {
+                        history.push("/dashboard");
+                    }
                 }
                 else {
                     history.push("/dashboard");
@@ -162,8 +166,8 @@ const Login: React.FC = () => {
                                                 </IonText>
                                             )}
                                             <div className="ionRemember">
-                                                <IonCheckbox className="ionCheckbox" labelPlacement="end"  checked={values.rememberMe}
-                                            onIonChange={(e) => setFieldValue("rememberMe", e.detail.checked)}>Remember me</IonCheckbox>
+                                                <IonCheckbox className="ionCheckbox" labelPlacement="end" checked={values.rememberMe}
+                                                    onIonChange={(e) => setFieldValue("rememberMe", e.detail.checked)}>Remember me</IonCheckbox>
                                                 <IonButton fill="clear" className="forgotpassword ion-text-uppercase ion-float-end">Forgot Password
                                                 </IonButton>
                                             </div>

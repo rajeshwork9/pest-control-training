@@ -42,7 +42,7 @@ import { ribbon, checkmark } from 'ionicons/icons'
                 <IonList className="coursesItem" lines="none">
                   <IonItem>
                     <IonThumbnail slot="start">
-                        <ion-icon icon={ribbon}></ion-icon>                      
+                        <IonIcon icon={ribbon}></IonIcon>                      
                     </IonThumbnail>
                     <IonText>
                        <div className="detailsArrow">

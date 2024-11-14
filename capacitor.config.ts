@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'Pest Control - Training',
+  appId: 'com.psd.training',
+  appName: 'PSD Training App',
   webDir: 'dist'
 };
 

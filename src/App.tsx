@@ -66,13 +66,15 @@ import CorporateDashboard from './pages/CorporateDashboard';
 import UsersList from './pages/UsersList';
 import UserCreate from './pages/UserCreate';
 import SelectUser from './pages/SelectUser';
+import CorporatePaymentDetails from './pages/CorporatePaymentDetails';
+import ResetPassword from './pages/authentication/ResetPassword';
 
 setupIonicReact({
   swipeBackEnabled: false,
 });
 const App: React.FC = () => {
   const history = useHistory();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, userData } = useAuth();
   const token = localStorage.getItem('token');
   const check = localStorage.getItem('checkIn');
   console.log("token", token);
@@ -90,7 +92,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem('app_name', 'mosquito_control');
-
+    registerPushHandlers();
     //handlePlatform();
   }, []);
   async function handlePlatform() {
@@ -150,25 +152,32 @@ const App: React.FC = () => {
         <IonReactRouter>
           <IonRouterOutlet>
           <Switch>
+              <Route path="/home" component={Home} />
               <Route path="/login" component={Login} />
               <Route path="/loginwithmobile" component={LoginWithMobile} />
               <Route path="/signup" component={Signup} />
+              <AuthGuard roles={[8,16,17]} path="/reset-password" component={ResetPassword} />
               <AuthGuard roles={[8,16,17]} path="/dashboard" component={Dashboard} />
-              <AuthGuard roles={[8,16,17]} path="/home" component={Home} />
               <AuthGuard roles={[8,16,17]} path="/enrollcourses" component={EnrollCourses} />
               <AuthGuard roles={[8,16,17]} path="/enroll-courses-details" component={EnrollCoursesDetails } />
-              <AuthGuard roles={[8, 11]} path="/payment-details" component={PaymentDetails} />
+              <AuthGuard roles={[8,16,17]} path="/payment-details" component={user_type == 17 ? CorporatePaymentDetails : PaymentDetails} />
               <AuthGuard roles={[8,16,17]} path="/payment-confirmation" component={PaymentConfirmation} />
               <AuthGuard roles={[8,16,17]} path="/selected-courses" component={SelectedCourses} />
               <AuthGuard roles={[8,16,17]} path="/selected-courses-details" component={SelectedCoursesDetails} />
 
+
+              <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />
+              <AuthGuard roles={[17]} path="/users-list" component={UsersList} />
+              <AuthGuard roles={[17]} path="/user-create" component={UserCreate} />
+              <AuthGuard roles={[17]} path="/select-user" component={SelectUser} />
+
               {/* <Route path="/test" component={MistingChemicalInformationTest} /> */}
               {/* <Route path="/stopwatch" component={Stopwatch} /> */}
               {token ? (
-                user_type === '8' ? (
-                  <Redirect exact from="/" to="/home" />
-                ) : (
+                user_type == 8 || user_type == 16 ? (
                   <Redirect exact from="/" to="/dashboard" />
+                ) : (
+                  <Redirect exact from="/" to="/corporate-dashboard" />
                 )
               ) : (
                 <Redirect exact from="/" to="/login" />

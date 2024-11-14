@@ -27,17 +27,17 @@ const Home: React.FC = () => {
 
  
             <IonItem className="loginOptionsBt" routerLink="/loginwithmobile" lines="none">            
-                <IonImg sloat="start" src="assets/images/uaepass-icon.svg" ></IonImg>
+                <IonImg slot="start" src="assets/images/uaepass-icon.svg" ></IonImg>
                 <IonText>Sign in with UAE PASS</IonText>               
             </IonItem>
 
             <IonItem className="loginOptionsBt" routerLink="/loginwithmobile" lines="none"> 
-                <IonImg sloat="start" src="assets/images/login-mobile-icon.svg"></IonImg>
+                <IonImg slot="start" src="assets/images/login-mobile-icon.svg"></IonImg>
                 <IonText>Login with Mobile</IonText>
              </IonItem>
 
              <IonItem className="loginOptionsBt"  routerLink="/login" lines="none">
-                <IonImg sloat="start" src="assets/images/login-icon.svg"></IonImg>
+                <IonImg slot="start" src="assets/images/login-icon.svg"></IonImg>
                 <IonText>Login</IonText>
               </IonItem>
         

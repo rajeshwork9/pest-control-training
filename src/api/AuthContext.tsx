@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
       return response.data;
     }
     catch (error: any) {
-      return error.response
+      return error.response.data;
       // console.log(error);
     }
   };
@@ -91,10 +91,25 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
       
     }
   };
+  const resetPassword = async (payload : any) => {
+    try {
+      const response = await axiosInstance.post(apiUrl + 'v1/reset-password', payload, { headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' } });
+      console.log('API Response:', response);
+      if(response.data.status == 200 ){
+        logout();
+      }
+      return response.data;
+    }
+    catch (error: any) {
+      console.log(error);
+      return error.response.data;
+      
+    }
+  };
   const logout = async () => {
     try {
-      const response = await axiosInstance.post(apiUrl + 'api/v1/logout', {}, { headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' } });
-      console.log('API Response:', response.data);
+      //const response = await axiosInstance.post(apiUrl + 'api/v1/logout', {}, { headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' } });
+      //console.log('API Response:', response.data);
       const keysToKeep = ['device_token', 'rememberedUserName', 'rememberedPassword', 'app_name', 'app_version'];
       const savedValues = keysToKeep.map(key => ({ key, value: localStorage.getItem(key) }));
       localStorage.clear();
@@ -104,7 +119,8 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
         }
       });
       setIsLoggedIn(false);
-      return response;
+      history.push("/dashboard");
+      //return response;
     }
     catch (error: any) {
       return error.response
@@ -126,7 +142,7 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login,register, logout, deviceInfo, getCurrentLocation, lat, long, treatmentID, userData }}>
+    <AuthContext.Provider value={{ isLoggedIn, login,register, logout,resetPassword, deviceInfo, getCurrentLocation, lat, long, treatmentID, userData }}>
       {children}
     </AuthContext.Provider>
   )

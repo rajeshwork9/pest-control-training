@@ -25,17 +25,20 @@ import { ribbon, checkmark } from 'ionicons/icons';
 import useLoading from '../components/useLoading';
 import { getCourseList } from '../api/common';
 import { toast } from 'react-toastify';
+import { useAuth } from '../api/AuthContext';
 
 const EnrollCourses: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
-  const selectedCourseData = JSON.stringify(localStorage.getItem('selectedCourses'));
-  const [courseList, setCourseList] = useState<any[]>([]); 
+  const { userData } = useAuth(); 
+  const selectedCourseData = localStorage.getItem('selectedCourses');
+  const parsedData = selectedCourseData ? JSON.parse(selectedCourseData) : [];
+  const [courseList, setCourseList] = useState<any[]>([]);
   const history = useHistory();
-  const [selectedCourses, setSelectedCourses] = useState<any[]>( JSON.parse(selectedCourseData ? JSON.parse(selectedCourseData) : []));
+  const [selectedCourses, setSelectedCourses] = useState<any[]>(Array.isArray(parsedData) ? parsedData : []);
 
 
   useEffect(() => {
-
+    console.log(userData);
     getCoursesList();
   }, []);
 
@@ -84,6 +87,9 @@ const EnrollCourses: React.FC = () => {
   const handleCourseChange = async (event: any,data : any) => {
     const { value, checked } = event.target;
     console.log(data);
+    if(userData.user_type == 17){
+      setSelectedCourses([]);
+    }
     setSelectedCourses((prevSelectedItems) => {
       if (checked) {
         const isSelected = selectedCourses.find((item : any) => item.id == data.id);
@@ -128,15 +134,44 @@ const EnrollCourses: React.FC = () => {
       }, 0);
       course.total = parseFloat(course.total).toFixed(2);
   });
-
-    localStorage.setItem('selectedCourses',JSON.stringify(selectedCourses));
-    history.push("/payment-details");
+    if(selectedCourses.length == 1 && userData.user_type == 17){
+      localStorage.setItem('selectedCourse',JSON.stringify(selectedCourses[0]));
+      history.push("/select-user");
+    }else{
+      localStorage.setItem('selectedCourses',JSON.stringify(selectedCourses));
+      history.push("/payment-details");
+      
+    }  
   };
 
   const isItemSelected = (itemId: string) => {
-    return selectedCourses.find((item) => item.id === itemId) !== undefined;
+    console.log(selectedCourses);
+    return (selectedCourses || []).find((item : any) => item.id === itemId) !== undefined;
   };
-
+  const viewCourseDetails = async (course : any) => {
+    console.log(course);
+    course.properties.map((property :any)=>{
+      property.isChecked = true;
+      if(property.id == 1){
+        property.price = course.course_price;
+      }
+      if(property.id == 2){
+        property.price = course.exam_price;
+      }
+      if(property.id == 3){
+        property.price = course.license_price;
+      }
+    });
+    course.total = course.properties.reduce((accumulator : any, currentItem : any) => {
+      return accumulator + parseInt(currentItem.price);
+    }, 0);
+    course.total = parseFloat(course.total).toFixed(2);
+    console.log(course);
+    history.push({
+      pathname: "/enroll-courses-details",
+      state: { from: 'courseList', data: course }
+    });
+  }
   return (
     <>
       <IonPage>
@@ -157,7 +192,7 @@ const EnrollCourses: React.FC = () => {
             <div className="ion-margin">
               <IonList className="coursesItem" lines="none">
                 {courseList && courseList.length > 0 && courseList.map((data: any, index: any) => (
-                  <IonItem  className={isItemSelected(data.id) ? "itemActive" : ""}>
+                  <IonItem  key={`${index}-key`} className={isItemSelected(data.id) ? "itemActive" : ""}>
                     <IonThumbnail slot="start">
                       <IonIcon icon={ribbon}></IonIcon>
                       <div className="checkmark">
@@ -167,31 +202,15 @@ const EnrollCourses: React.FC = () => {
                     <IonText>
                       <div className="detailsArrow">
                         <h3>{data.course_name}</h3>
-                        <IonButton className="detailsArrowIcon" routerLink="/enroll-courses-details">
+                        <IonButton className="detailsArrowIcon" onClick={(event) => viewCourseDetails(data)}>
                           <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
                         </IonButton>
                       </div>
 
-                      <p>Aliquam porttitor tincidunt purus, eget molestie dui venenatis et</p>
+                      <p>{data.description}</p>
                     </IonText>
                   </IonItem>
                 ))}
-                <IonItem>
-                  <IonThumbnail slot="start">
-                    <IonIcon icon={ribbon}></IonIcon>
-                    <div className="checkmark"><IonIcon icon={checkmark}></IonIcon></div>
-                  </IonThumbnail>
-                  <IonText>
-                    <div className="detailsArrow">
-                      <h3>Course-2</h3>
-                      <IonButton className="detailsArrowIcon" routerLink="/enroll-courses-details">
-                        <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
-                      </IonButton>
-                    </div>
-                    <p>Aliquam porttitor tincidunt purus, eget molestie dui venenatis et</p>
-                  </IonText>
-                </IonItem>
-
               </IonList>
 
             </div>
