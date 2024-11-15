@@ -36,19 +36,19 @@ ion-select,
 ion-textarea {
   font-size: 0.86rem;
 }
-
+.width100{width:100%;}
 .inputFiledSty{
   .fieldControl{padding: 4px 0px 0px 0px; padding: 0px;   outline: none; color: #1B428A;  font-weight:500;    font-size: 0.9rem;   border: none;}
  .fieldName{font-size:0.7rem; font-weight:500;  color: #1B428A;  padding: 4px 0px 0px 0px;}
  .fieldControl::placeholder {color:#768eb9;}
  .eyePosition {
-  position: relative;
-  width: 100%;
+  // position: relative;
+  width:88%;
   .eyeButton {
     position: absolute;
-    right: -10px;
-    top: 0px;
-    color: #3accd1;
+    right: -12px;
+    top: 17px;
+    color:#7e8484;
   }
 }
 }
@@ -167,7 +167,7 @@ ion-textarea {
   ion-button.ion-button{--padding-top: 17px;  --padding-bottom: 17px; font-size: 1rem;     margin-top: 28px;}
   .headerImg{margin-bottom:0px !important; width:65%;  }
   ion-card{box-shadow: none;  margin:0px; padding:20px;
-    ion-item.ionItemShadow{ margin-bottom: 10px; margin-top: 10px;   --background: #fff;  border-radius: 7px;   --padding-start:15px;
+    ion-item.ionItemShadow{ margin-bottom: 10px; margin-top: 10px;   --background: #fff;  border-radius: 7px;   --padding-start:15px; --inner-padding-end:0px;
       --padding-end:15px; --padding-top:4px; --padding-bottom:4px;  box-shadow:0px 3px 7px 0px rgb(0 0 0 / 19%);   
     ion-input{font-size: 0.9rem; --color:#1B428A; font-weight:500; --border-width:0px;}
     ion-select{font-size: 0.9rem;color:#1B428A; font-weight:500; --border-width:0px;}
@@ -293,7 +293,7 @@ ion-footer{
   ion-toolbar{
     --background:#e6f0fd94;
     box-shadow: none;
-    --padding-top:10px; --padding-bottom:10px;   
+    --padding-top:10px; --padding-bottom:10px;   --padding-start:15px;  --padding-end:15px;  
    ion-button{ font-size:1rem;  min-height: 45px;}
    ion-icon{color:#fff;}
    ion-img{ filter: brightness(0) invert(1); width:22px; margin-right:6px;}
@@ -301,8 +301,10 @@ ion-footer{
 
 }
 
-.coursesItem{background: transparent;  --margin-start: 0px; padding:0px;
-    .detailsArrow{display:flex; justify-content: space-between;
+.coursesItem{
+  .enrollCoursesText{width:100%;}
+  background: transparent;  --margin-start: 0px; padding:0px;
+    .detailsArrow{display:flex; justify-content: space-between;align-items: flex-start;
     .detailsArrowIcon{  position: relative;  z-index: 1; --background:transparent; --box-shadow:none;
     --padding-end:0px;   --padding-top:0px;   --padding-bottom:0px;     min-height: 14px;}
         ion-img{width: 14px; }
@@ -313,20 +315,21 @@ ion-footer{
       --border-width:1px;
       --border-color:#BDE6D3;
       --border-radius:4px;
+      border-radius:4px;
       --border-style:solid;
       --inner-padding-top:10px;
       --inner-padding-bottom:10px;
       --inner-padding-left:0px;
       --inner-padding-right:10px;
-
+      align-items: flex-start;
       border: solid 1px #BDE6D3;
 
       ion-text{
-        h3{font-size:0.9rem; --font-weight:500; color:#1E584E; margin:0px 0px 4px 0px; padding:0px;}
-      p{font-size:0.8rem; --font-weight:400; color:#000; margin:0px; padding:0px;line-height:18px; }
+        h3{font-size:0.92rem; --font-weight:500; color:#1E584E; margin:0px 0px 4px 0px; padding:0px;}
+      p{font-size:0.86rem; --font-weight:400; color:#000; margin:0px; padding:0px;line-height:18px; }
       }
 
-      ion-thumbnail{ margin-top: 6px;   width: 36px; position:relative;
+      ion-thumbnail{ margin-top:0px; padding-top:12px;   width: 36px; position:relative;
       ion-icon{font-size:38px; color:#3CA795;}
       }
       .checkmark{position:absolute;    right: -7px;
@@ -338,10 +341,27 @@ ion-footer{
         padding-top: 1px;}
       }
     }
+
+    ion-checkbox {
+      --size: 23px;
+      --checkbox-background-checked: #fff;
+      --checkmark-color: #EE7303;
+    
+    }
+  
+    ion-checkbox::part(container) {
+      border-radius:50px;
+      border: 1px solid #a3dcc1;
+    }
+  
+    .checkMarkIon{
+      position:absolute;right: -7px;top:0px;
+    }
+
     ion-item.itemActive{
       --background:#EE7303 !important;
       // --border-color:#BDE6D3;
-
+      .detailsArrowIcon{display:none;}
       ion-thumbnail{ 
         ion-icon{color:#fff !important;}
         }
@@ -354,7 +374,16 @@ ion-footer{
         .checkmark{border:solid 1px #EE7303;
           ion-icon{color:#EE7303 !important; }
         }
+
+        ion-checkbox::part(container) {
+  
+          border: 1px solid  #EE7303;
+          padding: 2px;
+        }
     }
+
+
+  
 }
 
 .coursesDetailsWrapp{
@@ -464,7 +493,7 @@ ion-footer{
 
 
 .selectedCoursesWrapp{background: transparent;  --margin-start: 0px; padding:0px;
-  .detailsArrow{display:flex; justify-content: space-between;
+  .detailsArrow{display:flex; justify-content: space-between;align-items: flex-start;
   .detailsArrowIcon{  position: relative;  z-index: 1; --background:transparent; --box-shadow:none;
   --padding-end:0px;   --padding-top:0px;   --padding-bottom:0px;     min-height: 14px;}
       ion-img{width: 14px; }
@@ -481,15 +510,15 @@ ion-footer{
     --inner-padding-left:0px;
     --inner-padding-right:10px;
     box-shadow:0px 3px 6px 0px rgb(0 0 0 / 19%); 
-
+    align-items: flex-start;
     border: solid 1px #ffffff;
 
     ion-text{
       h3{font-size:0.95rem; --font-weight:500; color:#1E584E; margin:0px 0px 7px 0px; padding:0px;}
-    p{font-size:0.8rem; --font-weight:400; color:#000; margin:0px; padding:0px;line-height:18px; }
+    p{font-size:0.86rem; --font-weight:400; color:#000; margin:0px; padding:0px;line-height:18px; }
     }
 
-    ion-thumbnail{ margin-top: 6px;   width: 36px; position:relative;
+    ion-thumbnail{ margin-top:0px;   width: 36px; position:relative;
     ion-icon{font-size:38px; color:#3CA795;}
     }
   }
@@ -594,9 +623,7 @@ ion-footer{
     // }
   }
 }
-.enrollCoursesWrapp{
-  
-}
+
 
 .checkbox-icon {
   border-radius: 50% !important;
@@ -734,8 +761,8 @@ ion-item{--padding-start:0px; --inner-padding-end:0px;}
 }
 
 .inputFiledSty{
-  .fieldControl{padding: 4px 0px 0px 0px;   outline: none; color: #1B428A;  font-weight:500;    font-size: 0.9rem;   border: none;}
- .fieldName{font-size:0.7rem; font-weight:500;  color: #1B428A;  padding: 4px 0px 0px 0px;}
+  .fieldControl{padding: 4px 0px 0px 0px;   outline: none; color: #1B428A;  font-weight:500;    font-size: 0.9rem;   border: none; width:100%;}
+ .fieldName{font-size:0.7rem; font-weight:500;  color: #1B428A;  padding: 4px 0px 0px 0px; width:100%;}
  .fieldControl::placeholder {color:#768eb9;}
 }
 
@@ -753,5 +780,80 @@ ion-item{--padding-start:0px; --inner-padding-end:0px;}
   color: #1B428A;
   padding: 0px 0px 0px 0px;
 }
+
+  }
+
+  ion-segment-button{
+  min-height: 30px; --border-color:#3CA795;
+    --color:#84a19d;
+    --color-checked:#2ea894;
+    --indicator-color: #3CA795;
+    --color-focused:#3CA795;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    font-weight: 700;
+    min-width:100%;
+    --indicator-height:3px;
+
+    ion-label{    margin-top: 0px;    --padding-end: 0px;
+      --padding-start: 0px;
+      margin-bottom: 0px;}
+  }
+
+  .selectedCoursesUsers{
+    ion-icon{font-size: 12px;  margin-right: 3px; color:#786a6a;}
+
+    h3{
+      font-size: 0.86rem;
+    }
+  }
+
+  .profileWrapp{
+    .profileName{border-bottom:solid 1px #dbe6f5; margin-left:15px;margin-right:15px;   display: block; padding-bottom:22px; margin-bottom:22px;}
+    .changepasswordBt{font-size:0.8rem; font-weight:400; letter-spacing:0px; --box-shadow:none;}
+    .porfileUserblock{ position: relative;text-align: center;width: 98px;display: block;margin: auto; z-index: 1;
+     
+      .personIcon{font-size:3.5rem; background:#fff; border:solid 0px #ccc; border-radius:100px;
+      padding:15px;color:#556b93;   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); 
+     
+     }
+          .editBtPosition{position:absolute; right:0px; top:0px; --background: var(--ion-color-primary);
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            --background: var(--ion-color-primary);
+            --border-radius: 100px;
+            --padding-top: 0px;
+            --padding-bottom: 0px;
+            --padding-start: 0px;
+            --padding-end: 0px;
+            width: 35px;
+            height: 32px;
+          ion-icon{    font-size: 1.1rem;}
+        }
+    }
+
+      .porfileCard{  text-align:center;
+          margin-top: -33px; padding-top:40px; padding-bottom:0px;
+          h1{font-size:1.2rem; margin:0px; color:#000;}
+          h6{font-size:0.9rem; margin:5px 0px 0px 0px; font-weight:400;}
+          .logoutBt{    --box-shadow: none; 
+            --background: #CADAEF;
+            --border-radius: 0px;
+            --padding-top: 20px;
+            --padding-bottom: 20px;
+            margin: 0px;
+            --color: #2a2d32;
+            letter-spacing: 0px;
+            margin-top:30px;
+           
+          }
+          .contactProfile{padding-bottom:5px;    display: block;
+            p{ 
+              display:flex;justify-content: center;
+              ion-icon{margin-right:6px;}
+            }
+          } 
+      }
 
   }

@@ -20,10 +20,15 @@ import {
   IonRow,
   IonCol,
   isPlatform,
+  IonSegment,
+  IonSegmentButton,
+  IonSegmentView,
+  IonSegmentContent,
+
 } from "@ionic/react";
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { useHistory } from 'react-router';
-import { ribbon, checkmark, documents, download } from 'ionicons/icons'
+import { ribbon, checkmark, documents, download, ellipse, call, mail, add } from 'ionicons/icons'
 import { getCurrentLocation } from "../utils/locationProvider";
 import useLoading from "../components/useLoading";
 import { useAuth } from "../api/AuthContext";
@@ -103,9 +108,9 @@ const SelectedCoursesDetails: React.FC = () => {
   }
   const openPDF = async (file_name: any, file: string) => {
     await Browser.open({ url: fileUrl + '' + file });
-};
+  };
   const downloadFile = async (file_name: any, file_path: string) => {
-    getBase64Path({file_path : file_path}).then(async (file) => {
+    getBase64Path({ file_path: file_path }).then(async (file) => {
       if (file) {
         console.log(file.data);
         const base64Data = `data:${file.data.data.mime_type};base64,${file.data.data.file_data}`;
@@ -117,7 +122,7 @@ const SelectedCoursesDetails: React.FC = () => {
           try {
             if (Filesystem && Directory) {
               await checkFilesystemPermissions();
-              
+
               // Attempt to write the file
               const result = await Filesystem.writeFile({
                 path: fileName,
@@ -138,7 +143,7 @@ const SelectedCoursesDetails: React.FC = () => {
         } else {
           // Use browser method for web
           try {
-            console.log('PDF File',base64Data);
+            console.log('PDF File', base64Data);
             const downloadLink = document.createElement('a');
             downloadLink.href = base64Data;
             downloadLink.download = fileName;
@@ -153,7 +158,7 @@ const SelectedCoursesDetails: React.FC = () => {
         await toast.error("No proposal file found.");
       }
     }).catch((error) => {
-        console.error('Failed to convert PDF:', error);
+      console.error('Failed to convert PDF:', error);
     });
   };
   const checkFilesystemPermissions = async () => {
@@ -177,8 +182,8 @@ const SelectedCoursesDetails: React.FC = () => {
       let payload = {
         attendance: new Date().toISOString().split('T')[0],//current date
         course_id: courseDetails.id,
-        "latitude":"17.435291",
-        "longitude":"78.451506"
+        "latitude": "17.435291",
+        "longitude": "78.451506"
 
         //latitude: position?.coords.latitude,
         //longitude: position?.coords.longitude,
@@ -256,9 +261,90 @@ const SelectedCoursesDetails: React.FC = () => {
                   <IonButton onClick={() => downloadFile(data.material_name, data.material)} slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
                   </IonButton>
                 </IonItem>
-              ))} 
+              ))}
             </IonList>
+            <IonSegment value="files">
+              <IonSegmentButton value="files" contentId="files">
+                <IonLabel>Files</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="users" contentId="users">
+                <IonLabel>Users</IonLabel>
+              </IonSegmentButton>
+            </IonSegment>
+
+            {/* <IonText className="filesActive  iom-margin-end">Files</IonText> */}
+            <IonButton slot="end" className="orangeBt" shape="round" expand="block">MARK ATTENDANCE</IonButton>
           </div>
+              
+          <IonSegmentView>
+            {/* files */}
+            <IonSegmentContent id="files">
+              <IonList lines="none" className="zipCard">
+                <IonItem lines="none" className="ion-justify-content-between">
+                  <div className="scd-iconText">
+                    <IonIcon icon={documents}></IonIcon>
+                    <IonText>Curabitur efficitur turpis ut odio</IonText>
+                  </div>
+                  <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
+                  </IonButton>
+                </IonItem>
+
+                <IonItem lines="none" className="ion-justify-content-between">
+                  <div className="scd-iconText">
+                    <IonIcon icon={documents}></IonIcon>
+                    <IonText>Curabitur efficitur turpis ut odio</IonText>
+                  </div>
+                  <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
+                  </IonButton>
+                </IonItem>
+              </IonList>
+
+            </IonSegmentContent>
+
+
+            {/* users */}
+            <IonSegmentContent id="users">
+              <IonCard className="userItem selectedCoursesUsers">
+                <IonItem lines="none" color="none">
+                  <IonThumbnail slot="start">
+                    <IonImg src="assets/images/user-icon.svg"></IonImg>
+                  </IonThumbnail>
+
+                  <IonText>
+                    <div className="detailsArrow">
+                      <h3>Edla Mahender</h3>
+                    </div>
+                    <div className="d-flex phoneEmail">
+                      <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
+                      <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
+                    </div>
+
+                  </IonText>
+                </IonItem>
+              </IonCard>
+
+              <IonCard className="userItem selectedCoursesUsers">
+                <IonItem lines="none" color="none">
+                  <IonThumbnail slot="start">
+                    <IonImg src="assets/images/user-icon.svg"></IonImg>
+                  </IonThumbnail>
+
+                  <IonText>
+                    <div className="detailsArrow">
+                      <h3>Edla Mahender</h3>
+                    </div>
+                    <div className="d-flex phoneEmail">
+                      <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
+                      <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
+                    </div>
+
+                  </IonText>
+                </IonItem>
+              </IonCard>
+            </IonSegmentContent>
+
+
+          </IonSegmentView>
         </div>
       </IonContent>
     </IonPage>

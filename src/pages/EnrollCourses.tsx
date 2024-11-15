@@ -195,11 +195,11 @@ const EnrollCourses: React.FC = () => {
                   <IonItem  key={`${index}-key`} className={isItemSelected(data.id) ? "itemActive" : ""}>
                     <IonThumbnail slot="start">
                       <IonIcon icon={ribbon}></IonIcon>
-                      <div className="checkmark">
+                      <div className="checkMarkIon">
                         {/* <IonIcon icon={checkmark}></IonIcon> */}
                         <IonCheckbox className='custom-checkbox' value={data.id} checked={isItemSelected(data.id)} onIonChange={(event) => handleCourseChange(event, data)}></IonCheckbox></div>
                     </IonThumbnail>
-                    <IonText>
+                    <IonText className="enrollCoursesText">
                       <div className="detailsArrow">
                         <h3>{data.course_name}</h3>
                         <IonButton className="detailsArrowIcon" onClick={(event) => viewCourseDetails(data)}>
