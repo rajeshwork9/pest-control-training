@@ -69,6 +69,9 @@ import SelectUser from './pages/SelectUser';
 import Profile from './pages/Profile';
 import CorporatePaymentDetails from './pages/CorporatePaymentDetails';
 import ResetPassword from './pages/authentication/ResetPassword';
+import Transactions from './pages/Transactions';
+import TransactionsDetails from './pages/TransactionsDetails';
+
 
 setupIonicReact({
   swipeBackEnabled: false,
@@ -167,7 +170,8 @@ const App: React.FC = () => {
               <AuthGuard roles={[8,16,17]} path="/selected-courses-details" component={SelectedCoursesDetails} />
 
               <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />
-
+              <AuthGuard roles={[8,16,17]} path="/transactions" component={Transactions} />
+              <AuthGuard roles={[8,16,17]} path="/transactions-details" component={TransactionsDetails} />
 
               <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />
               <AuthGuard roles={[17]} path="/users-list" component={UsersList} />
