@@ -135,7 +135,7 @@ const Login: React.FC = () => {
                                     {({ touched, errors, handleChange, handleSubmit, setFieldValue, values }) => (
                                         <Form>
                                             <IonItem lines="none" className="ion-align-items-center ionItemShadow  inputFiledSty">
-                                                <div>
+                                            <div className='width100'>
                                                     <IonLabel className="fieldName">Email Address</IonLabel>
                                                     <Field className="fieldControl" name="email" onIonChange={handleChange} value={values.email} placeholder="Enter Your Email"
                                                         type="email" />

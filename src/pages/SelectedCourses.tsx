@@ -108,7 +108,7 @@ const SelectedCourses: React.FC = () => {
                   <IonThumbnail slot="start">
                     <IonIcon icon={ribbon}></IonIcon>
                   </IonThumbnail>
-                  <IonText>
+                  <IonText className="width100">
                     <div className="detailsArrow">
                       <h3>{data.course_name}</h3>
                       <IonButton className="detailsArrowIcon" routerLink="/selected-courses-details">
