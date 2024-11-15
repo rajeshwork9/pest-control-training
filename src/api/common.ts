@@ -35,6 +35,24 @@ export const getCourseList = async (payload: any) => {
     console.error(error);
   }
 };
+export const getIndividualCourseList = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/trainee-users-courses-list`, payload);
+    return response.data;
+  }
+  catch(error){
+    console.error(error);
+  }
+};
+export const getIndividualCourseData = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/trainee-users-course-materials`, payload);
+    return response.data;
+  }
+  catch(error){
+    console.error(error);
+  }
+};
 export const getUserList = async (payload: any) => {
   try{
     const response = await axiosInstance.post(`${apiUrl}v1/users-list`, payload);
