@@ -782,3 +782,78 @@ ion-item{--padding-start:0px; --inner-padding-end:0px;}
 }
 
   }
+
+  ion-segment-button{
+  min-height: 30px; --border-color:#3CA795;
+    --color:#84a19d;
+    --color-checked:#2ea894;
+    --indicator-color: #3CA795;
+    --color-focused:#3CA795;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    font-weight: 700;
+    min-width:100%;
+    --indicator-height:3px;
+
+    ion-label{    margin-top: 0px;    --padding-end: 0px;
+      --padding-start: 0px;
+      margin-bottom: 0px;}
+  }
+
+  .selectedCoursesUsers{
+    ion-icon{font-size: 12px;  margin-right: 3px; color:#786a6a;}
+
+    h3{
+      font-size: 0.86rem;
+    }
+  }
+
+  .profileWrapp{
+    .profileName{border-bottom:solid 1px #dbe6f5; margin-left:15px;margin-right:15px;   display: block; padding-bottom:22px; margin-bottom:22px;}
+    .changepasswordBt{font-size:0.8rem; font-weight:400; letter-spacing:0px; --box-shadow:none;}
+    .porfileUserblock{ position: relative;text-align: center;width: 98px;display: block;margin: auto; z-index: 1;
+     
+      .personIcon{font-size:3.5rem; background:#fff; border:solid 0px #ccc; border-radius:100px;
+      padding:15px;color:#556b93;   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); 
+     
+     }
+          .editBtPosition{position:absolute; right:0px; top:0px; --background: var(--ion-color-primary);
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            --background: var(--ion-color-primary);
+            --border-radius: 100px;
+            --padding-top: 0px;
+            --padding-bottom: 0px;
+            --padding-start: 0px;
+            --padding-end: 0px;
+            width: 35px;
+            height: 32px;
+          ion-icon{    font-size: 1.1rem;}
+        }
+    }
+
+      .porfileCard{  text-align:center;
+          margin-top: -33px; padding-top:40px; padding-bottom:0px;
+          h1{font-size:1.2rem; margin:0px; color:#000;}
+          h6{font-size:0.9rem; margin:5px 0px 0px 0px; font-weight:400;}
+          .logoutBt{    --box-shadow: none; 
+            --background: #CADAEF;
+            --border-radius: 0px;
+            --padding-top: 20px;
+            --padding-bottom: 20px;
+            margin: 0px;
+            --color: #2a2d32;
+            letter-spacing: 0px;
+            margin-top:30px;
+           
+          }
+          .contactProfile{padding-bottom:5px;    display: block;
+            p{ 
+              display:flex;justify-content: center;
+              ion-icon{margin-right:6px;}
+            }
+          } 
+      }
+
+  }

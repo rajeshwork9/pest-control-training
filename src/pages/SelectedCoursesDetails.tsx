@@ -19,9 +19,14 @@ import {
   IonList,
   IonRow,
   IonCol,
+  IonSegment,
+  IonSegmentButton,
+  IonSegmentView,
+  IonSegmentContent,
+
 } from "@ionic/react";
 import { useHistory } from 'react-router';
-import { ribbon, checkmark, documents, download } from 'ionicons/icons'
+import { ribbon, checkmark, documents, download, ellipse, call, mail, add} from 'ionicons/icons'
 import { getCurrentLocation } from "../utils/locationProvider";
 import useLoading from "../components/useLoading";
 import { useAuth } from "../api/AuthContext";
@@ -137,30 +142,91 @@ const SelectedCoursesDetails: React.FC = () => {
 
           <div className="innerDownloadFiles">
             <IonItem color="none" lines="none">
-              <IonText className="filesActive">Files</IonText>
-              <IonButton slot="end" className="orangeBt" shape="round" expand="block">MARK ATTENDANCE</IonButton>
+                <IonSegment value="files">
+                    <IonSegmentButton value="files" contentId="files">
+                      <IonLabel>Files</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value="users" contentId="users">
+                      <IonLabel>Users</IonLabel>
+                    </IonSegmentButton>
+                  </IonSegment>
+
+              {/* <IonText className="filesActive  iom-margin-end">Files</IonText> */}
+               <IonButton slot="end" className="orangeBt" shape="round" expand="block">MARK ATTENDANCE</IonButton>
             </IonItem>
 
-            <IonList lines="none" className="zipCard">
-              <IonItem lines="none" className="ion-justify-content-between">
-                <div className="scd-iconText">
-                  <IonIcon icon={documents}></IonIcon>
-                  <IonText>Curabitur efficitur turpis ut odio</IonText>
-                </div>
-                <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
-                </IonButton>
-              </IonItem>
+            <IonSegmentView>
+                 {/* files */}
+              <IonSegmentContent id="files">
+                  <IonList lines="none" className="zipCard">
+                      <IonItem lines="none" className="ion-justify-content-between">
+                        <div className="scd-iconText">
+                          <IonIcon icon={documents}></IonIcon>
+                          <IonText>Curabitur efficitur turpis ut odio</IonText>
+                        </div>
+                        <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
+                        </IonButton>
+                      </IonItem>
 
-              <IonItem lines="none" className="ion-justify-content-between">
-                <div className="scd-iconText">
-                  <IonIcon icon={documents}></IonIcon>
-                  <IonText>Curabitur efficitur turpis ut odio</IonText>
-                </div>
-                <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
-                </IonButton>
-              </IonItem>
+                      <IonItem lines="none" className="ion-justify-content-between">
+                        <div className="scd-iconText">
+                          <IonIcon icon={documents}></IonIcon>
+                          <IonText>Curabitur efficitur turpis ut odio</IonText>
+                        </div>
+                        <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
+                        </IonButton>
+                      </IonItem>
+                </IonList>
 
-            </IonList>
+              </IonSegmentContent>
+
+
+              {/* users */}
+              <IonSegmentContent id="users">
+                    <IonCard className="userItem selectedCoursesUsers">
+                      <IonItem lines="none" color="none">
+                        <IonThumbnail slot="start">                      
+                          <IonImg src="assets/images/user-icon.svg"></IonImg>                     
+                        </IonThumbnail>
+
+                        <IonText>
+                          <div className="detailsArrow">
+                            <h3>Edla Mahender</h3>                          
+                          </div>
+                          <div className="d-flex phoneEmail">
+                            <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
+                            <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
+                          </div>
+
+                        </IonText>
+                      </IonItem>
+                    </IonCard>  
+
+                    <IonCard className="userItem selectedCoursesUsers">
+                      <IonItem lines="none" color="none">
+                        <IonThumbnail slot="start">                      
+                          <IonImg src="assets/images/user-icon.svg"></IonImg>                     
+                        </IonThumbnail>
+
+                        <IonText>
+                          <div className="detailsArrow">
+                            <h3>Edla Mahender</h3>                          
+                          </div>
+                          <div className="d-flex phoneEmail">
+                            <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
+                            <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
+                          </div>
+
+                        </IonText>
+                      </IonItem>
+                    </IonCard>  
+              </IonSegmentContent>    
+             
+
+             </IonSegmentView>
+
+
+         
 
           </div>
 

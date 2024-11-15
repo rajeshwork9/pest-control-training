@@ -56,7 +56,7 @@ const Dashboard: React.FC = () => {
                   <IonIcon className="alertNotifi" icon={ellipse}></IonIcon>
                 </div>
 
-                <IonButton shape="round" routerLink="/Profile">
+                <IonButton shape="round" routerLink="/profile">
                   <IonImg src="assets/images/user-icon.svg" />
                 </IonButton>
               </div>

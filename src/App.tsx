@@ -66,6 +66,7 @@ import CorporateDashboard from './pages/CorporateDashboard';
 import UsersList from './pages/UsersList';
 import UserCreate from './pages/UserCreate';
 import SelectUser from './pages/SelectUser';
+import Profile from './pages/Profile';
 import CorporatePaymentDetails from './pages/CorporatePaymentDetails';
 import ResetPassword from './pages/authentication/ResetPassword';
 
@@ -164,6 +165,8 @@ const App: React.FC = () => {
               <AuthGuard roles={[8,16,17]} path="/payment-confirmation" component={PaymentConfirmation} />
               <AuthGuard roles={[8,16,17]} path="/selected-courses" component={SelectedCourses} />
               <AuthGuard roles={[8,16,17]} path="/selected-courses-details" component={SelectedCoursesDetails} />
+
+              <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />
 
 
               <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />
