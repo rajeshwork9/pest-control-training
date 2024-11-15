@@ -68,6 +68,8 @@ import UserCreate from './pages/UserCreate';
 import SelectUser from './pages/SelectUser';
 import CorporatePaymentDetails from './pages/CorporatePaymentDetails';
 import ResetPassword from './pages/authentication/ResetPassword';
+import { Geolocation } from '@capacitor/geolocation';
+import { Filesystem } from '@capacitor/filesystem';
 
 setupIonicReact({
   swipeBackEnabled: false,
@@ -81,6 +83,7 @@ const App: React.FC = () => {
   const [position, setPosition] = useState<any>();
   const [error, setError] = useState<string>("");
   const taskId = localStorage.getItem('taskId');
+
   const [appInfo, setAppInfo] = useState<any>([]);
   const [googleApiKey, setGoogleApiKey] = useState<string>(localStorage.getItem('Google_Map_API_Key') || '');
   const [appVersion, setAppVersion] = useState<string>('');
@@ -89,9 +92,34 @@ const App: React.FC = () => {
   const userId = parsedUserData?.user_id;
 
   const user_type = parsedUserData?.user_type;
-
   useEffect(() => {
-    localStorage.setItem('app_name', 'mosquito_control');
+    const requestPermissions = async () => {
+      try {
+        // Request Location Permission
+        const locationPermission = await Geolocation.requestPermissions();
+        if (locationPermission.location === 'granted') {
+          console.log('Location permission granted');
+        } else {
+          console.warn('Location permission denied');
+        }
+
+        // Request Storage Permission
+        const permissionStatus = await Filesystem.requestPermissions();
+
+        if (permissionStatus.publicStorage !== 'granted') {
+          console.log('Filesystem permissions not granted.');
+        } else {
+          console.warn('Storage permission denied');
+        }
+      } catch (error) {
+        console.error('Error requesting permissions:', error);
+      }
+    };
+
+    requestPermissions();
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('app_name', 'psd-training-app');
     registerPushHandlers();
     //handlePlatform();
   }, []);
@@ -114,7 +142,7 @@ const App: React.FC = () => {
       if (platform === 'ios' || platform === 'android') {
         const deviceToken: any = localStorage.getItem('device_token');
         // Request permission to use Push Notifications
-        if(deviceToken === null){
+        if (deviceToken === null) {
           await PushNotifications.register();
         }
         console.log('Running on Device');
@@ -147,23 +175,23 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <NetworkSpeedCheck />
-      
+
       <AuthProvider>
         <IonReactRouter>
           <IonRouterOutlet>
-          <Switch>
+            <Switch>
               <Route path="/home" component={Home} />
               <Route path="/login" component={Login} />
               <Route path="/loginwithmobile" component={LoginWithMobile} />
               <Route path="/signup" component={Signup} />
-              <AuthGuard roles={[8,16,17]} path="/reset-password" component={ResetPassword} />
-              <AuthGuard roles={[8,16,17]} path="/dashboard" component={Dashboard} />
-              <AuthGuard roles={[8,16,17]} path="/enrollcourses" component={EnrollCourses} />
-              <AuthGuard roles={[8,16,17]} path="/enroll-courses-details" component={EnrollCoursesDetails } />
-              <AuthGuard roles={[8,16,17]} path="/payment-details" component={user_type == 17 ? CorporatePaymentDetails : PaymentDetails} />
-              <AuthGuard roles={[8,16,17]} path="/payment-confirmation" component={PaymentConfirmation} />
-              <AuthGuard roles={[8,16,17]} path="/selected-courses" component={SelectedCourses} />
-              <AuthGuard roles={[8,16,17]} path="/selected-courses-details" component={SelectedCoursesDetails} />
+              <AuthGuard roles={[8, 16, 17]} path="/reset-password" component={ResetPassword} />
+              <AuthGuard roles={[8, 16, 17]} path="/dashboard" component={Dashboard} />
+              <AuthGuard roles={[8, 16, 17]} path="/enrollcourses" component={EnrollCourses} />
+              <AuthGuard roles={[8, 16, 17]} path="/enroll-courses-details" component={EnrollCoursesDetails} />
+              <AuthGuard roles={[8, 16, 17]} path="/payment-details" component={user_type == 17 ? CorporatePaymentDetails : PaymentDetails} />
+              <AuthGuard roles={[8, 16, 17]} path="/payment-confirmation" component={PaymentConfirmation} />
+              <AuthGuard roles={[8, 16, 17]} path="/selected-courses" component={SelectedCourses} />
+              <AuthGuard roles={[8, 16, 17]} path="/selected-courses-details" component={SelectedCoursesDetails} />
 
 
               <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />

@@ -22,8 +22,8 @@ export const uploadFile = async (formData: FormData) => {
     console.log(response);
     return response;
   }
-  catch(error){
-      console.error(error);
+  catch(error : any){
+      return error.response.data;
   }   
 };
 export const getCourseList = async (payload: any) => {
@@ -31,8 +31,8 @@ export const getCourseList = async (payload: any) => {
     const response = await axiosInstance.post(`${apiUrl}v1/courses-list`, payload);
     return response.data;
   }
-  catch(error){
-    console.error(error);
+  catch(error : any){
+    return error.response.data;
   }
 };
 export const getIndividualCourseList = async (payload: any) => {
@@ -40,8 +40,8 @@ export const getIndividualCourseList = async (payload: any) => {
     const response = await axiosInstance.post(`${apiUrl}v1/trainee-users-courses-list`, payload);
     return response.data;
   }
-  catch(error){
-    console.error(error);
+  catch(error : any){
+    return error.response.data;
   }
 };
 export const getIndividualCourseData = async (payload: any) => {
@@ -49,8 +49,17 @@ export const getIndividualCourseData = async (payload: any) => {
     const response = await axiosInstance.post(`${apiUrl}v1/trainee-users-course-materials`, payload);
     return response.data;
   }
-  catch(error){
-    console.error(error);
+  catch(error : any){
+    return error.response.data;
+  }
+};
+export const markAttendance = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/mark-trainee-attendance`, payload);
+    return response.data;
+  }
+  catch(error : any){
+    return error.response.data;
   }
 };
 export const getUserList = async (payload: any) => {
@@ -58,8 +67,8 @@ export const getUserList = async (payload: any) => {
     const response = await axiosInstance.post(`${apiUrl}v1/users-list`, payload);
     return response.data;
   }
-  catch(error){
-    console.error(error);
+  catch(error : any){
+    return error.response.data;
   }
 };
 export const registerUser = async (payload: any) => {
@@ -69,16 +78,15 @@ export const registerUser = async (payload: any) => {
   }
   catch(error : any){
     return error.response.data;
-    console.error(error);
   }
 };
 export const getUserTypes = async (payload: any) => {
   try{
-    const response = await axiosInstance.post(`${apiUrl}v1/get-registered-user-types`, payload);
+    const response = await axios.post(`${apiUrl}v1/get-registered-user-types`, payload);
     return response.data;
   }
-  catch(error){
-    console.error(error);
+  catch(error : any){
+    return error.response.data;
   }
 };
 export const enrollCourseTraining = async (payload: any) => {
@@ -86,16 +94,25 @@ export const enrollCourseTraining = async (payload: any) => {
     const response = await axiosInstance.post(`${apiUrl}v1/enroll-course-training`, payload);
     return response.data;
   }
-  catch(error){
-    console.error(error);
+  catch(error : any){
+    return error.response.data;
+  }
+};
+export const getBase64Path = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/download-file`, payload);
+    return response;
+  }
+  catch(error : any){
+    return error.response.data;
   }
 };
 export const appSettings = async (payload: any) => {
   try{
-    const response = await axiosInstance.post(`${apiUrl}api/v1/get-settings`, payload);
+    const response = await axiosInstance.post(`${apiUrl}v1/get-settings`, payload);
     return response;
   }
-  catch(error){
-    console.error(error);
+  catch(error : any){
+    return error.response.data;
   }
 };

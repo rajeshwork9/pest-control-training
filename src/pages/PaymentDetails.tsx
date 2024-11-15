@@ -39,15 +39,13 @@ const PaymentDetails: React.FC = () => {
   const selectedCourseData = JSON.stringify(localStorage.getItem('selectedCourses'));
   const [selectedCourses, setSelectedCourses] = useState<any[]>(JSON.parse(selectedCourseData ? JSON.parse(selectedCourseData) : []));
   const [totalAmount, setTotalAmount] = useState<any>(0);
- 
+
 
   useEffect(() => {
-    if(userData.user_type == 8 || userData.user_type == 16){
-      setTotalAmount(selectedCourses.reduce((accumulator, currentItem) => {
-        return accumulator + parseInt(currentItem.total);
-      }, 0));
-    }
-  }, []);
+    setTotalAmount(selectedCourses.reduce((accumulator, currentItem) => {
+      return accumulator + parseInt(currentItem.total);
+    }, 0));
+  }, [selectedCourses]);
 
   useEffect(() => {
     localStorage.setItem('selectedCourses', JSON.stringify(selectedCourses));
@@ -77,12 +75,10 @@ const PaymentDetails: React.FC = () => {
             total: newTotal
           };
         }
+        
         return course;
       })
     );
-    setTotalAmount(selectedCourses.reduce((accumulator, currentItem) => {
-      return accumulator + parseInt(currentItem.total);
-    }, 0));
   };
   const proceedWithPayment = async () => {
     // Check if there is at least one unchecked property (isChecked = false)
@@ -194,11 +190,11 @@ const PaymentDetails: React.FC = () => {
               </IonText>
             </IonCard>
             {selectedCourses && selectedCourses.length > 0 && selectedCourses.map((data: any, courseIndex: any) => (
-              <IonCard className="cardPaymentDetails" key={data.id}>
+              <IonCard className="cardPaymentDetails" key={`${data.id}-cardPaymentDetails`}>
                 <IonCardTitle>{data.course_name}</IonCardTitle>
                 <IonCardContent>
                   {data.properties && data.properties.length > 0 && data.properties.map((res: any, propertyIndex: any) => (
-                    <IonItem lines="none" key={`${data.id}-${res.name}`}>
+                    <IonItem lines="none" key={`${data.id}-key`}>
                       <div><IonCheckbox checked={res.isChecked} onIonChange={(event) => handlePropertyChange(event, data.id, res.id)} labelPlacement="end">{res.property} Price</IonCheckbox></div>
                       {res.id === '1' && <IonText slot="end"><h5>{data.course_price}</h5></IonText>}
                       {res.id === '2' && <IonText slot="end"><h5>{data.exam_price}</h5></IonText>}
