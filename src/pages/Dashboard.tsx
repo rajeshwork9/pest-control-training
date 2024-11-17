@@ -120,7 +120,7 @@ const Dashboard: React.FC = () => {
                 </IonCol>
 
                 <IonCol size="6">
-                  <IonCard>
+                  <IonCard  routerLink="/transactions">
                     <IonImg src="./assets/images/transactions-icon.svg" />
                     <IonText>
                       <h3>Transactions</h3>

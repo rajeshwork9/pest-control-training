@@ -857,3 +857,34 @@ ion-item{--padding-start:0px; --inner-padding-end:0px;}
       }
 
   }
+
+  .transactionsWrapp{
+    h3{margin:0px !important; padding:0px !important; font-size:0.86rem !important;
+      line-height: 19px;}
+    .tranListCount{text-align:center; padding-left:5px; padding-right:5px;margin-bottom:10px;
+      p{margin:0px 0px 6px 0px !important; padding:0px !important;  font-size:0.72rem; font-weight:400;}
+      h6{margin:0px; font-size:0.86rem; color:#1B428A;}
+  
+     ion-text{background: #eff6ff;
+      display: block;
+      border-radius: 2px;
+      padding: 6px;} 
+    }
+  }
+
+  .transDetailsWrapp{   
+    .doneImg{width: 200px;  margin: auto;}
+    .tdpayment{text-align:center;
+      h2{font-size:2rem; margin:0px;
+      span{font-size:1rem; color:#555;}
+    }
+      h6{font-size:0.86rem; margin:0px; font-weight:400;}
+    }
+    .tdCard{
+      .headingtd{margin-top:0px !important;}
+      ion-text{ display:block;   margin-bottom: 16px;}
+      h3{font-size:1rem; color:#1B428A; margin:0px;}
+      p{font-size:0.75rem; color:#1B428A; color:#A09FA4; margin:0px 0px 3px 0px;}
+      h4{font-size:0.8rem; color:#333; margin:0px;}
+    }
+  }
