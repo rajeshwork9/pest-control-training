@@ -20,13 +20,13 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ component: Component, roles, ...r
       }
     } else {
       // Redirect to login if the user is not authenticated
-      history.replace('/login');
+      history.replace('/home');
     }
   }, [isLoggedIn, history]);
   return (
     <Route {...rest} render={(props) => {
       if (!isLoggedIn) {
-        return <Redirect to='/login' />;
+        return <Redirect to='/home' />;
       } else if (roles && !roles.includes(parseInt(userData.user_type))) {
         return <Redirect to='/' />;
       }

@@ -245,6 +245,7 @@ const SelectedCoursesDetails: React.FC = () => {
               </IonRow>
             </div>
           </div>
+          {userData.user_type !== 17 && 
           <div className="innerDownloadFiles">
             <IonItem color="none" lines="none">
               <IonText className="filesActive">Files</IonText>
@@ -263,21 +264,57 @@ const SelectedCoursesDetails: React.FC = () => {
                 </IonItem>
               ))}
             </IonList>
-            <IonSegment value="files">
-              <IonSegmentButton value="files" contentId="files">
-                <IonLabel>Files</IonLabel>
-              </IonSegmentButton>
-              <IonSegmentButton value="users" contentId="users">
-                <IonLabel>Users</IonLabel>
-              </IonSegmentButton>
-            </IonSegment>
-
-            {/* <IonText className="filesActive  iom-margin-end">Files</IonText> */}
-            <IonButton slot="end" className="orangeBt" shape="round" expand="block">MARK ATTENDANCE</IonButton>
           </div>
-              
-          <IonSegmentView>
-            {/* files */}
+          }
+          {userData.user_type == 17 && 
+          <div className="innerDownloadFiles">
+            <IonItem color="none" lines="none">
+              <IonText className="filesActive">Files</IonText>
+              {/* <IonButton onClick={() => markTraineeAttendance()} slot="end" className="orangeBt" shape="round" expand="block">MARK ATTENDANCE</IonButton> */}
+            </IonItem>
+
+            <IonList lines="none" className="zipCard">
+            <IonCard className="userItem selectedCoursesUsers">
+                <IonItem lines="none" color="none">
+                  <IonThumbnail slot="start">
+                    <IonImg src="assets/images/user-icon.svg"></IonImg>
+                  </IonThumbnail>
+
+                  <IonText>
+                    <div className="detailsArrow">
+                      <h3>Edla Mahender</h3>
+                    </div>
+                    <div className="d-flex phoneEmail">
+                      <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
+                      <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
+                    </div>
+
+                  </IonText>
+                </IonItem>
+              </IonCard>
+
+              <IonCard className="userItem selectedCoursesUsers">
+                <IonItem lines="none" color="none">
+                  <IonThumbnail slot="start">
+                    <IonImg src="assets/images/user-icon.svg"></IonImg>
+                  </IonThumbnail>
+
+                  <IonText>
+                    <div className="detailsArrow">
+                      <h3>Edla Mahender</h3>
+                    </div>
+                    <div className="d-flex phoneEmail">
+                      <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
+                      <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
+                    </div>
+
+                  </IonText>
+                </IonItem>
+              </IonCard>
+            </IonList>
+          </div>
+          } 
+          {/* <IonSegmentView>
             <IonSegmentContent id="files">
               <IonList lines="none" className="zipCard">
                 <IonItem lines="none" className="ion-justify-content-between">
@@ -302,7 +339,6 @@ const SelectedCoursesDetails: React.FC = () => {
             </IonSegmentContent>
 
 
-            {/* users */}
             <IonSegmentContent id="users">
               <IonCard className="userItem selectedCoursesUsers">
                 <IonItem lines="none" color="none">
@@ -344,7 +380,7 @@ const SelectedCoursesDetails: React.FC = () => {
             </IonSegmentContent>
 
 
-          </IonSegmentView>
+          </IonSegmentView> */}
         </div>
       </IonContent>
     </IonPage>

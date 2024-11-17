@@ -119,7 +119,7 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
         }
       });
       setIsLoggedIn(false);
-      history.push("/dashboard");
+      history.push("/home");
       //return response;
     }
     catch (error: any) {
