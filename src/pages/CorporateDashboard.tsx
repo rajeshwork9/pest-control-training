@@ -74,7 +74,7 @@ const CorporateDashboard: React.FC = () => {
             <IonRow className="dashboardCard ion-margin-top">
 
               <IonCol size="6">
-                <IonCard routerLink="/selected-courses">
+                <IonCard routerLink="/corporate-selected-courses">
                   <div className="d-flex justify-content">
                     <IonImg src="./assets/images/attendance-icon.svg" />
                     <IonText slot="right"><h2 className="ion-no-margin">23</h2></IonText>
@@ -101,7 +101,7 @@ const CorporateDashboard: React.FC = () => {
 
 
               <IonCol size="6">
-                <IonCard>
+                <IonCard routerLink="/transactions">
                   <IonImg src="./assets/images/transactions-icon.svg" />
                   <IonText><h3>Transactions</h3></IonText>
                 </IonCard>
@@ -116,6 +116,7 @@ const CorporateDashboard: React.FC = () => {
 
           </div>
         </IonContent>
+        {/* {isLoading && <Loader message={loadingMessage} />} */}
 
         <IonFooter>
           <IonToolbar>

@@ -22,6 +22,7 @@ import {
   IonFooter,
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { ribbon, ellipse, call, mail, add } from 'ionicons/icons'
 import useLoading from '../components/useLoading';
 import { getUserList } from '../api/common';
@@ -30,6 +31,7 @@ import { useEffect, useState } from "react";
 
 const SelectUser: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
+const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const [UserList, setUserList] = useState<any[]>([]);
   const history = useHistory();
 
@@ -184,6 +186,7 @@ const SelectUser: React.FC = () => {
           ))}
         </div>
       </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
       <IonFooter>
         <IonToolbar>
           <IonButton onClick={(event) => proceed()} shape="round" expand="block" color="primary" >Continue</IonButton>

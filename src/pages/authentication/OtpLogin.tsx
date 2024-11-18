@@ -18,6 +18,7 @@ import {
   IonIcon,
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../../components/Loader';
 
 const OtpLogin = () => {
     const [showAlert, setShowAlert] = useState(false);
@@ -71,6 +72,7 @@ const OtpLogin = () => {
                     </div>
                 </div>
              </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
         </IonPage>
       </>
     );

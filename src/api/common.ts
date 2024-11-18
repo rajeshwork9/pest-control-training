@@ -44,9 +44,27 @@ export const getIndividualCourseList = async (payload: any) => {
     return error.response.data;
   }
 };
+export const getCorporateCourseList = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/corporate-user-courses-list`, payload);
+    return response.data;
+  }
+  catch(error : any){
+    return error.response.data;
+  }
+};
 export const getIndividualCourseData = async (payload: any) => {
   try{
     const response = await axiosInstance.post(`${apiUrl}v1/trainee-users-course-materials`, payload);
+    return response.data;
+  }
+  catch(error : any){
+    return error.response.data;
+  }
+};
+export const getCorporateCourseData = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/corporate-user-course-employees`, payload);
     return response.data;
   }
   catch(error : any){
@@ -102,6 +120,24 @@ export const getBase64Path = async (payload: any) => {
   try{
     const response = await axiosInstance.post(`${apiUrl}v1/download-file`, payload);
     return response;
+  }
+  catch(error : any){
+    return error.response.data;
+  }
+};
+export const getTransactions = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/get-transaction-list`, payload);
+    return response.data;
+  }
+  catch(error : any){
+    return error.response.data;
+  }
+};
+export const getTransactionDetails = async (payload: any) => {
+  try{
+    const response = await axiosInstance.post(`${apiUrl}v1/corporate-user-course-employees`, payload);
+    return response.data;
   }
   catch(error : any){
     return error.response.data;

@@ -26,13 +26,20 @@ import {
 
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { person, create, call, mail } from 'ionicons/icons';
 import { toast } from 'react-toastify';
 import { useAuth } from "../api/AuthContext";
+import { useState } from "react";
+import useLoading from "../components/useLoading";
 
 const Profile: React.FC = () => {
   const { userData,logout } = useAuth();
-
+  const app_version: any = localStorage.getItem('app_version');
+  const app_name: any = localStorage.getItem('app_name');
+  const { login } = useAuth();
+  const { isLoading, startLoading, stopLoading } = useLoading();
+  const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
   const logOut = async () => {
     const response = await logout();
@@ -66,12 +73,13 @@ const Profile: React.FC = () => {
             <p><IonIcon icon={call}></IonIcon>{userData.mobile_no}</p>
             <p><IonIcon icon={mail}></IonIcon>{userData.email_id}</p>
           </IonText>
-          <IonButton className="changepasswordBt ion-margin" routerLink="/changepassword" shape="round" color="primary"> Change Password </IonButton>
+          <IonButton className="changepasswordBt ion-margin"  shape="round" color="primary"> Change Password </IonButton> 
           <IonButton className="logoutBt" onClick={(event) => logOut()} expand="block">
             Logout </IonButton>
         </IonCard>
 
       </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
     </IonPage>
   );
 };

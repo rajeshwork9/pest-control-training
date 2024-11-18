@@ -23,6 +23,7 @@ import {
   IonSelectOption,
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { ribbon, checkmark } from 'ionicons/icons'
 import * as Yup from "yup";
 import { toast } from 'react-toastify';
@@ -43,6 +44,7 @@ const validationSchema = Yup.object({
 const UserCreate: React.FC = () => {
   const history = useHistory();
   const { isLoading, startLoading, stopLoading } = useLoading();
+const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const { register } = useAuth();
   const [userTypes, setUserTypes] = useState<any[]>([]);
   const app_version: any = localStorage.getItem('app_version');
@@ -228,12 +230,13 @@ const UserCreate: React.FC = () => {
             </div>
           </div>
         </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
 
-        <IonFooter className="ion-padding-horizontal">
+        {/* <IonFooter className="ion-padding-horizontal">
           <IonToolbar>
             <IonButton routerLink="/users-list" shape="round" expand="block" color="primary" >Add User</IonButton>
           </IonToolbar>
-        </IonFooter>
+        </IonFooter> */}
       </IonPage>
     </>
   );

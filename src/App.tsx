@@ -73,6 +73,8 @@ import { Geolocation } from '@capacitor/geolocation';
 import { Filesystem } from '@capacitor/filesystem';
 import Transactions from './pages/Transactions';
 import TransactionsDetails from './pages/TransactionsDetails';
+import CorporateSelectedCourses from './pages/CorporateSelectedCourses';
+import CorporateSelectedCoursesDetails from './pages/CorporateSelectedCoursesDetails';
 
 
 setupIonicReact({
@@ -94,39 +96,37 @@ const App: React.FC = () => {
   const storedUserData: any = localStorage.getItem('userData');
   const parsedUserData: any = JSON.parse(storedUserData);
   const userId = parsedUserData?.user_id;
-
   const user_type = parsedUserData?.user_type;
-  useEffect(() => {
-    const requestPermissions = async () => {
-      try {
-        // Request Location Permission
-        const locationPermission = await Geolocation.requestPermissions();
-        if (locationPermission.location === 'granted') {
-          console.log('Location permission granted');
-        } else {
-          console.warn('Location permission denied');
-        }
 
-        // Request Storage Permission
-        const permissionStatus = await Filesystem.requestPermissions();
-
-        if (permissionStatus.publicStorage !== 'granted') {
-          console.log('Filesystem permissions not granted.');
-        } else {
-          console.warn('Storage permission denied');
-        }
-      } catch (error) {
-        console.error('Error requesting permissions:', error);
-      }
-    };
-
-    requestPermissions();
-  }, []);
   useEffect(() => {
     localStorage.setItem('app_name', 'psd-training-app');
     registerPushHandlers();
-    //handlePlatform();
+    handlePlatform();
   }, []);
+
+  const requestPermissions = async () => {
+    try {
+      // Request Location Permission
+      const locationPermission = await Geolocation.requestPermissions();
+      if (locationPermission.location === 'granted') {
+        console.log('Location permission granted');
+      } else {
+        console.warn('Location permission denied');
+      }
+
+      // Request Storage Permission
+      const permissionStatus = await Filesystem.requestPermissions();
+
+      if (permissionStatus.publicStorage !== 'granted') {
+        console.log('Filesystem permissions not granted.');
+      } else {
+        console.warn('Storage permission denied');
+      }
+    } catch (error) {
+      console.error('Error requesting permissions:', error);
+    }
+  };
+
   async function handlePlatform() {
     try {
       const payload = { "type": "SETTINGS" }
@@ -137,13 +137,13 @@ const App: React.FC = () => {
         console.log(GoogleKey);
         if (GoogleKey) {
           localStorage.setItem('Google_Map_API_Key', GoogleKey.description);
-
         }
       }
       const info = await Device.getInfo();
       const platform = info.platform;
       console.log(platform);
       if (platform === 'ios' || platform === 'android') {
+        requestPermissions();
         const deviceToken: any = localStorage.getItem('device_token');
         // Request permission to use Push Notifications
         if (deviceToken === null) {
@@ -189,19 +189,21 @@ const App: React.FC = () => {
               <Route path="/loginwithmobile" component={LoginWithMobile} />
               <Route path="/signup" component={Signup} />
               <AuthGuard roles={[8, 16, 17]} path="/reset-password" component={ResetPassword} />
-              <AuthGuard roles={[8, 16, 17]} path="/dashboard" component={Dashboard} />
+              <AuthGuard roles={[8, 16]} path="/dashboard" component={Dashboard} />
               <AuthGuard roles={[8, 16, 17]} path="/enrollcourses" component={EnrollCourses} />
               <AuthGuard roles={[8, 16, 17]} path="/enroll-courses-details" component={EnrollCoursesDetails} />
               <AuthGuard roles={[8, 16, 17]} path="/payment-details" component={user_type == 17 ? CorporatePaymentDetails : PaymentDetails} />
               <AuthGuard roles={[8, 16, 17]} path="/payment-confirmation" component={PaymentConfirmation} />
-              <AuthGuard roles={[8, 16, 17]} path="/selected-courses" component={SelectedCourses} />
-              <AuthGuard roles={[8, 16, 17]} path="/selected-courses-details" component={SelectedCoursesDetails} />
+              <AuthGuard roles={[8, 16]} path="/selected-courses" component={SelectedCourses} />
+              <AuthGuard roles={[8, 16]} path="/selected-courses-details" component={SelectedCoursesDetails} />
 
               <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />
               <AuthGuard roles={[8,16,17]} path="/transactions" component={Transactions} />
               <AuthGuard roles={[8,16,17]} path="/transactions-details" component={TransactionsDetails} />
 
               <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />
+              <AuthGuard roles={[17]} path="/corporate-selected-courses" component={CorporateSelectedCourses} />
+              <AuthGuard roles={[17]} path="/corporate-selected-courses-details" component={CorporateSelectedCoursesDetails} />
               <AuthGuard roles={[17]} path="/users-list" component={UsersList} />
               <AuthGuard roles={[17]} path="/user-create" component={UserCreate} />
               <AuthGuard roles={[17]} path="/select-user" component={SelectUser} />

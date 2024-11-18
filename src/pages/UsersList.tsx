@@ -24,6 +24,7 @@ import {
   IonFabButton
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { ribbon, ellipse, call, mail, add } from 'ionicons/icons'
 import useLoading from '../components/useLoading';
 import { getUserList } from '../api/common';
@@ -31,6 +32,7 @@ import { toast } from 'react-toastify';
 
 const UserList: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
+const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const [UserList, setUserList] = useState<any[]>([]);
   const history = useHistory();
 
@@ -119,7 +121,7 @@ const UserList: React.FC = () => {
                   <IonText>
                     <div className="detailsArrow">
                       <h3>{data.first_name} {data.last_name}</h3>
-                      <IonButton className="detailsArrowIcon" fill="clear" routerLink="/users-details">
+                      <IonButton className="detailsArrowIcon" fill="clear">
                         <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
                       </IonButton>
                     </div>
@@ -142,6 +144,7 @@ const UserList: React.FC = () => {
             </IonFabButton>
           </IonFab>
         </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
       </IonPage>
     </>
   );

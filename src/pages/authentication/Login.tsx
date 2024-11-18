@@ -25,6 +25,7 @@ import { useAuth } from '../../api/AuthContext';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { toast } from 'react-toastify';
 import { eye, eyeOff } from 'ionicons/icons';
+import Loader from '../../components/Loader';
 
 
 const Login: React.FC = () => {
@@ -34,6 +35,7 @@ const Login: React.FC = () => {
     const app_name: any = localStorage.getItem('app_name');
     const { login } = useAuth();
     const { isLoading, startLoading, stopLoading } = useLoading();
+    const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     const [showPassword, setShowPassword] = useState(false);
 
 
@@ -58,6 +60,7 @@ const Login: React.FC = () => {
     }, []);
     const onSubmit = async (values: any) => {
         startLoading();
+        setLoadingMessage('Authenticating');
         let deviceToken: any = localStorage.getItem('device_token');
         if (deviceToken === null) {
             await PushNotifications.register();
@@ -86,7 +89,7 @@ const Login: React.FC = () => {
                     }
                 }
                 else {
-                    history.push("/dashboard");
+                    history.push("/corporate-dashboard");
                 }
             }
             else {
@@ -188,6 +191,7 @@ const Login: React.FC = () => {
                     </div>
 
                 </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
             </IonPage>
         </>
     );

@@ -109,6 +109,7 @@ const AppUpdate: React.FC = () => {
                             </IonButton>
                         </div>
                     </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
                 </IonPage>)}
         </>
     );

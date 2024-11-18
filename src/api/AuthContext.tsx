@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import axios from 'axios';
 // import { FCM } from '@capacitor-community/fcm';
 import { Geolocation } from '@capacitor/geolocation';
@@ -39,8 +40,9 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
     console.log("loginFormValue", loginFormValue);
     try {
       if (deviceToken === null) {
-        await PushNotifications.register();
-        deviceToken = localStorage.getItem('device_token');
+        const noti = await PushNotifications.register();
+        console.log(noti);
+        deviceToken = localStorage.getItem('device_token') || 'querty';
       }
       let payload = {
         "username": loginFormValue.email,

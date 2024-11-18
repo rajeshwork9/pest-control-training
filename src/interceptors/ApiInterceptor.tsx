@@ -41,7 +41,7 @@ const clearLocalStorageExceptKey = (keyToKeep: any) => {
 };
 
 const handleLogout = () => {
-  clearLocalStorageExceptKey('device_token');
+  clearLocalStorageExceptKey(['device_token', 'rememberedUserName', 'rememberedPassword', 'app_name', 'app_version']);
 };
 
 export default axiosInstance;

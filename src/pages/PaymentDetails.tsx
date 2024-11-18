@@ -25,6 +25,7 @@ import {
   IonFooter,
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { ribbon, checkmark, create } from 'ionicons/icons'
 
 import useLoading from '../components/useLoading';
@@ -34,6 +35,7 @@ import { useAuth } from '../api/AuthContext';
 
 const PaymentDetails: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
+const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const history = useHistory();
   const { userData } = useAuth();
   const selectedCourseData = JSON.stringify(localStorage.getItem('selectedCourses'));
@@ -210,6 +212,7 @@ const PaymentDetails: React.FC = () => {
             ))}
           </div>
         </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
 
         <IonFooter>
           <IonToolbar>

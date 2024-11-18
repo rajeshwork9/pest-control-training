@@ -21,6 +21,7 @@ import {
   IonFooter
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { ribbon, checkmark } from 'ionicons/icons';
 import useLoading from '../components/useLoading';
 import { getCourseList } from '../api/common';
@@ -29,6 +30,7 @@ import { useAuth } from '../api/AuthContext';
 
 const EnrollCourses: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
+const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const { userData } = useAuth(); 
   const selectedCourseData = localStorage.getItem('selectedCourses');
   const parsedData = selectedCourseData ? JSON.parse(selectedCourseData) : [];
@@ -184,8 +186,6 @@ const EnrollCourses: React.FC = () => {
             <IonTitle>Select courses of interest</IonTitle>
           </IonToolbar>
         </IonHeader>
-
-
         <IonContent fullscreen className="colorBg enrollCoursesWrapp">
           <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
           <div className="bgSvg">
@@ -216,6 +216,7 @@ const EnrollCourses: React.FC = () => {
             </div>
           </div>
         </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
 
         <IonFooter>
           <IonToolbar>

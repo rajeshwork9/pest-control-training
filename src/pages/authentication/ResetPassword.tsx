@@ -21,6 +21,7 @@ import { PushNotifications } from '@capacitor/push-notifications';
 import { useAuth } from '../../api/AuthContext';
 import { getUserTypes } from '../../api/common';
 import { set } from 'react-hook-form';
+import Loader from '../../components/Loader';
 
 const validationSchema = Yup.object({
 
@@ -31,6 +32,7 @@ const validationSchema = Yup.object({
 const ResetPassword: React.FC = () => {
   const history = useHistory();
   const { isLoading, startLoading, stopLoading } = useLoading();
+const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const { resetPassword } = useAuth();
   const [userTypes, setUserTypes] = useState<any[]>([]);
   const app_version: any = localStorage.getItem('app_version');
@@ -190,6 +192,7 @@ const ResetPassword: React.FC = () => {
             </div>
           </div>
         </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
       </IonPage>
     </>
   );

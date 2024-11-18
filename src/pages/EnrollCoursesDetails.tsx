@@ -22,11 +22,18 @@ import {
   IonCol,
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { ribbon, checkmark } from 'ionicons/icons'
+import { useAuth } from '../api/AuthContext';
+import useLoading from '../components/useLoading';
 const EnrollCoursesDetails: React.FC = () => {
 
   const history = useHistory();
-
+  const app_version: any = localStorage.getItem('app_version');
+  const app_name: any = localStorage.getItem('app_name');
+  const { login } = useAuth();
+  const { isLoading, startLoading, stopLoading } = useLoading();
+  const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const queryParams: any = history.location.state;
   const selectedCourseData = queryParams.data;
   const [courseData, setCourseData] = useState<any>(selectedCourseData ? selectedCourseData : []);
@@ -83,6 +90,7 @@ const EnrollCoursesDetails: React.FC = () => {
             </div>
           </div>
         </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
       </IonPage>
     </>
   );

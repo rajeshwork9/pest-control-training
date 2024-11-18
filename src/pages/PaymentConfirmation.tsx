@@ -23,13 +23,20 @@ import {
   IonFooter,
 } from "@ionic/react";
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { ribbon, checkmark } from 'ionicons/icons';
+import { useAuth } from '../api/AuthContext';
+import useLoading from '../components/useLoading';
 
 const PaymentConfirmation: React.FC = () => {
   const history = useHistory();
   const [enrolledData, setEnrolledData] = useState<any>([]);
   const queryParams: any = history.location.state;
-
+  const app_version: any = localStorage.getItem('app_version');
+  const app_name: any = localStorage.getItem('app_name');
+  const { login } = useAuth();
+  const { isLoading, startLoading, stopLoading } = useLoading();
+  const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
   useEffect(() => {
     if(queryParams){
@@ -66,10 +73,11 @@ const PaymentConfirmation: React.FC = () => {
                 </div>
             </div>
         </IonContent>
+        {isLoading && <Loader message={loadingMessage} />}
 
         <IonFooter>
           <IonToolbar>
-            <IonButton routerLink="/dashboard" shape="round" expand="block" color="primary" >Continue</IonButton>
+            <IonButton routerLink="/" shape="round" expand="block" color="primary" >Continue</IonButton>
           </IonToolbar>
         </IonFooter>
 

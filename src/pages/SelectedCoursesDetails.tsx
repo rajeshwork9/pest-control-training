@@ -28,6 +28,7 @@ import {
 } from "@ionic/react";
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { useHistory } from 'react-router';
+import Loader from '../components/Loader';
 import { ribbon, checkmark, documents, download, ellipse, call, mail, add } from 'ionicons/icons'
 import { getCurrentLocation } from "../utils/locationProvider";
 import useLoading from "../components/useLoading";
@@ -39,6 +40,7 @@ import { Browser } from "@capacitor/browser";
 
 const SelectedCoursesDetails: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
+const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const { userData } = useAuth();
   const [courseDetails, setCourseDetails] = useState<any>([]);
   const history = useHistory();
@@ -245,7 +247,6 @@ const SelectedCoursesDetails: React.FC = () => {
               </IonRow>
             </div>
           </div>
-          {userData.user_type !== 17 && 
           <div className="innerDownloadFiles">
             <IonItem color="none" lines="none">
               <IonText className="filesActive">Files</IonText>
@@ -265,124 +266,9 @@ const SelectedCoursesDetails: React.FC = () => {
               ))}
             </IonList>
           </div>
-          }
-          {userData.user_type == 17 && 
-          <div className="innerDownloadFiles">
-            <IonItem color="none" lines="none">
-              <IonText className="filesActive">Files</IonText>
-              {/* <IonButton onClick={() => markTraineeAttendance()} slot="end" className="orangeBt" shape="round" expand="block">MARK ATTENDANCE</IonButton> */}
-            </IonItem>
-
-            <IonList lines="none" className="zipCard">
-            <IonCard className="userItem selectedCoursesUsers">
-                <IonItem lines="none" color="none">
-                  <IonThumbnail slot="start">
-                    <IonImg src="assets/images/user-icon.svg"></IonImg>
-                  </IonThumbnail>
-
-                  <IonText>
-                    <div className="detailsArrow">
-                      <h3>Edla Mahender</h3>
-                    </div>
-                    <div className="d-flex phoneEmail">
-                      <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
-                      <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
-                    </div>
-
-                  </IonText>
-                </IonItem>
-              </IonCard>
-
-              <IonCard className="userItem selectedCoursesUsers">
-                <IonItem lines="none" color="none">
-                  <IonThumbnail slot="start">
-                    <IonImg src="assets/images/user-icon.svg"></IonImg>
-                  </IonThumbnail>
-
-                  <IonText>
-                    <div className="detailsArrow">
-                      <h3>Edla Mahender</h3>
-                    </div>
-                    <div className="d-flex phoneEmail">
-                      <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
-                      <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
-                    </div>
-
-                  </IonText>
-                </IonItem>
-              </IonCard>
-            </IonList>
-          </div>
-          } 
-          {/* <IonSegmentView>
-            <IonSegmentContent id="files">
-              <IonList lines="none" className="zipCard">
-                <IonItem lines="none" className="ion-justify-content-between">
-                  <div className="scd-iconText">
-                    <IonIcon icon={documents}></IonIcon>
-                    <IonText>Curabitur efficitur turpis ut odio</IonText>
-                  </div>
-                  <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
-                  </IonButton>
-                </IonItem>
-
-                <IonItem lines="none" className="ion-justify-content-between">
-                  <div className="scd-iconText">
-                    <IonIcon icon={documents}></IonIcon>
-                    <IonText>Curabitur efficitur turpis ut odio</IonText>
-                  </div>
-                  <IonButton slot="end" className="scd-downloadBt" fill="clear"><IonIcon slot="end" icon={download}></IonIcon>
-                  </IonButton>
-                </IonItem>
-              </IonList>
-
-            </IonSegmentContent>
-
-
-            <IonSegmentContent id="users">
-              <IonCard className="userItem selectedCoursesUsers">
-                <IonItem lines="none" color="none">
-                  <IonThumbnail slot="start">
-                    <IonImg src="assets/images/user-icon.svg"></IonImg>
-                  </IonThumbnail>
-
-                  <IonText>
-                    <div className="detailsArrow">
-                      <h3>Edla Mahender</h3>
-                    </div>
-                    <div className="d-flex phoneEmail">
-                      <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
-                      <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
-                    </div>
-
-                  </IonText>
-                </IonItem>
-              </IonCard>
-
-              <IonCard className="userItem selectedCoursesUsers">
-                <IonItem lines="none" color="none">
-                  <IonThumbnail slot="start">
-                    <IonImg src="assets/images/user-icon.svg"></IonImg>
-                  </IonThumbnail>
-
-                  <IonText>
-                    <div className="detailsArrow">
-                      <h3>Edla Mahender</h3>
-                    </div>
-                    <div className="d-flex phoneEmail">
-                      <IonText className="d-flex"><IonIcon icon={call}></IonIcon> <p>9878768877</p></IonText>
-                      <IonText className="d-flex"><IonIcon icon={mail}></IonIcon> <p>mahe@gmail.com</p></IonText>
-                    </div>
-
-                  </IonText>
-                </IonItem>
-              </IonCard>
-            </IonSegmentContent>
-
-
-          </IonSegmentView> */}
         </div>
       </IonContent>
+                {isLoading && <Loader message={loadingMessage} />}
     </IonPage>
   );
 };
