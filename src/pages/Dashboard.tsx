@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 
 import {
   IonButton,
@@ -30,6 +30,7 @@ import Loader from '../components/Loader';
 import { useHistory } from 'react-router';
 import { useAuth } from '../api/AuthContext';
 import useLoading from '../components/useLoading';
+import { getCorporateCourseList, getIndividualCourseList, getUserList } from '../api/common';
 
 const Dashboard: React.FC = () => {
   const history = useHistory();
@@ -38,6 +39,20 @@ const Dashboard: React.FC = () => {
   const { login } = useAuth();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
+
+  
+  useEffect(() => {
+    getDashboardCount();
+  }, []);
+
+  const getDashboardCount = async () => {
+    const [books, authors] = await Promise.all([
+      getUserList(),
+      getIndividualCourseList()
+    ]);
+  
+    console.log(books);
+  };
   return (
     <>
       <IonPage>

@@ -23,7 +23,7 @@ import {
 } from "@ionic/react";
 import { useHistory } from 'react-router';
 import Loader from '../components/Loader';
-import { ribbon, ellipse, call, mail, add } from 'ionicons/icons'
+import { ribbon, ellipse, call, mail, add, personOutline } from 'ionicons/icons'
 import useLoading from '../components/useLoading';
 import { getTransactionDetails, getUserList } from '../api/common';
 import { toast } from 'react-toastify';
@@ -32,7 +32,7 @@ import { useAuth } from "../api/AuthContext";
 
 const TransactionsDetails: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
-const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
+  const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const { userData } = useAuth();
   const [transactionDetails, setTransactionDetails] = useState<any>([]);
   const history = useHistory();
@@ -46,35 +46,13 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
   const getTransactionData = async () => {
 
-    let payload = {
-      "columns": [
-        "tbl_transactions.id as transaction_id",
-        "tbl_transactions.transaction_name",
-        "tbl_transactions.description",
-        "tbl_enrolls.enrollment_id",
-        "tbl_training_users.first_name",
-        "tbl_training_users.last_name",
-        "tbl_training_users.email_id",
-        "tbl_training_users.mobile_no"
-      ],
-      "order_by": {
-        "tbl_enrolls.created_on": "desc"
-      },
-      "filters": {
-        "tbl_enrolls.enrollment_id": queryParams.id
-      },
-      "pagination": {
-        "limit": "10",
-        "page": "1"
-      }
-    }
     try {
       startLoading();
-      const response = await getTransactionDetails(payload);
+      const response = await getTransactionDetails(queryParams.id);
       console.log("Details", response);
       if (response.status == 200 && response.success) {
         console.log(response);
-        setTransactionDetails(response.data[0]);
+        setTransactionDetails(response.data);
       }
       else {
         toast.dismiss();
@@ -105,45 +83,95 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
           <IonImg className="doneImg" src="./assets/images/done-img.svg"></IonImg>
 
           <IonText className="tdpayment">
-            <h2>1463 <span>AED</span></h2>
-            <h6>Payment Successful</h6>
+            <h2>{transactionDetails.total_amount} <span>AED</span></h2>
+            <h6>Payment {transactionDetails.payment_status}</h6>
           </IonText>
 
           <div className="tdCard ion-margin-top">
             <IonCard className="ion-padding">
               <IonText className="headingtd"><h3>Payment Details</h3></IonText>
-
               <IonText>
                 <p>Date</p>
                 <h4>09/10/2023</h4>
               </IonText>
-
               <IonText>
                 <p>Enrollment ID</p>
-                <h4>PCT552045888</h4>
+                <h4>{transactionDetails.enrollment_id}</h4>
               </IonText>
-
               <IonText>
                 <p>No Of Transactions</p>
                 <h4>1</h4>
               </IonText>
-
-              <IonText>
-                <p>No Of Users</p>
-                <h4>23</h4>
-              </IonText>
-
+              {transactionDetails.course_name &&
+                <IonText>
+                  <p>Course Name</p>
+                  <h4>{transactionDetails.course_name}</h4>
+                </IonText>
+              }
+              {!transactionDetails.course_name &&
+                <IonText>
+                  <p>No Of Courses</p>
+                  <h4>{transactionDetails.no_of_courses}</h4>
+                </IonText>
+              }
+              {transactionDetails.user_details &&
+                <IonText>
+                  <p>No Of Users</p>
+                  <h4>{transactionDetails.no_of_users}</h4>
+                </IonText>
+              }
               <IonText>
                 <p>Payment Status</p>
-                <h4>completed</h4>
+                <h4>{transactionDetails.payment_status}</h4>
               </IonText>
             </IonCard>
-
-
+            {transactionDetails.course_details && transactionDetails.course_details.length > 0 &&
+              <IonCard className="ion-padding">
+                <IonText className="headingtd"><h3>Course Details</h3></IonText>
+                <IonList className="coursesItem" lines="none">
+                  {transactionDetails.course_details.map((data: any, index: any) => (
+                    <IonItem>
+                      <IonThumbnail slot="start">
+                        <IonIcon icon={ribbon}></IonIcon>
+                      </IonThumbnail>
+                      <IonText className="width100">
+                        <div className="detailsArrow">
+                          <h3>{data.course_name}</h3>
+                        </div>
+                        <p>{data.description}</p>
+                      </IonText>
+                    </IonItem>
+                  ))}
+                </IonList>
+              </IonCard>
+            }
+            {transactionDetails.user_details && transactionDetails.user_details.length > 0 &&
+              <IonCard className="ion-padding">
+                <IonText className="headingtd"><h3>User Details</h3></IonText>
+                <IonList className="usersItem" lines="none">
+                  {transactionDetails.user_details.map((data: any, index: any) => (
+                    <IonItem>
+                      <IonThumbnail slot="start">
+                        <IonIcon icon={personOutline}></IonIcon>
+                      </IonThumbnail>
+                      <IonText className="width100">
+                        <div className="detailsArrow">
+                          <h3>{data.first_name} {data.last_name}</h3>
+                        </div>
+                        <IonText className="d-flex phoneEmail">
+                          <p><IonIcon icon={call}></IonIcon>{data.mobile_no}</p>
+                          <p><IonIcon icon={mail}></IonIcon>{data.email_id}</p>
+                        </IonText>
+                      </IonText>
+                    </IonItem>
+                  ))}
+                </IonList>
+              </IonCard>
+            }
           </div>
         </div>
       </IonContent>
-                {isLoading && <Loader message={loadingMessage} />}
+      {isLoading && <Loader message={loadingMessage} />}
 
     </IonPage>
   );

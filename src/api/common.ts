@@ -5,8 +5,6 @@ import { formatDateTime } from '../utils/dateTimeUtils';
 import { useIonLoading } from '@ionic/react';
 import { useState } from 'react';
 
-
-
 const apiUrl: any = import.meta.env.VITE_API_URL;
 
 
@@ -18,137 +16,253 @@ export const uploadFile = async (formData: FormData) => {
     },
   };
   try {
-    const response = await axiosInstance.post(`${apiUrl}api/v1/uplod-file`,formData);
+    const response = await axiosInstance.post(`${apiUrl}api/v1/uplod-file`, formData);
     console.log(response);
     return response;
   }
-  catch(error : any){
-      return error.response.data;
-  }   
+  catch (error: any) {
+    return error.response.data;
+  }
 };
 export const getCourseList = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/courses-list`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
-export const getIndividualCourseList = async (payload: any) => {
-  try{
+export const getIndividualCourseList = async () => {
+  const payload = {
+    "columns": [
+      "tbl_courses.id as course_id",
+      "tbl_courses.course_name",
+      "tbl_courses.description"
+    ],
+    "order_by": {
+      "tbl_courses.course_name": "DESC"
+    },
+    "filters": {
+    },
+    "pagination": {
+      "limit": "10",
+      "page": "1"
+    }
+  }
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/trainee-users-courses-list`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
-export const getCorporateCourseList = async (payload: any) => {
-  try{
+export const getCorporateCourseList = async () => {
+  let payload = {
+    "columns": [
+      "tbl_courses.id as course_id",
+      "tbl_courses.course_name",
+      "tbl_courses.description"
+    ],
+    "order_by": {
+      "tbl_courses.course_name": "DESC"
+    },
+    "filters": {
+    },
+    "pagination": {
+      "limit": "10",
+      "page": "1"
+    }
+  }
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/corporate-user-courses-list`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const getIndividualCourseData = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/trainee-users-course-materials`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const getCorporateCourseData = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/corporate-user-course-employees`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const markAttendance = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/mark-trainee-attendance`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
-export const getUserList = async (payload: any) => {
-  try{
+export const getUserList = async () => {
+  let payload = {
+    "columns": [
+      "tbl_training_users.id",
+      "tbl_training_users.first_name",
+      "tbl_training_users.last_name",
+      "tbl_training_users.email_id",
+      "tbl_training_users.mobile_no",
+      "tbl_status.status_name",
+      "tbl_roles.role_name",
+      "tbl_status.id as status_id",
+
+    ],
+    "order_by": {
+      "tbl_training_users.created_on": "desc"
+    },
+    "filters": {
+
+    },
+    "pagination": {
+      "limit": "10",
+      "page": "1"
+    }
+  }
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/users-list`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const registerUser = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/create-user`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const getUserTypes = async (payload: any) => {
-  try{
+  try {
     const response = await axios.post(`${apiUrl}v1/get-registered-user-types`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const enrollCourseTraining = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/enroll-course-training`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const getBase64Path = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/download-file`, payload);
     return response;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const getTransactions = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/get-transaction-list`, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
-export const getTransactionDetails = async (payload: any) => {
-  try{
-    const response = await axiosInstance.post(`${apiUrl}v1/corporate-user-course-employees`, payload);
+export const getTransactionDetails = async (enrollmentId: any) => {
+  const storedUserData: any = localStorage.getItem('userData');
+  const parsedUserData: any = JSON.parse(storedUserData);
+  let payload;
+  let url;
+  if (parsedUserData.user_type == 17) {
+    payload = {
+      "columns": [
+        "tbl_enrolls.id",
+        "tbl_enrolls.enrollment_id",
+        "tbl_enrolls.no_of_courses",
+        "tbl_enrolls.no_of_users",
+        "tbl_enrolls.total_amount",
+        "tbl_enrolls.payment_status",
+        "tbl_enrolls.payment_id",
+        "tbl_courses.course_name",
+        "tbl_training_users.first_name",
+        "tbl_training_users.last_name",
+        "tbl_training_users.email_id",
+        "tbl_training_users.mobile_no"
+      ],
+      "order_by": {
+        "tbl_training_users.first_name": "ASC"
+      },
+      "filters": {
+        "tbl_enrolls.id": enrollmentId
+      },
+      "pagination": {
+        "limit": "10",
+        "page": "1"
+      }
+    }
+    url = `${apiUrl}v1/get-corporate-transaction-details`;
+  } else {
+    payload = {
+      "columns": [
+        "tbl_enrolls.id",
+        "tbl_enrolls.enrollment_id",
+        "tbl_enrolls.no_of_courses",
+        "tbl_enrolls.no_of_users",
+        "tbl_enrolls.total_amount",
+        "tbl_enrolls.payment_status",
+        "tbl_enrolls.payment_id",
+        "tbl_courses.course_name",
+        "tbl_courses.description",
+        "tbl_training_users.first_name",
+        "tbl_training_users.last_name",
+        "tbl_training_users.email_id"
+      ],
+      "order_by": {
+        "tbl_training_users.first_name": "ASC"
+      },
+      "filters": {
+        "tbl_enrolls.id": enrollmentId
+      },
+      "pagination": {
+        "limit": "10",
+        "page": "1"
+      }
+    }
+    url = `${apiUrl}v1/get-transaction-details`;
+  }
+  try {
+    const response = await axiosInstance.post(url, payload);
     return response.data;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };
 export const appSettings = async (payload: any) => {
-  try{
+  try {
     const response = await axiosInstance.post(`${apiUrl}v1/get-settings`, payload);
     return response;
   }
-  catch(error : any){
+  catch (error: any) {
     return error.response.data;
   }
 };

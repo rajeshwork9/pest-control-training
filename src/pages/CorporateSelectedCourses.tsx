@@ -45,26 +45,9 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     }, []);
 
     const getCoursesList = async () => {
-        let payload = {
-            "columns": [
-                "tbl_courses.id as course_id",
-                "tbl_courses.course_name",
-                "tbl_courses.description"
-            ],
-            "order_by": {
-                "tbl_courses.course_name":"DESC"
-            },
-            "filters": {
-            },
-            "pagination": {
-                "limit": "10",
-                "page": "1"
-            }
-        }
-        
         try {
             startLoading();
-            const response = await getCorporateCourseList(payload);
+            const response = await getCorporateCourseList();
             console.log("Leave Details", response);
             if (response.status == 200 && response.success) {
                 console.log(response);

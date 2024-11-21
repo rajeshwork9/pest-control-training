@@ -92,7 +92,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const viewTransactionDetails = async (transaction: any) => {
     history.push({
       pathname: "/transactions-details",
-      state: { id: transaction.enrollment_id }
+      state: { id: transaction.id }
     });
   }
   return (
@@ -119,7 +119,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                     <div className="detailsArrow">
                       <h3>{data.enrollment_id}</h3>
                       {/* onClick={(event) => viewTransactionDetails(data)} */}
-                      <IonButton className="detailsArrowIcon" fill="clear" >
+                      <IonButton className="detailsArrowIcon" fill="clear" onClick={(event) => viewTransactionDetails(data)}>
                         <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
                       </IonButton>
                     </div>

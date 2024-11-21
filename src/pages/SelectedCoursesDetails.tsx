@@ -112,6 +112,8 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     await Browser.open({ url: fileUrl + '' + file });
   };
   const downloadFile = async (file_name: any, file_path: string) => {
+    startLoading();
+    setLoadingMessage('Downloading...');
     getBase64Path({ file_path: file_path }).then(async (file) => {
       if (file) {
         console.log(file.data);
@@ -134,11 +136,17 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
               });
 
               console.log("File write result:", result);
+              stopLoading();
+              setLoadingMessage('Loading...');
               await toast.success("File downloaded successfully.");
             } else {
+              stopLoading();
+              setLoadingMessage('Loading...');
               throw new Error("Filesystem components not available.");
             }
           } catch (error) {
+            stopLoading();
+            setLoadingMessage('Loading...');
             console.error("Error writing file:", error);
             await toast.error("Failed to download the file. Please try again.");
           }
@@ -150,8 +158,12 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             downloadLink.href = base64Data;
             downloadLink.download = fileName;
             downloadLink.click();
+            stopLoading();
+            setLoadingMessage('Loading...');
             await toast.success("File downloaded successfully.");
           } catch (error) {
+            stopLoading();
+            setLoadingMessage('Loading...');
             console.error("Error downloading file:", error);
             await toast.error("Failed to download the file. Please try again.");
           }

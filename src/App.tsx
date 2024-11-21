@@ -75,6 +75,8 @@ import Transactions from './pages/Transactions';
 import TransactionsDetails from './pages/TransactionsDetails';
 import CorporateSelectedCourses from './pages/CorporateSelectedCourses';
 import CorporateSelectedCoursesDetails from './pages/CorporateSelectedCoursesDetails';
+import Attendance from './pages/Attendance';
+import Quiz from './pages/Quiz';
 
 
 setupIonicReact({
@@ -190,12 +192,15 @@ const App: React.FC = () => {
               <Route path="/signup" component={Signup} />
               <AuthGuard roles={[8, 16, 17]} path="/reset-password" component={ResetPassword} />
               <AuthGuard roles={[8, 16]} path="/dashboard" component={Dashboard} />
+              <AuthGuard roles={[8, 16]} path="/attendance" component={Attendance} />
               <AuthGuard roles={[8, 16, 17]} path="/enrollcourses" component={EnrollCourses} />
               <AuthGuard roles={[8, 16, 17]} path="/enroll-courses-details" component={EnrollCoursesDetails} />
               <AuthGuard roles={[8, 16, 17]} path="/payment-details" component={user_type == 17 ? CorporatePaymentDetails : PaymentDetails} />
               <AuthGuard roles={[8, 16, 17]} path="/payment-confirmation" component={PaymentConfirmation} />
               <AuthGuard roles={[8, 16]} path="/selected-courses" component={SelectedCourses} />
               <AuthGuard roles={[8, 16]} path="/selected-courses-details" component={SelectedCoursesDetails} />
+              <AuthGuard roles={[8, 16]} path="/quiz" component={Quiz} />
+
 
               <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />
               <AuthGuard roles={[8,16,17]} path="/transactions" component={Transactions} />

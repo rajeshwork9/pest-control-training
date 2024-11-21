@@ -27,6 +27,7 @@ import useLoading from '../components/useLoading';
 import { getCourseList, getIndividualCourseList } from '../api/common';
 import { toast } from 'react-toastify';
 import { useAuth } from '../api/AuthContext';
+import NoDataFound from '../components/NoDataFound';
 
 const SelectedCourses: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -45,26 +46,9 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   }, []);
 
   const getCoursesList = async () => {
-    let payload = {
-      "columns": [
-        "tbl_courses.id as course_id",
-        "tbl_courses.course_name",
-        "tbl_courses.description"
-      ],
-      "order_by": {
-        "tbl_courses.course_name": "DESC"
-      },
-      "filters": {
-      },
-      "pagination": {
-        "limit": "10",
-        "page": "1"
-      }
-    }
-
     try {
       startLoading();
-      const response = await getIndividualCourseList(payload);
+      const response = await getIndividualCourseList();
       console.log("Leave Details", response);
       if (response.status == 200 && response.success) {
         console.log(response);
@@ -121,12 +105,15 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                   </IonText>
                 </IonItem>
               ))}
+              {courseList && courseList.length === 0 &&
+                    <NoDataFound message="No enrolled courses" />
+              }
             </IonList>
 
           </div>
         </div>
       </IonContent>
-                {isLoading && <Loader message={loadingMessage} />}
+      {isLoading && <Loader message={loadingMessage} />}
     </IonPage>
   );
 };

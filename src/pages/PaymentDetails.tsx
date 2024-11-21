@@ -24,6 +24,7 @@ import {
   IonCardContent,
   IonFooter,
 } from "@ionic/react";
+
 import { useHistory } from 'react-router';
 import Loader from '../components/Loader';
 import { ribbon, checkmark, create } from 'ionicons/icons'
@@ -180,8 +181,6 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             <IonTitle>Payment Details</IonTitle>
           </IonToolbar>
         </IonHeader>
-
-
         <IonContent fullscreen className="colorBg paymentDetails ionContentBottom">
           <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
           <div className="bgSvg">

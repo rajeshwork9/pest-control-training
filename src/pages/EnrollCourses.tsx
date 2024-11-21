@@ -27,6 +27,7 @@ import useLoading from '../components/useLoading';
 import { getCourseList } from '../api/common';
 import { toast } from 'react-toastify';
 import { useAuth } from '../api/AuthContext';
+import NoDataFound from '../components/NoDataFound';
 
 const EnrollCourses: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -211,12 +212,15 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                     </IonText>
                   </IonItem>
                 ))}
+                {courseList && courseList.length === 0 &&
+                    <NoDataFound message="Oops! Nothing to display here." />
+                }
               </IonList>
 
             </div>
           </div>
         </IonContent>
-                {isLoading && <Loader message={loadingMessage} />}
+        {isLoading && <Loader message={loadingMessage} />}
 
         <IonFooter>
           <IonToolbar>

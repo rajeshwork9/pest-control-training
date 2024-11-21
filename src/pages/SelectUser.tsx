@@ -48,32 +48,9 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   }, []);
 
   const getUsersList = async () => {
-    let payload = {
-      "columns": [
-        "tbl_training_users.id",
-        "tbl_training_users.first_name",
-        "tbl_training_users.last_name",
-        "tbl_training_users.email_id",
-        "tbl_training_users.mobile_no",
-        "tbl_status.status_name",
-        "tbl_roles.role_name",
-        "tbl_status.id as status_id",
-
-      ],
-      "order_by": {
-        "tbl_training_users.created_on": "desc"
-      },
-      "filters": {
-        "tbl_status.id": 3
-      },
-      "pagination": {
-        "limit": "10",
-        "page": "1"
-      }
-    }
     try {
       startLoading();
-      const response = await getUserList(payload);
+      const response = await getUserList();
       console.log("Leave Details", response);
       if (response.status == 200 && response.success) {
         console.log(response);

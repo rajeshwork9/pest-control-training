@@ -29,6 +29,7 @@ import { ribbon, ellipse, call, mail, add } from 'ionicons/icons'
 import useLoading from '../components/useLoading';
 import { getUserList } from '../api/common';
 import { toast } from 'react-toastify';
+import NoDataFound from '../components/NoDataFound';
 
 const UserList: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -41,32 +42,10 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   }, []);
 
   const getUsersList = async () => {
-    let payload = {
-      "columns": [
-        "tbl_training_users.id",
-        "tbl_training_users.first_name",
-        "tbl_training_users.last_name",
-        "tbl_training_users.email_id",
-        "tbl_training_users.mobile_no",
-        "tbl_status.status_name",
-        "tbl_roles.role_name",
-        "tbl_status.id as status_id",
-
-      ],
-      "order_by": {
-        "tbl_training_users.created_on": "desc"
-      },
-      "filters": {
-        
-      },
-      "pagination": {
-        "limit": "10",
-        "page": "1"
-      }
-    }
+    
     try {
       startLoading();
-      const response = await getUserList(payload);
+      const response = await getUserList();
       console.log("Leave Details", response);
       if (response.status == 200 && response.success) {
         console.log(response);
@@ -129,12 +108,13 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                       <p><IonIcon icon={call}></IonIcon>{data.mobile_no}</p>
                       <p><IonIcon icon={mail}></IonIcon>{data.email_id}</p>
                     </IonText>
-
                   </IonText>
                 </IonItem>
               </IonCard>
             ))}
-
+            {UserList && UserList.length === 0 &&
+                <NoDataFound message="No enrolled courses" />
+            }
           </div>
 
 
