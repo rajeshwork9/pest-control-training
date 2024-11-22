@@ -257,6 +257,74 @@ export const getTransactionDetails = async (enrollmentId: any) => {
     return error.response.data;
   }
 };
+export const getQuizList = async () => {
+  const payload = {
+    "columns": [
+      "tbl_quiz.id",
+      "tbl_quiz.quiz_name",
+      "tbl_quiz.total_marks",
+      "tbl_quiz.no_of_questions"
+    ],
+    "order_by": {
+      "tbl_quiz.created_by": "DESC"
+    },
+    "filters": {},
+    "pagination": {
+      "limit": "10",
+      "page": "1"
+    }
+  }
+  try {
+    const response = await axiosInstance.post(`${apiUrl}v1/get-quiz`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
+export const getExamData = async (quiz_id: any) => {
+  const payload = {
+    "columns": [
+      "tbl_quiz.id as quiz_id",
+      "tbl_quiz.quiz_name",
+      "tbl_quiz.total_marks",
+      "tbl_quiz.no_of_questions",
+      "tbl_training_questionnaires.id as question_id",
+      "tbl_training_questionnaires.question",
+      "tbl_training_questionnaires.marks",
+      "tbl_training_answers.id as answer_id",
+      "tbl_training_answers.answer",
+      "tbl_training_answers.is_correct"
+    ],
+    "order_by": {
+      "tbl_quiz.created_by": "DESC"
+    },
+    "filters": {
+      "tbl_quiz.id": quiz_id
+    },
+    "pagination": {
+      "limit": "100",
+      "page": "1"
+    }
+  }
+
+  try {
+    const response = await axiosInstance.post(`${apiUrl}v1/get-quiz-questions`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
+export const validateExam = async (payload: any) => {
+  try {
+    const response = await axiosInstance.post(`${apiUrl}v1/validate-quiz`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
 export const appSettings = async (payload: any) => {
   try {
     const response = await axiosInstance.post(`${apiUrl}v1/get-settings`, payload);

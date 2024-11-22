@@ -77,6 +77,7 @@ import CorporateSelectedCourses from './pages/CorporateSelectedCourses';
 import CorporateSelectedCoursesDetails from './pages/CorporateSelectedCoursesDetails';
 import Attendance from './pages/Attendance';
 import Quiz from './pages/Quiz';
+import Exam from './pages/Exam';
 
 
 setupIonicReact({
@@ -200,6 +201,7 @@ const App: React.FC = () => {
               <AuthGuard roles={[8, 16]} path="/selected-courses" component={SelectedCourses} />
               <AuthGuard roles={[8, 16]} path="/selected-courses-details" component={SelectedCoursesDetails} />
               <AuthGuard roles={[8, 16]} path="/quiz" component={Quiz} />
+              <AuthGuard roles={[8, 16]} path="/exam" component={Exam} />
 
 
               <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />

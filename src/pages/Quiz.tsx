@@ -25,7 +25,7 @@ import { useHistory } from 'react-router';
 import Loader from '../components/Loader';
 import { ribbon, ellipse, call, mail, add, personOutline } from 'ionicons/icons'
 import useLoading from '../components/useLoading';
-import { getTransactionDetails, getUserList } from '../api/common';
+import { getQuizList, getTransactionDetails, getUserList } from '../api/common';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
 import { useAuth } from "../api/AuthContext";
@@ -39,31 +39,31 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/zoom';
 import '@ionic/react/css/ionic-swiper.css';
+import NoDataFound from "../components/NoDataFound";
 
 
 const Quiz: React.FC = () => {
     const { isLoading, startLoading, stopLoading } = useLoading();
     const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     const { userData } = useAuth();
-    const [transactionDetails, setTransactionDetails] = useState<any>([]);
+    const [quizList, setQuizList] = useState<any>([]);
     const history = useHistory();
-    const filePath = useHistory();
     const queryParams: any = history.location.state;
 
 
     useEffect(() => {
-        getTransactionData();
+        getQuiz();
     }, []);
 
-    const getTransactionData = async () => {
+    const getQuiz = async () => {
 
         try {
             startLoading();
-            const response = await getTransactionDetails(queryParams.id);
+            const response = await getQuizList();
             console.log("Details", response);
             if (response.status == 200 && response.success) {
                 console.log(response);
-                setTransactionDetails(response.data);
+                setQuizList(response.data);
             }
             else {
                 toast.dismiss();
@@ -77,6 +77,12 @@ const Quiz: React.FC = () => {
             stopLoading();
         }
     }
+    const viewQuizDetails = async (quiz: any) => {
+        history.push({
+          pathname: "/exam",
+          state: { id: quiz.id }
+        });
+      }
     return (
         <IonPage>
             <IonHeader className="ion-header">
@@ -84,24 +90,60 @@ const Quiz: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton></IonBackButton>
                     </IonButtons>
-                    <IonTitle>Transactions Details</IonTitle>
+                    <IonTitle>Quiz List</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent fullscreen className="colorBg transDetailsWrapp">
-                <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
-                <div className="bgSvg">
-                    <div className="tdCard ion-margin-top">
-                        <IonCard className="ion-padding">
-                            <IonText className="headingtd"><h3>Payment Details</h3></IonText>
-                            <Swiper>
-                                <SwiperSlide>Slide 1</SwiperSlide>
-                                <SwiperSlide>Slide 2</SwiperSlide>
-                                <SwiperSlide>Slide 3</SwiperSlide>
-                            </Swiper>
-                        </IonCard>
+            <IonContent fullscreen className="colorBg selectedCoursesWrapp">
+        <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
+        <div className="bgSvg">
+          <div className="ion-margin">
+            <IonList className="coursesItem" lines="none">
+            {quizList && quizList.length > 0 && quizList.map((data: any, index: any) => (
+              <IonCard className="userItem">
+                <IonItem lines="none" color="none">
+                  <IonText>
+                    <div className="detailsArrow">
+                      <h3>{data.quiz_name}</h3>
+                      {/* onClick={(event) => viewTransactionDetails(data)} */}
+                      <IonButton className="detailsArrowIcon" fill="clear" onClick={(event) => viewQuizDetails(data)}>
+                        <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
+                      </IonButton>
                     </div>
+                  </IonText>
+                </IonItem>
+                <div className="tranListCount">
+                  <IonRow>
+                    <IonCol size="4">
+                      <IonText>
+                        <p>Marks</p>
+                        <h6>{data.total_marks}</h6>
+                      </IonText>
+                    </IonCol>
+                    <IonCol size="4">
+                      <IonText>
+                        <p>Questions</p>
+                        <h6>{data.no_of_questions}</h6>
+                      </IonText>
+                    </IonCol>
+                    <IonCol size="4">
+                      <IonText>
+                        <p>Time</p>
+                        <h6>{data.no_of_questions}</h6>
+                      </IonText>
+                    </IonCol>
+                  </IonRow>
                 </div>
-            </IonContent>
+              </IonCard>
+            ))}
+              {quizList && quizList.length === 0 &&
+                    <NoDataFound message="No data found" />
+              }
+            </IonList>
+
+          </div>
+        </div>
+      </IonContent>
+      {isLoading && <Loader message={loadingMessage} />}
             {isLoading && <Loader message={loadingMessage} />}
 
         </IonPage>
