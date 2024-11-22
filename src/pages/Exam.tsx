@@ -23,6 +23,7 @@ import {
     IonRadioGroup,
     IonRadio,
     IonAlert,
+    IonProgressBar,
 } from "@ionic/react";
 import { useHistory } from 'react-router';
 import Loader from '../components/Loader';
@@ -34,6 +35,9 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../api/AuthContext";
 import NoDataFound from "../components/NoDataFound";
 import { Swiper, SwiperSlide } from "swiper/react";
+
+
+
 
 const Exam: React.FC = () => {
     const { isLoading, startLoading, stopLoading } = useLoading();
@@ -49,12 +53,21 @@ const Exam: React.FC = () => {
     const [submitExam, setSubmitExam] = useState<boolean>(false);
     const [submitExamMessage, setSubmitExamMessage] = useState<string>('');
     const swiperRef = useRef<any>(null); // Ref for the Swiper component
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         getExam();
+
+        const interval = setInterval(() => {
+            setProgress((prevProgress) => prevProgress + 0.01);
+          });        
+          return () => clearInterval(interval);
+
     }, []);
 
     const getExam = async () => {
+
+
 
         try {
             startLoading();
@@ -320,11 +333,19 @@ const Exam: React.FC = () => {
             <IonContent fullscreen className="colorBg transDetailsWrapp">
                 <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
                 <div className="bgSvg">
-                    <IonText className="tdpayment">
-                        <h2>{examData.quiz_name} <span></span></h2>
-                        <h6>Questions : {examData.no_of_questions} &nbsp; Marks : {examData.total_marks}</h6>
-                    </IonText>
-                    <div className="">
+
+                    <div className="examhd">
+                        <IonText>
+                            <h2>{examData.quiz_name} <span></span></h2>
+                            <h6><span>Questions :</span> {examData.no_of_questions} &nbsp; 
+                            <span>Marks :</span> {examData.total_marks}</h6>
+                        </IonText>
+
+                        <IonProgressBar color="warning" value={progress}></IonProgressBar>
+                        <IonText className="probarCount">3 of 20</IonText>
+                    </div>
+
+                    {/* <div className="">
                         <IonCard className="questionList">
                             <IonRow>
                                 {examData.questions && examData.questions.length > 0 && examData.questions.map((data: any, index: any) => (
@@ -336,8 +357,8 @@ const Exam: React.FC = () => {
                                 ))}
                             </IonRow>
                         </IonCard>
-                    </div>
-                    <div className="tdCard ion-margin-top">
+                    </div> */}
+                    <div className="examDataWrapp ion-margin-top ">
                         <Swiper
                             ref={swiperRef}
                             onSlideChange={onSlideChange} // Update the index on slide change
@@ -347,9 +368,11 @@ const Exam: React.FC = () => {
                             centeredSlides={false}
                         >
                             {examData.questions && examData.questions.length > 0 && examData.questions.map((data: any, index: any) => (
-                                <SwiperSlide>
-                                    <IonCard className="ion-padding">
-                                        <IonText className="headingtd"><h3>{index + 1}.{data.question}</h3></IonText>
+                                <SwiperSlide>  
+                                    <div className="questionNum">{index + 1}</div>                                 
+                                    <IonCard className="ion-padding questionsData">
+                                       
+                                        <IonText className="headingtd"><h3> {data.question}</h3></IonText>
                                         <IonRadioGroup className="optionsRadioGroup"
                                             value={selectedAnswers.find((ans) => ans.question_id === data.question_id)?.answer_id || ''}
                                             onIonChange={(e) => handleAnswerClick(data.question_id, e.detail.value)}
@@ -372,7 +395,7 @@ const Exam: React.FC = () => {
             <IonFooter>
                 <IonToolbar>
                     <div style={{ display: "flex", justifyContent: "center" }}>
-                        <IonButton shape="round" expand="block" color="primary"
+                        <IonButton shape="round" expand="full" color="primary" fill="outline"
                             onClick={prevSlide}
                             disabled={currentIndex === 0} // Disable "Previous" on the first slide
                         >
@@ -380,7 +403,7 @@ const Exam: React.FC = () => {
                         </IonButton>
                         {currentIndex !== questionsCount &&
 
-                            <IonButton shape="round" expand="block" color="primary"
+                            <IonButton shape="round" expand="full" color="primary"
                                 onClick={nextSlide}
                             // Disable "Next" on the last slide
                             >
@@ -388,7 +411,7 @@ const Exam: React.FC = () => {
                             </IonButton>
                         }
                         {currentIndex === questionsCount &&
-                            <IonButton onClick={(event) => handleSubmit()} shape="round" expand="block" color="primary" >Submit</IonButton>
+                            <IonButton onClick={(event) => handleSubmit()} shape="round" expand="full" color="primary" >Submit</IonButton>
                         }
                     </div>
                 </IonToolbar>

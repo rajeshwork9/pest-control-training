@@ -93,25 +93,22 @@ const Quiz: React.FC = () => {
                     <IonTitle>Quiz List</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent fullscreen className="colorBg selectedCoursesWrapp">
+            <IonContent fullscreen className="colorBg quizWrapp">
         <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
         <div className="bgSvg">
-          <div className="ion-margin">
-            <IonList className="coursesItem" lines="none">
-            {quizList && quizList.length > 0 && quizList.map((data: any, index: any) => (
-              <IonCard className="userItem">
+          <div>
+            <IonList className="quizIList" lines="none">
+             {quizList && quizList.length > 0 && quizList.map((data: any, index: any) => (
+              <IonCard>
                 <IonItem lines="none" color="none">
-                  <IonText>
-                    <div className="detailsArrow">
-                      <h3>{data.quiz_name}</h3>
+                  <IonText><h3>{data.quiz_name}</h3></IonText>
                       {/* onClick={(event) => viewTransactionDetails(data)} */}
-                      <IonButton className="detailsArrowIcon" fill="clear" onClick={(event) => viewQuizDetails(data)}>
+                      <IonButton slot="end" className="detailsArrowIcon" fill="clear" onClick={(event) => viewQuizDetails(data)}>
                         <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
                       </IonButton>
-                    </div>
-                  </IonText>
                 </IonItem>
-                <div className="tranListCount">
+
+                <div className="quizCount">
                   <IonRow>
                     <IonCol size="4">
                       <IonText>
@@ -134,10 +131,10 @@ const Quiz: React.FC = () => {
                   </IonRow>
                 </div>
               </IonCard>
-            ))}
-              {quizList && quizList.length === 0 &&
-                    <NoDataFound message="No data found" />
-              }
+              ))}
+                {quizList && quizList.length === 0 &&
+                      <NoDataFound message="No data found" />
+                }
             </IonList>
 
           </div>

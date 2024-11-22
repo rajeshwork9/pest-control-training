@@ -26,7 +26,7 @@
 //     font-style: normal;
 // }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 body {
   font-family: var(--ion-font-family);
@@ -48,7 +48,7 @@ ion-textarea {
     padding: 4px 0px 0px 0px;
     padding: 0px;
     outline: none;
-    color: #1B428A;
+    color: #1b428a;
     font-weight: 500;
     font-size: 0.9rem;
     border: none;
@@ -57,7 +57,7 @@ ion-textarea {
   .fieldName {
     font-size: 0.7rem;
     font-weight: 500;
-    color: #1B428A;
+    color: #1b428a;
     padding: 4px 0px 0px 0px;
   }
 
@@ -90,7 +90,7 @@ ion-textarea {
 }
 
 .orangeBt {
-  --background: #EE7303;
+  --background: #ee7303;
   --box-shadow: none;
   height: 37px;
   --padding-start: 15px;
@@ -99,7 +99,7 @@ ion-textarea {
 }
 
 .colorBg {
-  --background: #F5FBFF;
+  --background: #f5fbff;
 }
 
 .d-flex {
@@ -126,7 +126,6 @@ ion-textarea {
   position: fixed;
   right: 0px;
   z-index: -1;
-
 }
 
 .bgSvg:after {
@@ -142,7 +141,6 @@ ion-textarea {
   background-position-x: left;
   background-size: contain;
 }
-
 
 .homeHeading {
   font-size: 2rem;
@@ -182,27 +180,23 @@ ion-textarea {
       margin-right: 20px;
     }
   }
-
 }
 
 .logoLeft {
   width: 70px;
   position: absolute;
   left: 15px;
-
 }
 
 .headerLoginImgLogo {
   width: 100%;
 
   .loginlogoLeft {
-
     position: absolute;
     left: 15px;
     display: flex;
     justify-content: flex-end;
   }
-
 
   ion-button {
     --padding-start: 0px;
@@ -261,14 +255,14 @@ ion-textarea {
 
       ion-input {
         font-size: 0.9rem;
-        --color: #1B428A;
+        --color: #1b428a;
         font-weight: 500;
         --border-width: 0px;
       }
 
       ion-select {
         font-size: 0.9rem;
-        color: #1B428A;
+        color: #1b428a;
         font-weight: 500;
         --border-width: 0px;
       }
@@ -288,7 +282,7 @@ ion-textarea {
 
     p {
       font-weight: 400;
-      color: #6C6C6C;
+      color: #6c6c6c;
       margin: 4px 0px 10px 0px;
     }
   }
@@ -297,8 +291,6 @@ ion-textarea {
     --padding-start: 0px;
     --padding-end: 0px;
     margin: 15px 0px;
-    ;
-
     .forgotpassword {
       --padding-start: 0px;
       --padding-end: 0px;
@@ -306,7 +298,7 @@ ion-textarea {
       --padding-top: 0px;
       --padding-bottom: 0px;
       margin-top: -6px;
-      --color: #EE7303;
+      --color: #ee7303;
 
       span {
         color: #333;
@@ -327,13 +319,12 @@ ion-textarea {
 
     ion-button {
       margin-top: 0px;
-      --color: #EE7303;
+      --color: #ee7303;
       --padding-top: 9px;
       font-weight: 600;
       display: block;
     }
   }
-
 }
 
 .opTInput {
@@ -345,11 +336,10 @@ ion-textarea {
     --padding-bottom: 0px;
   }
 
-
   ion-input {
     margin: 10px;
     font-size: 1.5rem;
-    --color: #1B428A;
+    --color: #1b428a;
     font-weight: 500;
     --border-width: 0px;
     --background: #fff;
@@ -358,8 +348,6 @@ ion-textarea {
     text-align: center;
   }
 }
-
-
 
 .signupWrapp {
   .headerLoginImgLogo {
@@ -457,9 +445,6 @@ ion-header {
       }
     }
   }
-
-
-
 }
 
 ion-footer {
@@ -486,7 +471,6 @@ ion-footer {
       margin-right: 6px;
     }
   }
-
 }
 
 .coursesItem {
@@ -496,7 +480,7 @@ ion-footer {
 
   background: transparent;
   --margin-start: 0px;
-  padding:0px;
+  padding: 0px;
 
   .detailsArrow {
     display: flex;
@@ -521,9 +505,9 @@ ion-footer {
 
   ion-item {
     margin-bottom: 15px;
-    --background: #F3FFFD;
+    --background: #f3fffd;
     --border-width: 1px;
-    --border-color: #BDE6D3;
+    --border-color: #bde6d3;
     --border-radius: 4px;
     border-radius: 4px;
     --border-style: solid;
@@ -532,13 +516,13 @@ ion-footer {
     --inner-padding-left: 0px;
     --inner-padding-right: 10px;
     align-items: flex-start;
-    border: solid 1px #BDE6D3;
+    border: solid 1px #bde6d3;
 
     ion-text {
       h3 {
         font-size: 0.92rem;
         --font-weight: 500;
-        color: #1E584E;
+        color: #1e584e;
         margin: 0px 0px 4px 0px;
         padding: 0px;
       }
@@ -561,7 +545,7 @@ ion-footer {
 
       ion-icon {
         font-size: 38px;
-        color: #3CA795;
+        color: #3ca795;
       }
     }
 
@@ -574,10 +558,10 @@ ion-footer {
       border-radius: 100px;
       width: 25px;
       height: 25px;
-      border: solid 1px #A3DCC1;
+      border: solid 1px #a3dcc1;
 
       ion-icon {
-        color: #A3DCC1;
+        color: #a3dcc1;
         width: 21px;
         height: 21px;
         padding-top: 1px;
@@ -588,8 +572,7 @@ ion-footer {
   ion-checkbox {
     --size: 23px;
     --checkbox-background-checked: #fff;
-    --checkmark-color: #EE7303;
-
+    --checkmark-color: #ee7303;
   }
 
   ion-checkbox::part(container) {
@@ -604,7 +587,7 @@ ion-footer {
   }
 
   ion-item.itemActive {
-    --background: #EE7303 !important;
+    --background: #ee7303 !important;
 
     // --border-color:#BDE6D3;
     .detailsArrowIcon {
@@ -628,22 +611,18 @@ ion-footer {
     }
 
     .checkmark {
-      border: solid 1px #EE7303;
+      border: solid 1px #ee7303;
 
       ion-icon {
-        color: #EE7303 !important;
+        color: #ee7303 !important;
       }
     }
 
     ion-checkbox::part(container) {
-
-      border: 1px solid #EE7303;
+      border: 1px solid #ee7303;
       padding: 2px;
     }
   }
-
-
-
 }
 
 .usersItem {
@@ -657,7 +636,7 @@ ion-footer {
 
   background: transparent;
   --margin-start: 0px;
-  padding:0px;
+  padding: 0px;
 
   .detailsArrow {
     display: flex;
@@ -682,9 +661,9 @@ ion-footer {
 
   ion-item {
     //margin-top:15px;
-    --background: #F3FFFD;
+    --background: #f3fffd;
     --border-width: 1px;
-    --border-color: #BDE6D3;
+    --border-color: #bde6d3;
     --border-radius: 4px;
     border-radius: 4px;
     --border-style: solid;
@@ -693,13 +672,13 @@ ion-footer {
     --inner-padding-left: 0px;
     --inner-padding-right: 10px;
     align-items: flex-start;
-    border: solid 1px #BDE6D3;
+    border: solid 1px #bde6d3;
 
     ion-text {
       h3 {
         font-size: 0.92rem;
         --font-weight: 500;
-        color: #1E584E;
+        color: #1e584e;
         margin: 4px 0px 4px 0px !important;
         padding: 0px;
       }
@@ -722,7 +701,7 @@ ion-footer {
 
       ion-icon {
         font-size: 38px;
-        color: #3CA795;
+        color: #3ca795;
       }
     }
 
@@ -735,10 +714,10 @@ ion-footer {
       border-radius: 100px;
       width: 25px;
       height: 25px;
-      border: solid 1px #A3DCC1;
+      border: solid 1px #a3dcc1;
 
       ion-icon {
-        color: #A3DCC1;
+        color: #a3dcc1;
         width: 21px;
         height: 21px;
         padding-top: 1px;
@@ -749,8 +728,7 @@ ion-footer {
   ion-checkbox {
     --size: 23px;
     --checkbox-background-checked: #fff;
-    --checkmark-color: #EE7303;
-
+    --checkmark-color: #ee7303;
   }
 
   ion-checkbox::part(container) {
@@ -765,7 +743,7 @@ ion-footer {
   }
 
   ion-item.itemActive {
-    --background: #EE7303 !important;
+    --background: #ee7303 !important;
 
     // --border-color:#BDE6D3;
     .detailsArrowIcon {
@@ -789,16 +767,15 @@ ion-footer {
     }
 
     .checkmark {
-      border: solid 1px #EE7303;
+      border: solid 1px #ee7303;
 
       ion-icon {
-        color: #EE7303 !important;
+        color: #ee7303 !important;
       }
     }
 
     ion-checkbox::part(container) {
-
-      border: 1px solid #EE7303;
+      border: 1px solid #ee7303;
       padding: 2px;
     }
   }
@@ -814,9 +791,9 @@ ion-footer {
       align-items: flex-start;
 
       margin-bottom: 0px;
-      --background: #1B428A;
+      --background: #1b428a;
       --border-width: 1px;
-      --border-color: #BDE6D3;
+      --border-color: #bde6d3;
       --border-radius: 4px;
       --border-style: solid;
       --inner-padding-top: 15px;
@@ -836,7 +813,7 @@ ion-footer {
         p {
           font-size: 0.75rem;
           --font-weight: 400;
-          color: #C1D6FF;
+          color: #c1d6ff;
           margin: 0px;
           padding: 0px 0px 10px 0px;
           line-height: 18px;
@@ -850,14 +827,14 @@ ion-footer {
 
         ion-icon {
           font-size: 38px;
-          color: #B1C5EB;
+          color: #b1c5eb;
         }
       }
     }
   }
 
   .coursePrice {
-    border: solid 1px #E5EDF8;
+    border: solid 1px #e5edf8;
     background: #fff;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -897,21 +874,20 @@ ion-footer {
   .courseHeading {
     margin-top: 20px;
     font-size: 0.9rem;
-    color: #1B428A;
+    color: #1b428a;
     font-weight: 500;
     display: block;
   }
 }
 
-
 .paymentDetails {
   .totalPaymentCard {
-    --background: #186DDB;
+    --background: #186ddb;
     padding: 14px 15px;
 
     p {
       margin: 0px;
-      color: #E3EDFF;
+      color: #e3edff;
       font-size: 0.86rem;
     }
 
@@ -922,25 +898,25 @@ ion-footer {
     }
 
     ion-button {
-      --background: #0544B8 !important;
+      --background: #0544b8 !important;
       --box-shadow: none;
     }
   }
 
   .corporateTotalPaymentCard {
     margin-top: 20px;
-    --background: #1B428A;
+    --background: #1b428a;
     padding: 14px 15px;
 
     p {
       margin: 0px;
-      color: #E3EDFF;
+      color: #e3edff;
       font-size: 0.86rem;
 
       span {
         font-weight: 600;
         font-size: 0.9rem;
-        color: #B3CEFF;
+        color: #b3ceff;
         margin-left: 10px;
       }
     }
@@ -952,7 +928,7 @@ ion-footer {
     }
 
     ion-button {
-      --background: #0544B8 !important;
+      --background: #0544b8 !important;
       --box-shadow: none;
     }
   }
@@ -990,8 +966,6 @@ ion-footer {
     ion-checkbox {
       font-size: 0.9rem;
     }
-
-
   }
 
   .totalAde {
@@ -1009,10 +983,9 @@ ion-footer {
       font-size: 1rem;
 
       span {
-        color: #8D8D8D;
+        color: #8d8d8d;
       }
     }
-
   }
 }
 
@@ -1040,7 +1013,7 @@ ion-footer {
     text-align: center;
 
     h1 {
-      color: #27B439;
+      color: #27b439;
     }
 
     h4 {
@@ -1052,8 +1025,6 @@ ion-footer {
     }
   }
 }
-
-
 
 .selectedCoursesWrapp {
   background: transparent;
@@ -1100,7 +1071,7 @@ ion-footer {
       h3 {
         font-size: 0.95rem;
         --font-weight: 500;
-        color: #1E584E;
+        color: #1e584e;
         margin: 0px 0px 7px 0px;
         padding: 0px;
       }
@@ -1122,16 +1093,15 @@ ion-footer {
 
       ion-icon {
         font-size: 38px;
-        color: #3CA795;
+        color: #3ca795;
       }
     }
   }
 }
 
-
 .seclectedCoursesDetailsWrapp {
   .blueBg {
-    background: #1B428A;
+    background: #1b428a;
   }
 
   .coursesDHeader {
@@ -1145,7 +1115,7 @@ ion-footer {
       margin-bottom: 0px;
       --background: transparent;
       --border-width: 0px;
-      --border-color: #BDE6D3;
+      --border-color: #bde6d3;
       --border-radius: 0px;
       --border-style: solid;
       --inner-padding-top: 15px;
@@ -1165,7 +1135,7 @@ ion-footer {
         p {
           font-size: 0.75rem;
           --font-weight: 400;
-          color: #C1D6FF;
+          color: #c1d6ff;
           margin: 0px;
           padding: 0px 0px 10px 0px;
           line-height: 18px;
@@ -1179,7 +1149,7 @@ ion-footer {
 
         ion-icon {
           font-size: 38px;
-          color: #B1C5EB;
+          color: #b1c5eb;
         }
       }
     }
@@ -1194,7 +1164,7 @@ ion-footer {
 
     h6 {
       font-size: 0.7rem;
-      color: #B1C5EB;
+      color: #b1c5eb;
       font-weight: 400;
       margin: 0px 0px 5px 0px;
     }
@@ -1208,7 +1178,7 @@ ion-footer {
       span {
         font-weight: 600;
         font-size: 0.7rem;
-        color: #BCC8DD;
+        color: #bcc8dd;
       }
     }
   }
@@ -1228,18 +1198,17 @@ ion-footer {
   .courseHeading {
     margin-top: 20px;
     font-size: 0.9rem;
-    color: #1B428A;
+    color: #1b428a;
     font-weight: 500;
     display: block;
   }
 }
 
 .dashboardWrapp {
-
   .corporateTotalPaymentCard {
     position: relative;
     margin-top: 20px;
-    --background: #1B428A;
+    --background: #1b428a;
     padding: 0px 0px 0px 15px;
 
     ion-item {
@@ -1257,13 +1226,13 @@ ion-footer {
 
     p {
       margin: 0px;
-      color: #99B4E5;
+      color: #99b4e5;
       font-size: 0.8rem;
 
       span {
         font-weight: 600;
         font-size: 0.9rem;
-        color: #B3CEFF;
+        color: #b3ceff;
         margin-left: 10px;
       }
     }
@@ -1341,7 +1310,6 @@ ion-footer {
   }
 }
 
-
 .checkbox-icon {
   border-radius: 50% !important;
   width: 25px !important;
@@ -1361,8 +1329,8 @@ ion-footer {
   }
 
   .filesActive {
-    color: #00A2B1;
-    border-bottom: solid 4px #00A2B1;
+    color: #00a2b1;
+    border-bottom: solid 4px #00a2b1;
     font-size: 1.2rem;
     font-weight: 600;
     padding-right: 20px;
@@ -1377,7 +1345,7 @@ ion-footer {
       box-shadow: 0px 3px 6px #00000029;
 
       .scd-downloadBt {
-        --color: #186DDB;
+        --color: #186ddb;
         font-size: 1.3rem;
         --padding-start: 0px;
         --padding-end: 0px;
@@ -1401,7 +1369,7 @@ ion-footer {
 
 .ion-seachbar {
   --border-radius: 50px;
-  border-color: #D7DBDE;
+  border-color: #d7dbde;
 }
 
 .phoneEmail {
@@ -1445,7 +1413,6 @@ ion-footer {
     --padding-end: 10px;
     align-items: self-start;
 
-
     ion-text {
       margin-top: 2px;
       margin-bottom: 2px;
@@ -1476,7 +1443,7 @@ ion-footer {
       margin-top: 11px;
       width: 40px;
       height: 40px;
-      background: #E6F0FD;
+      background: #e6f0fd;
       --border-radius: 100%;
       position: relative;
       margin-right: 12px;
@@ -1487,14 +1454,13 @@ ion-footer {
 
       ion-icon {
         font-size: 27px;
-        color: #0D52A1;
+        color: #0d52a1;
         text-align: center;
         display: block;
         margin: auto;
         padding-top: 2px;
       }
     }
-
   }
 
   .statusEllipse {
@@ -1503,7 +1469,6 @@ ion-footer {
     right: -1px;
     font-size: 16px;
   }
-
 }
 
 .statusIndicat {
@@ -1530,13 +1495,13 @@ ion-footer {
 
 .statusActive {
   ion-icon.statusEllipse {
-    color: #2CA941 !important;
+    color: #2ca941 !important;
   }
 }
 
 .statusInactive {
   ion-icon.statusEllipse {
-    color: #EE7272 !important;
+    color: #ee7272 !important;
   }
 }
 
@@ -1558,7 +1523,7 @@ ion-footer {
     font-weight: 500;
 
     span {
-      color: #76643C;
+      color: #76643c;
       font-weight: 400;
     }
   }
@@ -1568,7 +1533,7 @@ ion-footer {
   .fieldControl {
     padding: 4px 0px 0px 0px;
     outline: none;
-    color: #1B428A;
+    color: #1b428a;
     font-weight: 500;
     font-size: 0.9rem;
     border: none;
@@ -1578,7 +1543,7 @@ ion-footer {
   .fieldName {
     font-size: 0.7rem;
     font-weight: 500;
-    color: #1B428A;
+    color: #1b428a;
     padding: 4px 0px 0px 0px;
     width: 100%;
   }
@@ -1602,19 +1567,18 @@ ion-footer {
   .inputFiledSty .fieldName {
     font-size: 0.7rem;
     font-weight: 500;
-    color: #1B428A;
+    color: #1b428a;
     padding: 0px 0px 0px 0px;
   }
-
 }
 
 ion-segment-button {
   min-height: 30px;
-  --border-color: #3CA795;
+  --border-color: #3ca795;
   --color: #84a19d;
   --color-checked: #2ea894;
-  --indicator-color: #3CA795;
-  --color-focused: #3CA795;
+  --indicator-color: #3ca795;
+  --color-focused: #3ca795;
   --padding-end: 0px;
   --padding-start: 0px;
   font-weight: 700;
@@ -1674,7 +1638,6 @@ ion-segment-button {
       padding: 15px;
       color: #556b93;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-
     }
 
     .editBtPosition {
@@ -1720,7 +1683,7 @@ ion-segment-button {
 
     .logoutBt {
       --box-shadow: none;
-      --background: #CADAEF;
+      --background: #cadaef;
       --border-radius: 0px;
       --padding-top: 20px;
       --padding-bottom: 20px;
@@ -1728,7 +1691,6 @@ ion-segment-button {
       --color: #2a2d32;
       letter-spacing: 0px;
       margin-top: 30px;
-
     }
 
     .contactProfile {
@@ -1745,7 +1707,6 @@ ion-segment-button {
       }
     }
   }
-
 }
 
 .transactionsWrapp {
@@ -1772,7 +1733,7 @@ ion-segment-button {
     h6 {
       margin: 0px;
       font-size: 0.86rem;
-      color: #1B428A;
+      color: #1b428a;
     }
 
     ion-text {
@@ -1823,14 +1784,14 @@ ion-segment-button {
 
     h3 {
       font-size: 1rem;
-      color: #1B428A;
+      color: #1b428a;
       margin: 0px;
     }
 
     p {
       font-size: 0.75rem;
-      color: #1B428A;
-      color: #A09FA4;
+      color: #1b428a;
+      color: #a09fa4;
       margin: 0px 0px 3px 0px;
     }
 
@@ -1860,17 +1821,37 @@ ion-radio-group.optionsRadioGroup.md {
   }
   ion-radio {
     margin-bottom: 10px;
-    
   }
 }
+
+.questionNum {
+  width: 24px;
+  height: 24px;
+  border-radius: 50px;
+  background: #1b428a;
+  line-height: 24px;
+  text-align: center;
+  color: #fff;
+  float: left;
+  margin-top: -3px;
+  font-size: 0.9rem;
+  margin-right: 4px;
+  position: absolute;
+  left: 3px;
+  z-index: 1;
+  top: 26px;
+}
+
+
 .questionList {
+  margin-top: -24px;
   background: #fff;
   --margin-start: 0px;
   padding: 0px 0px 0px 0px;
   box-shadow: 0px 3px 6px #00000029;
   .ques {
     width: 20%;
-    ion-button{
+    ion-button {
       width: 100%;
       margin: 0px;
       padding: 10px;
@@ -1889,7 +1870,6 @@ ion-radio-group.optionsRadioGroup.md {
     --padding-end: 10px;
     align-items: self-start;
 
-
     ion-text {
       margin-top: 2px;
       margin-bottom: 2px;
@@ -1898,7 +1878,7 @@ ion-radio-group.optionsRadioGroup.md {
         font-size: 0.9rem;
         --font-weight: 500;
         color: #000;
-        margin: 0px 0px 7px 0px;
+        margin: 0px 0px 7px 10px;
         padding: 0px;
         width: 95%;
       }
@@ -1920,7 +1900,7 @@ ion-radio-group.optionsRadioGroup.md {
       margin-top: 11px;
       width: 40px;
       height: 40px;
-      background: #E6F0FD;
+      background: #e6f0fd;
       --border-radius: 100%;
       position: relative;
       margin-right: 12px;
@@ -1931,27 +1911,31 @@ ion-radio-group.optionsRadioGroup.md {
 
       ion-icon {
         font-size: 27px;
-        color: #0D52A1;
+        color: #0d52a1;
         text-align: center;
         display: block;
         margin: auto;
         padding-top: 2px;
       }
     }
+  }
+}
 
-  }
+.examDataWrapp{
+    .swiper-slide {
+      ion-card {
+        width: 100%;
+      }
+      h3 {
+        font-size: 1rem;
+        color: #333;
+        margin: 0px 0px 15px 8px;
+        text-align: left;
+      }
+    }
 }
-.swiper-slide{
-  ion-card{
-    width: 100%;
-  }
-   h3 {
-    font-size: 1rem;
-    color: #1B428A;
-    margin: 0px;
-    text-align: left;
-}
-}
+
+
 .fc .fc-toolbar-title {
   font-size: 16px;
   margin: 0px;
@@ -1959,4 +1943,118 @@ ion-radio-group.optionsRadioGroup.md {
 .fc-view-harness.fc-view-harness-active {
   height: 53vh !important;
   min-height: 60%;
+}
+
+.quizIList {
+  background: transparent;
+  ion-card {
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+    --background: #466398;
+    margin-bottom: 18px;
+  }
+
+  ion-item {
+    background: #fff;
+    // background: #c7d6eb;
+    --inner-padding-end: 5px;
+    --min-height: 35px;
+  }
+  ion-text {
+    h3 {
+      font-size: 0.84rem;
+      font-weight: 500;
+      margin: 0px 0px 0px 0px;
+      padding: 7px 0px;
+      line-height: 18px;
+      color: #0e1e3c;
+    }
+  }
+
+  .detailsArrowIcon {
+    // ion-img{ filter: brightness(0) invert(1);}
+  }
+
+  .quizCount {
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 3px;
+    padding-top: 3px;
+    box-shadow: rgb(0 0 0 / 31%) 0px 1px 8px 0px;
+
+    p {
+      margin: 0px 0px 0px 0px !important;
+      padding: 0px !important;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: #c4d4e3;
+      text-transform: uppercase;
+    }
+
+    h6 {
+      margin: 0px;
+      font-size: 1.2rem;
+      color: #fff;
+      font-weight: 700;
+    }
+  }
+}
+
+.examhd {
+  padding: 15px 15px 15px 15px;
+  display: block;
+  background: #1b428a;
+  h2 {
+    margin: 0px;
+    color: #fff;
+    font-size: 1.2rem;
+    line-height: 26px;
+  }
+  h6 {
+    margin: 6px 0px 0px 0px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.88rem;
+    span {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #c1d6ff;
+    }
+  }
+
+  ion-progress-bar {
+    height: 7px;
+    border-radius: 10px;
+    margin-top: 16px;
+  }
+
+  .probarCount {
+    color: #ffcc2a;
+    width: 100%;
+    text-align: right;
+    display: block;
+    font-size: 0.87rem;
+    margin-top: 5px;
+  }
+}
+
+.questionsData {
+  box-shadow: rgb(0 0 0 / 22%) 0px 3px 5px 0px;
+
+  ion-radio {
+    border: solid 1px #ccc;
+    padding: 10px 15px 10px 15px;
+    border-radius: 30px;
+    color: #333;
+  }
+  ion-radio::part(container) {
+    background: #e8e8e8;
+    border: solid 1px #ccc;
+  }
+
+  ion-radio.radio-checked::part(container) {
+    background: #fff;
+    border-color: #0fa9a6;
+    --color-checked: #0fa9a6;
+  }
 }
