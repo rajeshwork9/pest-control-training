@@ -57,14 +57,10 @@ const Exam: React.FC = () => {
 
     useEffect(() => {
         getExam();
-
-        const interval = setInterval(() => {
-            setProgress((prevProgress) => prevProgress + 0.01);
-          });        
-          return () => clearInterval(interval);
-
     }, []);
-
+    useEffect(() => {
+        setProgress((selectedAnswers.length || 0) / questionsCount);
+    }, [selectedAnswers]);
     const getExam = async () => {
 
 
@@ -75,129 +71,9 @@ const Exam: React.FC = () => {
             console.log("Details", response);
             if (response.status == 200 && response.success) {
                 console.log(response);
-                const res = {
-                    "message": "Quiz questions fetched successfully",
-                    "data": {
-                        "quiz_id": "2",
-                        "quiz_name": "Random Quiz",
-                        "total_marks": "20",
-                        "no_of_questions": "20",
-                        "questions": [
-                            {
-                                "question_id": "1",
-                                "question": "What is the capital of France?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "1", "answer": "Berlin", "is_correct": "0" },
-                                    { "answer_id": "2", "answer": "Madrid", "is_correct": "0" },
-                                    { "answer_id": "3", "answer": "Paris", "is_correct": "1" },
-                                    { "answer_id": "4", "answer": "Rome", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "2",
-                                "question": "Which planet is known as the Red Planet?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "5", "answer": "Mars", "is_correct": "1" },
-                                    { "answer_id": "6", "answer": "Earth", "is_correct": "0" },
-                                    { "answer_id": "7", "answer": "Venus", "is_correct": "0" },
-                                    { "answer_id": "8", "answer": "Jupiter", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "3",
-                                "question": "What is the largest ocean on Earth?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "9", "answer": "Indian Ocean", "is_correct": "0" },
-                                    { "answer_id": "10", "answer": "Atlantic Ocean", "is_correct": "0" },
-                                    { "answer_id": "11", "answer": "Pacific Ocean", "is_correct": "1" },
-                                    { "answer_id": "12", "answer": "Arctic Ocean", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "4",
-                                "question": "Who wrote 'Romeo and Juliet'?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "13", "answer": "Shakespeare", "is_correct": "1" },
-                                    { "answer_id": "14", "answer": "Mark Twain", "is_correct": "0" },
-                                    { "answer_id": "15", "answer": "Jane Austen", "is_correct": "0" },
-                                    { "answer_id": "16", "answer": "Charles Dickens", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "5",
-                                "question": "What is the chemical formula for water?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "17", "answer": "O2", "is_correct": "0" },
-                                    { "answer_id": "18", "answer": "CO2", "is_correct": "0" },
-                                    { "answer_id": "19", "answer": "H2O", "is_correct": "1" },
-                                    { "answer_id": "20", "answer": "NaCl", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "6",
-                                "question": "What is the capital of Japan?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "21", "answer": "Tokyo", "is_correct": "1" },
-                                    { "answer_id": "22", "answer": "Osaka", "is_correct": "0" },
-                                    { "answer_id": "23", "answer": "Kyoto", "is_correct": "0" },
-                                    { "answer_id": "24", "answer": "Nagoya", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "7",
-                                "question": "How many continents are there?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "25", "answer": "5", "is_correct": "0" },
-                                    { "answer_id": "26", "answer": "6", "is_correct": "0" },
-                                    { "answer_id": "27", "answer": "7", "is_correct": "1" },
-                                    { "answer_id": "28", "answer": "8", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "8",
-                                "question": "Which is the largest mammal?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "29", "answer": "Elephant", "is_correct": "0" },
-                                    { "answer_id": "30", "answer": "Blue Whale", "is_correct": "1" },
-                                    { "answer_id": "31", "answer": "Giraffe", "is_correct": "0" },
-                                    { "answer_id": "32", "answer": "Hippopotamus", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "9",
-                                "question": "Where are the Great Pyramids located?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "33", "answer": "Egypt", "is_correct": "1" },
-                                    { "answer_id": "34", "answer": "Greece", "is_correct": "0" },
-                                    { "answer_id": "35", "answer": "Mexico", "is_correct": "0" },
-                                    { "answer_id": "36", "answer": "India", "is_correct": "0" }
-                                ]
-                            },
-                            {
-                                "question_id": "10",
-                                "question": "What travels at a speed of 300,000 km/s?",
-                                "marks": "1",
-                                "options": [
-                                    { "answer_id": "37", "answer": "Light", "is_correct": "1" },
-                                    { "answer_id": "38", "answer": "Gravity", "is_correct": "0" },
-                                    { "answer_id": "39", "answer": "Magnetism", "is_correct": "0" },
-                                    { "answer_id": "40", "answer": "Electricity", "is_correct": "0" }
-                                ]
-                            }
-                        ]
-                    }
-                }
                 setExamData(response.data);
-                setQuestionsCount(response.data.questions.length - 1);
+                setQuestionsCount(response.data.no_of_questions);
+
             }
             else {
                 toast.dismiss();
@@ -212,8 +88,8 @@ const Exam: React.FC = () => {
         }
     }
     // Function to handle option selection
-    const handleAnswerClick = (question_id: string, answer_id: string) => {
-        setSelectedAnswers((prev) => {
+    const handleAnswerClick = async (question_id: string, answer_id: string) => {
+        await setSelectedAnswers((prev) => {
             const existingAnswerIndex = prev.findIndex((ans) => ans.question_id === question_id);
 
             if (existingAnswerIndex >= 0) {
@@ -272,14 +148,13 @@ const Exam: React.FC = () => {
             console.log(response);
             if ((response.status == 200 || response.status == 201) && response.success == true) {
                 console.log(JSON.parse(response.data.quiz_details));
-                // localStorage.removeItem('selectedCourses');
-                // toast.dismiss();
-                // toast.success(response.message);
+                toast.dismiss();
+                toast.success(response.message);
                 // history.push({
                 //     pathname: "/payment-confirmation",
                 //     state: { from: 'dashboard', data: response.data }
                 // });
-                //history.push("/payment-confirmation");
+                history.push("/dashboard");
             }
             else {
                 if (response.status == 400 && response.success == false) {
@@ -337,12 +212,12 @@ const Exam: React.FC = () => {
                     <div className="examhd">
                         <IonText>
                             <h2>{examData.quiz_name} <span></span></h2>
-                            <h6><span>Questions :</span> {examData.no_of_questions} &nbsp; 
-                            <span>Marks :</span> {examData.total_marks}</h6>
+                            <h6><span>Questions :</span> {examData.no_of_questions} &nbsp;
+                                <span>Marks :</span> {examData.total_marks}</h6>
                         </IonText>
 
                         <IonProgressBar color="warning" value={progress}></IonProgressBar>
-                        <IonText className="probarCount">3 of 20</IonText>
+                        <IonText className="probarCount">{selectedAnswers.length} of {examData.no_of_questions}</IonText>
                     </div>
 
                     {/* <div className="">
@@ -368,10 +243,9 @@ const Exam: React.FC = () => {
                             centeredSlides={false}
                         >
                             {examData.questions && examData.questions.length > 0 && examData.questions.map((data: any, index: any) => (
-                                <SwiperSlide>  
-                                    <div className="questionNum">{index + 1}</div>                                 
+                                <SwiperSlide>
+                                    <div className="questionNum">{index + 1}</div>
                                     <IonCard className="ion-padding questionsData">
-                                       
                                         <IonText className="headingtd"><h3> {data.question}</h3></IonText>
                                         <IonRadioGroup className="optionsRadioGroup"
                                             value={selectedAnswers.find((ans) => ans.question_id === data.question_id)?.answer_id || ''}
@@ -401,7 +275,7 @@ const Exam: React.FC = () => {
                         >
                             Previous
                         </IonButton>
-                        {currentIndex !== questionsCount &&
+                        {currentIndex !== questionsCount- 1 &&
 
                             <IonButton shape="round" expand="full" color="primary"
                                 onClick={nextSlide}
@@ -410,7 +284,7 @@ const Exam: React.FC = () => {
                                 Next
                             </IonButton>
                         }
-                        {currentIndex === questionsCount &&
+                        {currentIndex === questionsCount - 1 &&
                             <IonButton onClick={(event) => handleSubmit()} shape="round" expand="full" color="primary" >Submit</IonButton>
                         }
                     </div>
