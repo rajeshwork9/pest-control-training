@@ -64,6 +64,7 @@ import NetworkStatus from './components/NetworkStatus';
 const { SwipeBack } = Plugins;
 import CorporateDashboard from './pages/CorporateDashboard';
 import UsersList from './pages/UsersList';
+import UserDetails from './pages/UserDetails';
 import UserCreate from './pages/UserCreate';
 import SelectUser from './pages/SelectUser';
 import Profile from './pages/Profile';
@@ -78,6 +79,8 @@ import CorporateSelectedCoursesDetails from './pages/CorporateSelectedCoursesDet
 import Attendance from './pages/Attendance';
 import Quiz from './pages/Quiz';
 import Exam from './pages/Exam';
+
+
 
 
 setupIonicReact({
@@ -207,11 +210,13 @@ const App: React.FC = () => {
               <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />
               <AuthGuard roles={[8,16,17]} path="/transactions" component={Transactions} />
               <AuthGuard roles={[8,16,17]} path="/transactions-details" component={TransactionsDetails} />
+              
 
               <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />
               <AuthGuard roles={[17]} path="/corporate-selected-courses" component={CorporateSelectedCourses} />
               <AuthGuard roles={[17]} path="/corporate-selected-courses-details" component={CorporateSelectedCoursesDetails} />
               <AuthGuard roles={[17]} path="/users-list" component={UsersList} />
+              <AuthGuard roles={[17]} path="/user-details" component={UserDetails} />
               <AuthGuard roles={[17]} path="/user-create" component={UserCreate} />
               <AuthGuard roles={[17]} path="/select-user" component={SelectUser} />
 

@@ -87,7 +87,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             <p className="statusInactive"><IonIcon className="statusEllipse" icon={ellipse}></IonIcon>Inactive</p>
           </div>
 
-          <div className="ion-margin">
+          <div className="">
             {UserList.map((data: any) => (
               <IonCard key={data.id} className={data.status_name === 'Active' ? "userItem statusActive" : "userItem statusInactive"}>
                 <IonItem lines="none" color="none">
@@ -100,11 +100,11 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                   <IonText>
                     <div className="detailsArrow">
                       <h3>{data.first_name} {data.last_name}</h3>
-                      <IonButton className="detailsArrowIcon" fill="clear">
+                      <IonButton className="detailsArrowIcon" fill="clear" routerLink="/user-details">
                         <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
                       </IonButton>
                     </div>
-                    <IonText className="d-flex phoneEmail">
+                    <IonText className="phoneEmail">
                       <p><IonIcon icon={call}></IonIcon>{data.mobile_no}</p>
                       <p><IonIcon icon={mail}></IonIcon>{data.email_id}</p>
                     </IonText>

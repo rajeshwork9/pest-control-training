@@ -1099,10 +1099,12 @@ ion-footer {
   }
 }
 
+.blueBg {
+  background: #1b428a !important;
+}
+
 .seclectedCoursesDetailsWrapp {
-  .blueBg {
-    background: #1b428a;
-  }
+ 
 
   .coursesDHeader {
     background: transparent;
@@ -1421,7 +1423,7 @@ ion-footer {
         font-size: 0.9rem;
         --font-weight: 500;
         color: #000;
-        margin: 0px 0px 7px 0px;
+        margin: 0px 10px 7px 0px;
         padding: 0px;
         width: 95%;
       }
@@ -1429,12 +1431,15 @@ ion-footer {
       p {
         --font-weight: 400;
         color: #626262;
-        margin: 0px 10px 0px 0px;
+        margin: 0px 10px 4px 0px;
         padding: 0px;
         font-size: 0.7rem;
+        display: flex;
+        align-items: center;
 
         ion-icon {
           font-size: 0.65rem;
+          margin-right:3px;
         }
       }
     }
@@ -2057,4 +2062,17 @@ ion-radio-group.optionsRadioGroup.md {
     border-color: #0fa9a6;
     --color-checked: #0fa9a6;
   }
+}
+
+
+.userDetailsWrapp{
+  .userItem{
+    padding-top:5px;
+    padding-bottom:5px;
+    h3{color:#fff; font-size:1.2rem;}
+    p{color:#fff; font-size:0.8rem; color:#acc6f6; margin-bottom:7px;
+       span{color:#fff; font-weight:500; margin-left:3px;}
+    }
+  }
+
 }
