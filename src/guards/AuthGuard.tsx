@@ -28,7 +28,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ component: Component, roles, ...r
       if (!isLoggedIn) {
         return <Redirect to='/home' />;
       } else if (roles && !roles.includes(parseInt(userData.user_type))) {
-        return <Redirect to='/dashboard' />;
+        return <Redirect to='/' />;
       }
 
       return <Component {...props} />;
