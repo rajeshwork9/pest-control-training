@@ -2030,7 +2030,7 @@ ion-radio-group.optionsRadioGroup.md {
   }
 
   ion-progress-bar {
-    height: 7px;
+    height:13px;
     border-radius: 10px;
     margin-top: 16px;
   }
@@ -2040,8 +2040,10 @@ ion-radio-group.optionsRadioGroup.md {
     width: 100%;
     text-align: right;
     display: block;
-    font-size: 0.87rem;
+    font-size: 0.9rem;
     margin-top: 5px;
+    font-weight: 500;
+
   }
 }
 
