@@ -79,7 +79,7 @@ import CorporateSelectedCoursesDetails from './pages/CorporateSelectedCoursesDet
 import Attendance from './pages/Attendance';
 import Quiz from './pages/Quiz';
 import Exam from './pages/Exam';
-
+import ExamResult from './pages/ExamResult';
 
 
 
@@ -205,7 +205,7 @@ const App: React.FC = () => {
               <AuthGuard roles={[8, 16]} path="/selected-courses-details" component={SelectedCoursesDetails} />
               <AuthGuard roles={[8, 16]} path="/quiz" component={Quiz} />
               <AuthGuard roles={[8, 16]} path="/exam" component={Exam} />
-
+              <AuthGuard roles={[8, 16]} path="/exam-result" component={ExamResult} />
 
               <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />
               <AuthGuard roles={[8,16,17]} path="/transactions" component={Transactions} />

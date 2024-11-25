@@ -93,8 +93,30 @@ const Quiz: React.FC = () => {
                     <IonTitle>Quiz List</IonTitle>
                 </IonToolbar>
             </IonHeader>
+
             <IonContent fullscreen className="colorBg quizWrapp">
         <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
+
+        <div className="dashboardWrapp">
+            <IonCard className="corporateTotalPaymentCard">
+              <IonItem
+                lines="none"
+                color="none"
+                routerLink="/selected-courses"
+              >
+                <IonText className="ctpcInner" slot="start">
+                  <h2>Let’s start quiz... </h2>
+                </IonText>
+
+                <IonImg
+                  className="coursesImgDash"
+                  slot="end"
+                  src="./assets/images/time-img.svg"
+                />
+              </IonItem>
+            </IonCard>
+          </div>
+
         <div className="bgSvg">
           <div>
             <IonList className="quizIList" lines="none">

@@ -43,6 +43,8 @@ ion-textarea {
   width: 100%;
 }
 
+
+
 .inputFiledSty {
   .fieldControl {
     padding: 4px 0px 0px 0px;
@@ -2074,5 +2076,82 @@ ion-radio-group.optionsRadioGroup.md {
        span{color:#fff; font-weight:500; margin-left:3px;}
     }
   }
+  // box-shadow: rgb(0 0 0 / 22%) 0px 3px 5px 0px;
+  ion-accordion{border-radius:4px;
+    ion-item{ --background:#dde8f8; --padding-start:12px; --padding-end:12px;}
+  }
 
+}
+
+.quizWrapp{
+  .corporateTotalPaymentCard{margin:0px !important;border-radius:0px;}
+}
+
+.quizResultWrapp{
+
+  .blueBg{border-radius:0px; margin:0px;}
+  .quizResultCount{
+    border: solid 15px #c9dcff;
+    margin: auto;
+    background: #fff;
+    border-radius: 100%;
+    width: 165px;
+    height: 165px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+    margin-bottom: 101px;
+    ion-text{text-align:center;}
+   h5{
+    color: #607295;
+    margin: 0px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+   }
+   h2{color:#1b428a; margin:0px; font-size:3rem;}
+  }
+  .quizResultCount::before{
+    content: "";
+    border: solid 20px #254e9a;
+    width: 205px !important;
+    height: 205px;
+    position: absolute;
+    border-radius: 100%;
+    background: #3c65b0;
+    z-index: -1;
+    animation: quizResultCountBefore 2s linear infinite;
+  }
+  .totalResultBlock{
+    margin:-48px 10px 0px 10px;
+    ion-card{margin:0px 0px; text-align:center; padding:20px 5px;}
+    h6{font-size:0.78rem; margin:0px;}
+    h3{font-size:1.6rem; margin:10px 0px 0px 0px;     color: #ee7303;}
+
+  }
+
+  .quizResultCont{
+    p{
+      padding: 20px 30px;
+      font-size: 0.86rem;
+      color: #333;
+      text-align: center;
+      line-height: 21px;
+      font-weight: 500;
+    }
+  }
+
+}
+
+@keyframes quizResultCountBefore{
+  0%{  
+    border: 6px solid #254e9a;
+  }
+  50%{  
+    border: 50px solid #254e9a;
+  }
+  100%{   
+    border: 5px solid #254e9a;
+  }
 }

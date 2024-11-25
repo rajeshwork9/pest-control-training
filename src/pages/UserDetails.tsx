@@ -19,8 +19,9 @@ import {
   IonThumbnail,
   IonList,
   IonFooter,
-  IonSelect,
-  IonSelectOption,
+IonAccordionGroup,
+IonAccordion,
+
 } from "@ionic/react";
 import { ribbon, ellipse, call, mail, add } from 'ionicons/icons'
 
@@ -66,19 +67,22 @@ const UserDetails: React.FC = () => {
 
           <div className="innerDownloadFiles">
             <IonItem color="none" lines="none">
-              <IonText className="filesActive">Course</IonText>
-            
+              <IonText className="filesActive">Course</IonText>            
             </IonItem>
 
-            <IonList lines="none" className="zipCard">
-                <IonItem lines="none" className="ion-justify-content-between">
-                  <div className="scd-iconText">
-                     <IonIcon icon={ribbon}></IonIcon>
-                    <IonText>Course B</IonText>
-                  </div>
-                </IonItem>
-      
-            </IonList>
+                <IonAccordionGroup>
+                <IonAccordion value="first">
+                    <IonItem slot="header">
+                        <IonLabel>Course-B</IonLabel>
+                    </IonItem>
+
+                    <div className="ion-padding" slot="content">
+                    Course-B
+                    </div>
+                </IonAccordion>
+                </IonAccordionGroup>
+
+
           </div>
 
           </div>

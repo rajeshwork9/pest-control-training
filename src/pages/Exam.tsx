@@ -269,7 +269,7 @@ const Exam: React.FC = () => {
             <IonFooter>
                 <IonToolbar>
                     <div style={{ display: "flex", justifyContent: "center" }}>
-                        <IonButton shape="round" expand="full" color="primary" fill="outline"
+                        <IonButton className="width100"  shape="round" expand="full" color="primary" fill="outline"
                             onClick={prevSlide}
                             disabled={currentIndex === 0} // Disable "Previous" on the first slide
                         >
@@ -277,7 +277,7 @@ const Exam: React.FC = () => {
                         </IonButton>
                         {currentIndex !== questionsCount- 1 &&
 
-                            <IonButton shape="round" expand="full" color="primary"
+                            <IonButton className="width100"  shape="round" expand="full" color="primary"
                                 onClick={nextSlide}
                             // Disable "Next" on the last slide
                             >
@@ -285,7 +285,7 @@ const Exam: React.FC = () => {
                             </IonButton>
                         }
                         {currentIndex === questionsCount - 1 &&
-                            <IonButton onClick={(event) => handleSubmit()} shape="round" expand="full" color="primary" >Submit</IonButton>
+                            <IonButton className="width100" onClick={(event) => handleSubmit()} shape="round" expand="full" color="primary" >Submit</IonButton>
                         }
                     </div>
                 </IonToolbar>
