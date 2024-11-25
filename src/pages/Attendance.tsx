@@ -36,12 +36,13 @@ const Attendance: React.FC = () => {
                         <IonButtons slot="start">
                             <IonBackButton></IonBackButton>
                         </IonButtons>
-                        <IonTitle>Payment Details</IonTitle>
+                        <IonTitle>Attendance</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent fullscreen className="colorBg paymentDetails ionContentBottom">
                     <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
                     <div className="bgSvg">
+                        <IonCard>
                         <div style={{ padding: '1rem' }}>
                             <FullCalendar
                                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -53,6 +54,7 @@ const Attendance: React.FC = () => {
                                 selectable={true}
                             />
                         </div>
+                        </IonCard>
                     </div>
                 </IonContent>
                 {isLoading && <Loader message={loadingMessage} />}

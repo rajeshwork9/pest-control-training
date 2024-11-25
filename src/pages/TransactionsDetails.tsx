@@ -159,8 +159,8 @@ const TransactionsDetails: React.FC = () => {
                           <h3>{data.first_name} {data.last_name}</h3>
                         </div>
                         <IonText className="d-flex phoneEmail">
-                          <p><IonIcon icon={call}></IonIcon>{data.mobile_no}</p>
-                          <p><IonIcon icon={mail}></IonIcon>{data.email_id}</p>
+                          <p><IonIcon icon={call}></IonIcon> {data.mobile_no}</p>
+                          <p><IonIcon icon={mail}></IonIcon> {data.email_id}</p>
                         </IonText>
                       </IonText>
                     </IonItem>

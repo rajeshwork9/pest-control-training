@@ -148,7 +148,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             </IonList>
           </div>
           {UserList && UserList.length > 0 && UserList.map((data: any, index: any) => (
-            <IonCard className="userItem statusActive">
+            <IonCard className="userItem selectUserMain">
               <IonItem lines="none" color="none">
                 <IonText>
                   <h3>{data.first_name} {data.last_name}</h3>
@@ -157,7 +157,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                     <p><IonIcon icon={mail}></IonIcon> {data.email_id}</p>
                   </IonText>
                 </IonText>
-                <IonCheckbox className='custom-checkbox' value={data.id} checked={isItemSelected(data.id)} onIonChange={(event) => handleUserChange(event, data)}></IonCheckbox>
+                <IonCheckbox className='custom-checkbox' value={data.id} checked=    {isItemSelected(data.id)} onIonChange={(event) => handleUserChange(event, data)}></IonCheckbox>
               </IonItem>
             </IonCard>
           ))}

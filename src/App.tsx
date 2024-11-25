@@ -78,8 +78,9 @@ import CorporateSelectedCourses from './pages/CorporateSelectedCourses';
 import CorporateSelectedCoursesDetails from './pages/CorporateSelectedCoursesDetails';
 import Attendance from './pages/Attendance';
 import Quiz from './pages/Quiz';
+import QuizResult from './pages/QuizResult';
 import Exam from './pages/Exam';
-import ExamResult from './pages/ExamResult';
+import ExamResult from './pages/ExamResult'; 
 
 
 
@@ -204,6 +205,8 @@ const App: React.FC = () => {
               <AuthGuard roles={[8, 16]} path="/selected-courses" component={SelectedCourses} />
               <AuthGuard roles={[8, 16]} path="/selected-courses-details" component={SelectedCoursesDetails} />
               <AuthGuard roles={[8, 16]} path="/quiz" component={Quiz} />
+              <AuthGuard roles={[8, 16]} path="/quiz-result" component={QuizResult} />
+             
               <AuthGuard roles={[8, 16]} path="/exam" component={Exam} />
               <AuthGuard roles={[8, 16]} path="/exam-result" component={ExamResult} />
 

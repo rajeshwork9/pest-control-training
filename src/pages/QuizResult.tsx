@@ -26,7 +26,7 @@ import Loader from '../components/Loader';
 import { ribbon, checkmark } from 'ionicons/icons'
 import { useAuth } from '../api/AuthContext';
 import useLoading from '../components/useLoading';
-const ExamResult: React.FC = () => {
+const QuizResult: React.FC = () => {
   return (
     <>
       <IonPage>
@@ -35,54 +35,54 @@ const ExamResult: React.FC = () => {
             <IonButtons slot="start">
               <IonBackButton></IonBackButton>
             </IonButtons>
-            <IonTitle>Exam Result</IonTitle>
+            <IonTitle>Quiz Result</IonTitle>
           </IonToolbar>
         </IonHeader>
        
-      <IonContent fullscreen className="colorBg examResultWrapp">    
+      <IonContent fullscreen className="colorBg quizResultWrapp">    
           <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>         
             <div className="bgSvg"> 
                
                       <IonCard className="blueBg ion-padding">
-
-                          <IonText className="examResultHeading">
-                          <h4>Raghuvarma Rudroju</h4>
-                          <h5><span>Exam:</span> Sample Exam</h5>
-                          </IonText>
-
-
-                
-                      </IonCard> 
-
-                      <div className="examResultCount ">
+                        <div className="quizResultCount ">
                           <IonText>
-                            <h5>Marks Obtained</h5>
-                            <h2>44/60</h2>
+                            <h5>Your Score</h5>
+                            <h2>04</h2>
                             </IonText>
                         </div>
+                      </IonCard> 
 
-                      <IonRow className="totalExamResultBlock">
-                        <IonCol size="6">
+                      <IonRow className="totalResultBlock">
+                        <IonCol size="4">
                           <IonCard>
                             <IonText>
-                              <h6>Status</h6>
-                              <h3 className="passedText">Passed</h3>
+                              <h6>Total Questios</h6>
+                              <h3>05</h3>
                               </IonText>
                           </IonCard>
                         </IonCol>
 
-                        <IonCol size="6">
+                        <IonCol size="4">
                           <IonCard>
                             <IonText>
-                              <h6>Duration Taken</h6>
-                              <h3>0 Hour 19 Minutes</h3>
+                              <h6>Answered</h6>
+                              <h3>05</h3>
                               </IonText>
                           </IonCard>
                         </IonCol>
 
-                       
+                        <IonCol size="4">
+                          <IonCard>
+                            <IonText>
+                              <h6>Correct</h6>
+                              <h3>04</h3>
+                              </IonText>
+                          </IonCard>
+                        </IonCol>
                       </IonRow>     
-     
+                <IonText className="quizResultCont">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et enim in enim egestas semper vitae mattis est. Sed vehicula, ipsum sed suscipit laoreet, mi elit scelerisque tellus</p>
+                </IonText>
 
                 </div>
            
@@ -93,5 +93,5 @@ const ExamResult: React.FC = () => {
   );
 };
 
-export default ExamResult;
+export default QuizResult;
 
