@@ -27,6 +27,10 @@ import { ribbon, checkmark } from 'ionicons/icons'
 import { useAuth } from '../api/AuthContext';
 import useLoading from '../components/useLoading';
 const QuizResult: React.FC = () => {
+  const history = useHistory();
+  const queryParams: any = history.location.state;
+  const result = queryParams.data;
+
   return (
     <>
       <IonPage>
@@ -47,7 +51,7 @@ const QuizResult: React.FC = () => {
                         <div className="quizResultCount ">
                           <IonText>
                             <h5>Your Score</h5>
-                            <h2>04</h2>
+                            <h2>{result.secured_marks}</h2>
                             </IonText>
                         </div>
                       </IonCard> 

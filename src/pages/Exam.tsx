@@ -146,15 +146,16 @@ const Exam: React.FC = () => {
         try {
             const response = await validateExam(payload);
             console.log(response);
+            
             if ((response.status == 200 || response.status == 201) && response.success == true) {
                 console.log(JSON.parse(response.data.quiz_details));
                 toast.dismiss();
                 toast.success(response.message);
-                // history.push({
-                //     pathname: "/payment-confirmation",
-                //     state: { from: 'dashboard', data: response.data }
-                // });
-                history.push("/dashboard");
+                history.push({
+                    pathname: "/quiz-result",
+                    state: { from: 'dashboard', data: response.data }
+                });
+                //history.push("/dashboard");
             }
             else {
                 if (response.status == 400 && response.success == false) {

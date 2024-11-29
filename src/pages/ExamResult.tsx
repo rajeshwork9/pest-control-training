@@ -27,6 +27,10 @@ import { ribbon, checkmark } from 'ionicons/icons'
 import { useAuth } from '../api/AuthContext';
 import useLoading from '../components/useLoading';
 const ExamResult: React.FC = () => {
+
+  const history = useHistory();
+  const queryParams: any = history.location.state;
+  const result = queryParams.data;
   return (
     <>
       <IonPage>

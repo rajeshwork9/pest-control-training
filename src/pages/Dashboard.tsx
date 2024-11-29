@@ -136,7 +136,7 @@ const Dashboard: React.FC = () => {
               </IonCol>
 
               <IonCol size="6">
-                <IonCard>
+                <IonCard routerLink="/quiz">
                   <IonImg src="./assets/images/quiz-icon.svg" />
                   <IonText>
                     <h3>Quiz</h3>
