@@ -2245,8 +2245,11 @@ ion-radio-group.optionsRadioGroup.md {
 }
 
 .resultWrapp{
+  h3{    padding: 12px 0px !important;     line-height: 20px !important;}
   ion-card{    border: solid 1px #d5ddeb;}
   .resultCount{
+    padding-top:6px;
+    padding-bottom:6px;
     box-shadow: none !important;
     background: #f0f5ff !important;
     p{color:#466398;}
@@ -2256,6 +2259,8 @@ ion-radio-group.optionsRadioGroup.md {
   }
 
   .resultCountbottom{
+    padding-top:6px;
+    padding-bottom:6px;
     box-shadow: none !important;
     h6{ font-size:0.9rem;}   
   }

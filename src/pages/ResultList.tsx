@@ -62,10 +62,7 @@ const ResultList: React.FC = () => {
               <IonCard>
                 <IonItem lines="none" color="none">
                   <IonText><h3>Sample Exam Sample ExamSample ExamSample ExamSample ExamSample Exam</h3></IonText>
-                      {/* onClick={(event) => viewTransactionDetails(data)} */}
-                      <IonButton slot="end" className="detailsArrowIcon" fill="clear">
-                        <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
-                      </IonButton>
+                    
                 </IonItem>
 
                 <div className="quizCount resultCount">
@@ -95,7 +92,7 @@ const ResultList: React.FC = () => {
                   </IonRow>
                 </div>
 
-                {/* <div className="quizCount resultCountbottom">
+                <div className="quizCount resultCountbottom">
                   <IonRow>    
 
                     <IonCol size="4">
@@ -119,7 +116,7 @@ const ResultList: React.FC = () => {
                       </IonText>
                     </IonCol>
                   </IonRow>
-                </div> */}
+                </div>
               </IonCard>
 
      
