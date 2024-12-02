@@ -28,6 +28,7 @@
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
+    "@ionic-native/core": "^5.36.0",
     "@ionic-native/diagnostic": "^5.36.0",
     "@ionic/react": "^8.0.0",
     "@ionic/react-router": "^8.0.0",
@@ -37,6 +38,7 @@
     "axios": "^1.7.7",
     "cordova.plugins.diagnostic": "^7.2.1",
     "formik": "^2.4.6",
+    "fullcalendar": "^6.1.15",
     "ionicons": "^7.0.0",
     "mobiscroll-react": "^4.0.0",
     "react": "^18.2.0",
@@ -47,6 +49,7 @@
     "react-router-dom": "^5.3.4",
     "react-sweetalert2": "^0.6.0",
     "react-toastify": "^10.0.6",
+    "rxjs": "^7.8.1",
     "sweetalert": "^2.1.2",
     "swiper": "^11.1.15",
     "yup": "^1.4.0"

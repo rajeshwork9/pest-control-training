@@ -81,6 +81,8 @@ import Quiz from './pages/Quiz';
 import QuizResult from './pages/QuizResult';
 import Exam from './pages/Exam';
 import ExamResult from './pages/ExamResult'; 
+import ResultList from './pages/ResultList'; 
+
 
 
 
@@ -213,6 +215,8 @@ const App: React.FC = () => {
               <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />
               <AuthGuard roles={[8,16,17]} path="/transactions" component={Transactions} />
               <AuthGuard roles={[8,16,17]} path="/transactions-details" component={TransactionsDetails} />
+              <AuthGuard roles={[8,16,17]} path="/results-list" component={ResultList} />
+              
               
 
               <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />

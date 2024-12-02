@@ -1954,9 +1954,10 @@ ion-radio-group.optionsRadioGroup.md {
 
 .quizIList {
   background: transparent;
+  --background: transparent;
   ion-card {
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
-    --background: #466398;
+
     margin-bottom: 18px;
   }
 
@@ -1965,6 +1966,7 @@ ion-radio-group.optionsRadioGroup.md {
     // background: #c7d6eb;
     --inner-padding-end: 5px;
     --min-height: 35px;
+    align-items: flex-start;
   }
   ion-text {
     h3 {
@@ -1985,8 +1987,9 @@ ion-radio-group.optionsRadioGroup.md {
     text-align: center;
     padding-left: 5px;
     padding-right: 5px;
-    margin-bottom: 3px;
+
     padding-top: 3px;
+    background: #466398;
     box-shadow: rgb(0 0 0 / 31%) 0px 1px 8px 0px;
 
     p {
@@ -2239,9 +2242,21 @@ ion-radio-group.optionsRadioGroup.md {
           }
         }
 
+}
 
+.resultWrapp{
+  ion-card{    border: solid 1px #d5ddeb;}
+  .resultCount{
+    box-shadow: none !important;
+    background: #f0f5ff !important;
+    p{color:#466398;}
+    h6{color:#466398; font-size:0.84rem;}
+    h6.statusCompleted{color:#18ac28 !important;}
+    h6.statusPending{color:#eb6840 !important;}
+  }
 
-
-
-
+  .resultCountbottom{
+    box-shadow: none !important;
+    h6{ font-size:0.9rem;}   
+  }
 }
