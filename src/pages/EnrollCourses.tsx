@@ -212,7 +212,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                     </IonText>
                   </IonItem>
                 ))}
-                {courseList && courseList.length === 0 &&
+                {courseList && !isLoading && courseList.length === 0 &&
                     <NoDataFound message="Oops! Nothing to display here." />
                 }
               </IonList>

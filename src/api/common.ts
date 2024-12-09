@@ -344,6 +344,15 @@ export const getSlotAvailability = async (payload: any) => {
     return error.response.data;
   }
 };
+export const bookSlot = async (payload: any) => {
+  try {
+    const response = await axiosInstance.post(`${apiUrl}v1/book-slot`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
 export const getUserAttendance = async (payload: any) => {
   try {
     const response = await axiosInstance.post(`${apiUrl}v1/get-trainee-attendance`, payload);
