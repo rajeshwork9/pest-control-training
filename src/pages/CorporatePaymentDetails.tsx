@@ -217,7 +217,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             {/* Corporate Start*/}
             <IonCard className="corporateTotalPaymentCard">
                 <IonText>
-                  <p>Total Payment <span> {selectedUsers.length} X 1000</span></p>
+                  <p>Total Payment <span> {selectedUsers.length} X {selectedCourse.total}</span></p>
                     <h2>{parseFloat(totalAmount).toFixed(2)} AED</h2>
                   </IonText>
               </IonCard>

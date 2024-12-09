@@ -118,7 +118,7 @@ const Dashboard: React.FC = () => {
 
             <IonRow className="dashboardCard ion-margin-top">
               <IonCol size="6">
-                <IonCard>
+                <IonCard routerLink="/attendance">
                   <IonImg src="./assets/images/attendance-icon.svg" />
                   <IonText>
                     <h3>Attendance</h3>
@@ -127,7 +127,7 @@ const Dashboard: React.FC = () => {
               </IonCol>
 
               <IonCol size="6">
-                <IonCard>
+                <IonCard routerLink="/exam-result">
                   <IonImg src="./assets/images/results-icon.svg" />
                   <IonText>
                     <h3>Results</h3>

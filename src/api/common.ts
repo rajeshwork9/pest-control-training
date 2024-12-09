@@ -325,6 +325,25 @@ export const validateExam = async (payload: any) => {
     return error.response.data;
   }
 };
+export const getResults = async (payload: any) => {
+  try {
+    const response = await axiosInstance.post(`${apiUrl}v1/test-result`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
+export const getSlotAvailability = async (payload: any) => {
+  try {
+    const response = await axiosInstance.post(`${apiUrl}v1/slot-availability
+`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
 export const getUserAttendance = async (payload: any) => {
   try {
     const response = await axiosInstance.post(`${apiUrl}v1/get-trainee-attendance`, payload);

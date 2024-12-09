@@ -3,19 +3,21 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'; // Enables click and drag
-import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonImg, IonCard, IonText, IonCardTitle, IonCardContent, IonItem, IonCheckbox, IonFooter, IonButton } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonImg, IonCard, IonText, IonCardTitle, IonCardContent, IonItem, IonCheckbox, IonFooter, IonButton, IonModal, IonRow, IonCol, IonLabel } from '@ionic/react';
 import Loader from '../components/Loader';
 import useLoading from '../components/useLoading';
 import { getCourseList, getUserAttendance } from '../api/common';
 import { toast } from 'react-toastify';
-
-
 
 const Attendance: React.FC = () => {
 
     const { isLoading, startLoading, stopLoading } = useLoading();
     const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     const [events, setEvents] = useState<any[]>([]);
+    const [attendance, setAttendance] = useState<any[]>([]);
+    const [selectedAttendance, setselectedAttendance] = useState<any[]>([]);
+    const [selectedDate, setselectedDate] = useState<string>('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     useEffect(() => {
         getAttendanceList();
     }, []);
@@ -43,17 +45,16 @@ const Attendance: React.FC = () => {
                 "page": "1"
             }
         }
-
-
         try {
             startLoading();
             const response = await getUserAttendance(payload);
             console.log("Leave Details", response);
             if (response.status == 200 && response.success) {
                 console.log(response);
-                let events : any = [];
+                setAttendance(response.data);
+                let events: any = [];
                 response.data.map((property: any) => {
-                    events.push({ color: '#00ca10',title: 'simple event', display: 'background', date: property.attendance });
+                    events.push({ color: '#00ca10', display: 'background', date: property.attendance });
                 });
                 setEvents(events);
             }
@@ -69,11 +70,21 @@ const Attendance: React.FC = () => {
             stopLoading();
         }
     }
-
-
-
     const handleDateClick = (info: any) => {
-        alert(`Date clicked: ${info.dateStr}`);
+        console.log(info);
+        const selectedDateData = attendance.filter((item: any) => item.attendance === info.dateStr);
+        console.log(selectedDateData);
+        if (selectedDateData.length > 0) {
+            setselectedAttendance(selectedDateData);
+            setselectedDate(info.dateStr);
+            setIsModalOpen(true);
+        } else {
+            setIsModalOpen(false);
+            toast.dismiss();
+            toast.error("No attendance found for the selected date");
+        }
+
+        //alert(`Date clicked: ${info.dateStr}`);
         // Add a new event or show a form to add an event
     };
 
@@ -84,7 +95,6 @@ const Attendance: React.FC = () => {
     return (
         <>
             <IonPage>
-
                 <IonHeader className="ion-header">
                     <IonToolbar>
                         <IonButtons slot="start">
@@ -103,7 +113,7 @@ const Attendance: React.FC = () => {
                                     initialView="dayGridMonth"
                                     events={events}
                                     dateClick={handleDateClick}
-                                    eventClick={handleEventClick}
+                                    //eventClick={handleEventClick}
                                     editable={true}
                                     selectable={true}
                                 />
@@ -112,13 +122,39 @@ const Attendance: React.FC = () => {
                     </div>
                 </IonContent>
                 {isLoading && <Loader message={loadingMessage} />}
+                <IonModal
+                    isOpen={isModalOpen}
+                    onDidDismiss={() => setIsModalOpen(false)}
+                    initialBreakpoint={0.75}
+                    breakpoints={[0, 0.25, 0.5, 0.75]}
+                    className='ion-bottom-modal modal65'
+                >
+                    <IonHeader>
+                        <IonToolbar>
+                            <IonTitle>Attendance for {selectedDate}</IonTitle>
+                        </IonToolbar>
+                    </IonHeader>
+                    <IonContent>
+                        <IonCard>
 
+                            <IonRow className="colTask">
+                                {selectedAttendance && selectedAttendance.map((data: any) => (
+                                    <IonCol size="6">
+                                        <IonLabel>Course Name</IonLabel>
+                                        <IonText>
+                                            <h6>{data.course_name || ''}</h6>
+                                        </IonText>
+                                    </IonCol>
+                                ))}
+                            </IonRow>
+
+                        </IonCard>
+                    </IonContent>
+                </IonModal>
                 <IonFooter>
                     <IonToolbar>
-
                     </IonToolbar>
                 </IonFooter>
-
             </IonPage>
         </>
     );
