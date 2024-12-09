@@ -18,7 +18,13 @@ import {
   IonIcon,
   IonThumbnail,
   IonList,
-  IonFooter
+  IonFooter,
+  IonicSlides,
+  IonRow,
+  IonCol,
+  IonGrid,
+
+
 } from "@ionic/react";
 import { useHistory } from 'react-router';
 import Loader from '../components/Loader';
@@ -28,6 +34,9 @@ import { bookSlot, getSlotAvailability } from '../api/common';
 import { toast } from 'react-toastify';
 import { useAuth } from '../api/AuthContext';
 import NoDataFound from '../components/NoDataFound';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import '@ionic/react/css/ionic-swiper.css';
 
 const SlotSelection: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -184,8 +193,96 @@ const SlotSelection: React.FC = () => {
             <IonTitle>Select slots of interest</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent fullscreen className="colorBg enrollSlotsWrapp">
-          
+        <IonContent fullscreen className="colorBg">
+          <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
+          <div className="bgSvg">
+       
+            <div className="dateSelectionCard">
+              <h3>Select Date</h3>
+
+                <Swiper slidesPerView={4} loop={false}>
+                  <SwiperSlide>
+                    <IonCard>
+                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
+                    </IonCard>
+                  </SwiperSlide>
+
+                  <SwiperSlide>
+                    <IonCard className="selectedDate">
+                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
+                    </IonCard>
+                  </SwiperSlide>
+
+                  <SwiperSlide>
+                    <IonCard>
+                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
+                    </IonCard>
+                  </SwiperSlide>
+
+                  <SwiperSlide>
+                    <IonCard>
+                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
+                    </IonCard>
+                  </SwiperSlide>
+
+                  <SwiperSlide>
+                    <IonCard>
+                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
+                    </IonCard>
+                  </SwiperSlide>
+
+                      {/* ExtraSwiperSlide */}
+                          <SwiperSlide></SwiperSlide>
+                      {/* ExtraSwiperSlide */}
+                </Swiper>
+            </div>
+
+            <div className="timeSelecationCard">
+              <h3>Select Time</h3>
+            <IonGrid>
+              <IonRow>
+                  <IonCol size="4" ><IonCard><h4>09AM To 06PM</h4></IonCard></IonCol>
+                  <IonCol size="4"><IonCard><h4>09AM To 06PM</h4></IonCard></IonCol>
+                  <IonCol size="4"><IonCard className="selectedTime"><h4>09AM To 06PM</h4></IonCard></IonCol>
+                  <IonCol size="4"><IonCard><h4>09AM To 06PM</h4></IonCard></IonCol>
+                  <IonCol size="4"><IonCard><h4>09AM To 06PM</h4></IonCard></IonCol>
+              </IonRow>
+              </IonGrid>
+         
+              
+
+            </div>
+        
+
+ 
+         
+
+
+
+              {/* <IonList className="slotsItem" lines="none">
+                {slotList && slotList.length > 0 && slotList.map((data: any, index: any) => (
+                  <IonItem  key={`${index}-key`} className={isItemSelected(data.id) ? "itemActive" : ""}>
+                    <IonText className="enrollSlotsText">
+                      <div className="detailsArrow">
+                        <h3 onClick={(event) => viewSlotDetails(data)}>{data.slot_id}</h3>
+                        {data.timings && data.timings.length > 0 && data.timings.map((timing: any, index: any) => (
+                        <IonButton className={isItemSelected(data.id) ? "itemActive" : ""} onClick={(event) => viewSlotDetails(data)}>
+                          {timing.start_time} - {timing.end_time}
+                        </IonButton>
+                         ))}
+                      </div>
+
+                      <p>{data.description}</p>
+                    </IonText>
+                  </IonItem>
+                ))}
+                {slotList && slotList.length === 0 &&
+                    <NoDataFound message="Oops! Nothing to display here." />
+                }
+              </IonList> */}
+
+       
+          </div>
         </IonContent>
         {isLoading && <Loader message={loadingMessage} />}
 
