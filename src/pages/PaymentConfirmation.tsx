@@ -27,7 +27,6 @@ import Loader from '../components/Loader';
 import { ribbon, checkmark } from 'ionicons/icons';
 import { useAuth } from '../api/AuthContext';
 import useLoading from '../components/useLoading';
-
 const PaymentConfirmation: React.FC = () => {
   const history = useHistory();
   const [enrolledData, setEnrolledData] = useState<any>([]);
@@ -35,22 +34,41 @@ const PaymentConfirmation: React.FC = () => {
   const app_version: any = localStorage.getItem('app_version');
   const app_name: any = localStorage.getItem('app_name');
   const { login } = useAuth();
+  const { userData } = useAuth();
+  const [userList, setUserList] = useState<any[]>([]);
+  const [courseId, setCourseId] = useState<number>(0);
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
   useEffect(() => {
     if(queryParams){
       setEnrolledData(queryParams.data);
+      setUserList(queryParams.users);
+      setCourseId(queryParams.course_id);
+      console.log(queryParams);
     }else{
       alert('No Payment data found')
     }
   }, []);
 
+  const proceedWithSlotSelection = async () => {
+    if(userData.user_type == 17){
+      history.push({
+        pathname: "/corporate-slot-selection",
+        state: {users : userList,course_id : courseId }
+      });
+    }else{
+      history.push({
+        pathname: "/slot-selection",
+        state: {courses : queryParams.courses }
+      });
+    }
+    
+  }
 
   return (
     <>
       <IonPage>
-
       <IonHeader className="ion-header">
         <IonToolbar>
           <IonButtons slot="start">
@@ -59,8 +77,6 @@ const PaymentConfirmation: React.FC = () => {
           <IonTitle>Payment Confirmation</IonTitle>
         </IonToolbar>
       </IonHeader>
-
-
       <IonContent fullscreen className="colorBg paymentConfirmation">    
           <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>         
             <div className="bgSvg"> 
@@ -74,17 +90,13 @@ const PaymentConfirmation: React.FC = () => {
             </div>
         </IonContent>
         {isLoading && <Loader message={loadingMessage} />}
-
         <IonFooter>
           <IonToolbar>
-            <IonButton routerLink="/" shape="round" expand="block" color="primary" >Continue</IonButton>
+            <IonButton onClick={(event) => proceedWithSlotSelection()} shape="round" expand="block" color="primary" >Select slot</IonButton>
           </IonToolbar>
         </IonFooter>
-
       </IonPage>
     </>
   );
 };
-
 export default PaymentConfirmation;
-

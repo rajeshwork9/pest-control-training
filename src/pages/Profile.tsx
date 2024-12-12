@@ -73,7 +73,7 @@ const Profile: React.FC = () => {
             <p><IonIcon icon={call}></IonIcon>{userData.mobile_no}</p>
             <p><IonIcon icon={mail}></IonIcon>{userData.email_id}</p>
           </IonText>
-          <IonButton className="changepasswordBt ion-margin"  shape="round" color="primary"> Change Password </IonButton> 
+          <IonButton className="changepasswordBt ion-margin"  routerLink="/change-password" shape="round" color="primary"> Change Password </IonButton> 
           <IonButton className="logoutBt" onClick={(event) => logOut()} expand="block">
             Logout </IonButton>
         </IonCard>

@@ -53,6 +53,7 @@ const Dashboard: React.FC = () => {
   
     console.log(books);
   };
+  
   return (
     <>
       <IonPage>
@@ -71,13 +72,13 @@ const Dashboard: React.FC = () => {
 
             <div className="headerBts">
               <div className="ion-float-start notificationBt">
-                <IonButton
+                {/* <IonButton
                   routerLink="/notification"
                   className="notificationsIcon"
                   shape="round"
                 >
                   <IonImg src="assets/images/notifications-icon.svg" />
-                </IonButton>
+                </IonButton> */}
                 <IonIcon className="alertNotifi" icon={ellipse}></IonIcon>
               </div>
 

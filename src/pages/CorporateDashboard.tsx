@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 
 import {
   IonButton,
@@ -26,8 +26,27 @@ import {
 } from "@ionic/react";
 
 import { ellipse } from 'ionicons/icons'
+import { getUserList, getIndividualCourseList, getCorporateCourseList } from '../api/common';
 
 const CorporateDashboard: React.FC = () => {
+
+  const [courseCount, setCourseCount] = useState<number>(0);
+  const [userCount, setUserCount] = useState<number>(0);
+
+
+  useEffect(() => {
+    getDashboardCount();
+  }, []);
+
+  const getDashboardCount = async () => {
+    const [users, courses] = await Promise.all([
+      getUserList(),
+      getCorporateCourseList()
+    ]);
+    setUserCount(users.data.length);
+    setCourseCount(courses.data.length);
+  };
+  
   return (
     <>
       <IonPage>
@@ -60,7 +79,7 @@ const CorporateDashboard: React.FC = () => {
             <IonCard className="corporateTotalPaymentCard">
               <IonItem lines="none" color="none" routerLink="/users-list">
                 <IonText className="ctpcInner" slot="start">
-                  <h2><span>36</span>Users</h2>
+                  <h2><span>{userCount}</span>Users</h2>
                   <p>See all Users List</p>
                   <IonButton>
                     <IonImg className="detailsArrow" src="./assets/images/details-arrow-icon.svg" />
@@ -77,7 +96,7 @@ const CorporateDashboard: React.FC = () => {
                 <IonCard routerLink="/corporate-selected-courses">
                   <div className="d-flex justify-content">
                     <IonImg src="./assets/images/attendance-icon.svg" />
-                    <IonText slot="right"><h2 className="ion-no-margin">23</h2></IonText>
+                    <IonText slot="right"><h2 className="ion-no-margin">{courseCount}</h2></IonText>
                   </div>
                   <IonText><h3>Courses</h3></IonText>
                 </IonCard>

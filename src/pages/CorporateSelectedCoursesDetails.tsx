@@ -24,6 +24,7 @@ import {
     IonSegmentButton,
     IonSegmentView,
     IonSegmentContent,
+    IonFooter,
 
 } from "@ionic/react";
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
@@ -40,9 +41,10 @@ import { Browser } from "@capacitor/browser";
 
 const CorporateSelectedCoursesDetails: React.FC = () => {
     const { isLoading, startLoading, stopLoading } = useLoading();
-const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
+    const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     const { userData } = useAuth();
     const [courseDetails, setCourseDetails] = useState<any>([]);
+    const [slotSelectedUsers, setSlotSelectedUsers] = useState<any>([]);
     const history = useHistory();
     const filePath = useHistory();
     const queryParams: any = history.location.state;
@@ -52,6 +54,11 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     useEffect(() => {
         getCourseData();
     }, []);
+
+    useEffect(() => {
+        console.log("Selected Users",slotSelectedUsers);
+    }, [slotSelectedUsers]);
+
     function getFilePath(url: string): string {
         try {
             const urlObj = new URL(url);
@@ -77,7 +84,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                 "tbl_training_users.last_name",
                 "tbl_training_users.email_id",
                 "tbl_training_users.mobile_no",
-                "tbl_enrolled_courses.user_id"
+                "tbl_enrolled_courses.user_id as id"
             ],
             "order_by": {
                 "tbl_courses.course_name": "desc"
@@ -180,6 +187,47 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             throw new Error('Permissions not granted.');
         }
     };
+    const handlePropertyChange = async (event: any) => {
+        const { value, checked } = event.target;
+        console.log(courseDetails.training_users);
+        // Find the selected user based on the value
+        let selectedUser = courseDetails.training_users.find(
+            (item: any) => item.id === value
+        );
+
+        if (selectedUser) {
+            console.log(selectedUser);
+
+            setSlotSelectedUsers((prevItems: any) => {
+                if (checked) {
+                    // Add the user if checked is true
+                    const isDuplicate = prevItems.some(
+                        (item: any) => item.id === selectedUser.id
+                    );
+
+                    if (isDuplicate) {
+                        return prevItems; // No need to add duplicate
+                    }
+                    return [...prevItems, selectedUser]; // Add new user
+                } else {
+                    // Remove the user if checked is false
+                    return prevItems.filter(
+                        (item: any) => item.id !== selectedUser.id
+                    );
+                }
+            });
+
+            console.log(slotSelectedUsers);
+        } else {
+            console.warn("User not found for the provided value:", value);
+        }
+    };
+    const proceedWithSlotSelection = async () => {
+        history.push({
+          pathname: "/corporate-slot-selection",
+          state: {users : slotSelectedUsers,course_id :  queryParams.id }
+        }); 
+      }
     return (
         <IonPage>
             <IonHeader className="ion-header">
@@ -196,6 +244,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                     <div className="blueBg">
                         <IonList className="coursesDHeader" lines="none">
                             <IonItem lines="none" color="none" className="itemActive">
+
                                 <IonThumbnail slot="start">
                                     <IonIcon icon={ribbon}></IonIcon>
                                 </IonThumbnail>
@@ -222,7 +271,10 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                             {courseDetails.training_users && courseDetails.training_users.length > 0 && courseDetails.training_users.map((data: any, index: any) => (
                                 <IonCard className="userItem selectedCoursesUsers">
                                     <IonItem lines="none" color="none">
-                                        <IonThumbnail slot="start">
+                                        <div className="slotCheckbox" slot="start">
+                                            <IonCheckbox disabled={data.is_slot_booked == 1 ? true : false} value={data.id} onIonChange={(event) => handlePropertyChange(event)} labelPlacement="end"></IonCheckbox>
+                                        </div>
+                                        <IonThumbnail >
                                             <IonImg src="assets/images/user-icon.svg"></IonImg>
                                         </IonThumbnail>
 
@@ -246,7 +298,14 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                     </div>
                 </div>
             </IonContent>
-                {isLoading && <Loader message={loadingMessage} />}
+            {isLoading && <Loader message={loadingMessage} />}
+            {slotSelectedUsers && slotSelectedUsers.length > 0 &&
+            <IonFooter>
+                <IonToolbar>
+                    <IonButton onClick={(event) => proceedWithSlotSelection()} shape="round" expand="block" color="primary" >Select slot</IonButton>
+                </IonToolbar>
+                </IonFooter>
+            }
         </IonPage>
     );
 };

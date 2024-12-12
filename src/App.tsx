@@ -83,6 +83,9 @@ import Exam from './pages/Exam';
 import ExamResult from './pages/ExamResult'; 
 import ResultList from './pages/ResultList'; 
 import SlotSelection from './pages/SlotSelection';
+import CorporateSlotSelection from './pages/CorporateSlotSelection';
+import ForgotPassword from './pages/authentication/ForgotPassword';
+import ChangePassword from './pages/ChangePassword';
 
 
 
@@ -217,12 +220,14 @@ const App: React.FC = () => {
               <AuthGuard roles={[8,16,17]} path="/transactions" component={Transactions} />
               <AuthGuard roles={[8,16,17]} path="/transactions-details" component={TransactionsDetails} />
               <AuthGuard roles={[8,16,17]} path="/results-list" component={ResultList} />
-              
+              <Route path="/forgot-password" component={ForgotPassword} />
+              <AuthGuard roles={[8, 16, 17]} path="/change-password" component={ChangePassword} />
               
 
               <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />
               <AuthGuard roles={[17]} path="/corporate-selected-courses" component={CorporateSelectedCourses} />
               <AuthGuard roles={[17]} path="/corporate-selected-courses-details" component={CorporateSelectedCoursesDetails} />
+              <AuthGuard roles={[17]} path="/corporate-slot-selection" component={CorporateSlotSelection} />
               <AuthGuard roles={[17]} path="/users-list" component={UsersList} />
               <AuthGuard roles={[17]} path="/user-details" component={UserDetails} />
               <AuthGuard roles={[17]} path="/user-create" component={UserCreate} />

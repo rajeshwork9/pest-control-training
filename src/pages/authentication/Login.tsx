@@ -66,9 +66,7 @@ const Login: React.FC = () => {
             await PushNotifications.register();
         }
         try {
-            console.log("values", values);
             const response = await login(values, app_name, app_version);
-            console.log(response);
             if (values.rememberMe) {
                 localStorage.setItem('rememberedUserName', values.email);
                 localStorage.setItem('rememberedPassword', values.password);
@@ -77,10 +75,8 @@ const Login: React.FC = () => {
                 localStorage.removeItem('rememberedPassword')
             }
             if (response.status == 200 && response.success == true) {
-                console.log("hi")
+                toast.dismiss();
                 toast.success(response.message);
-                console.log(response.user_type, 'User Type');
-
                 if (response.data.user_type == 8 || response.data.user_type == 16) {
                     if (response.data.password_reset == 1) {
                         history.push("/reset-password");
@@ -93,6 +89,7 @@ const Login: React.FC = () => {
                 }
             }
             else {
+                toast.dismiss();
                 toast.error(response.message);
             }
         }
@@ -171,7 +168,7 @@ const Login: React.FC = () => {
                                             <div className="ionRemember">
                                                 <IonCheckbox className="ionCheckbox" labelPlacement="end" checked={values.rememberMe}
                                                     onIonChange={(e) => setFieldValue("rememberMe", e.detail.checked)}>Remember me</IonCheckbox>
-                                                <IonButton fill="clear" className="forgotpassword ion-text-uppercase ion-float-end">Forgot Password
+                                                <IonButton fill="clear" routerLink="/forgot-password" className="forgotpassword ion-text-uppercase ion-float-end">Forgot Password
                                                 </IonButton>
                                             </div>
 

@@ -125,7 +125,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
         toast.success(response.message);
         history.push({
           pathname: "/payment-confirmation",
-          state: { from: 'dashboard', data: response.data }
+          state: { from: 'dashboard', data: response.data, users: selectedUsers, course_id : selectedCourse.id  }
         });
         //history.push("/payment-confirmation");
       }
@@ -165,8 +165,13 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     finally {
       stopLoading();
     }
-
   };
+  const viewCourseDetails = async () => {
+    history.push({
+        pathname: "/select-user",
+        state: { id: selectedCourse.id }
+    });
+  }
   return (
     <>
       <IonPage>
@@ -190,7 +195,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                   <p>Selected Total Users</p>
                   <div className="d-flex ion-justify-content-between">
                     <h2>{selectedUsers.length}</h2>
-                    <IonButton shape="round" size="small" color="primary"><IonIcon icon={create}></IonIcon> Edit</IonButton>
+                    <IonButton shape="round" onClick={(event) => viewCourseDetails()} size="small" color="primary"><IonIcon icon={create}></IonIcon> Edit</IonButton>
                   </div>
                   </IonText>
               </IonCard>

@@ -108,6 +108,36 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
       
     }
   };
+  const changePassword = async (payload : any) => {
+    try {
+      const response = await axiosInstance.post(apiUrl + 'v1/training-change-password', payload, { headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' } });
+      console.log('API Response:', response);
+      if(response.data.status == 200 ){
+        logout();
+      }
+      return response.data;
+    }
+    catch (error: any) {
+      console.log(error);
+      return error.response.data;
+      
+    }
+  };
+  const forgotPassword = async (payload : any) => {
+    try {
+      const response = await axiosInstance.post(apiUrl + 'v1/training-forget-password', payload, { headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' } });
+      console.log('API Response:', response);
+      if(response.data.status == 200 ){
+        logout();
+      }
+      return response.data;
+    }
+    catch (error: any) {
+      console.log(error);
+      return error.response.data;
+      
+    }
+  };
   const logout = async () => {
     try {
       //const response = await axiosInstance.post(apiUrl + 'api/v1/logout', {}, { headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' } });
@@ -144,7 +174,7 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login,register, logout,resetPassword, deviceInfo, getCurrentLocation, lat, long, treatmentID, userData }}>
+    <AuthContext.Provider value={{ isLoggedIn, login,register, logout,resetPassword,forgotPassword,changePassword, deviceInfo, getCurrentLocation, lat, long, treatmentID, userData }}>
       {children}
     </AuthContext.Provider>
   )

@@ -36,13 +36,13 @@ import { useAuth } from '../api/AuthContext';
 
 const PaymentDetails: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
-const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
+  const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const history = useHistory();
   const { userData } = useAuth();
   const selectedCourseData = JSON.stringify(localStorage.getItem('selectedCourses'));
   const [selectedCourses, setSelectedCourses] = useState<any[]>(JSON.parse(selectedCourseData ? JSON.parse(selectedCourseData) : []));
   const [totalAmount, setTotalAmount] = useState<any>(0);
-
+  const [slotSelectionCourses, setSlotSelectionCourses] = useState<any[]>([]);
 
   useEffect(() => {
     setTotalAmount(selectedCourses.reduce((accumulator, currentItem) => {
@@ -56,7 +56,6 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
   const handlePropertyChange = async (event: any, courseId: any, propertyId: any) => {
     const { value, checked } = event.target;
-    console.log(checked);
     setSelectedCourses((prevCourses) =>
       prevCourses.map((course) => {
         if (course.id === courseId) {
@@ -71,19 +70,22 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             .filter((property: any) => property.isChecked)
             .reduce((sum: any, property: any) => sum + parseFloat(property.price), 0)
             .toFixed(2);
-
           return {
             ...course,
             properties: updatedProperties,
             total: newTotal
           };
         }
-        
         return course;
       })
     );
+    
   };
+
   const proceedWithPayment = async () => {
+    let courseSlots : any = [];
+    console.log(slotSelectionCourses);
+    startLoading();
     // Check if there is at least one unchecked property (isChecked = false)
     const hasUnchecked = selectedCourses.some(course =>
       course.properties.every((property: any) => !property.isChecked)
@@ -110,13 +112,17 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             amount: property.price,
             user_id: userData.id
           })
+          if(property.id == 1){
+            courseSlots.push(course);
+          }
         };
       });
     });
+    setSlotSelectionCourses(courseSlots);
+    console.log(courseSlots);
     // payload.users.push({
     //   user_id : userData.id
     // })
-
     console.log(payload);
     try {
       const response = await enrollCourseTraining(payload);
@@ -125,9 +131,10 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
         localStorage.removeItem('selectedCourses');
         toast.dismiss();
         toast.success(response.message);
+        stopLoading();
         history.push({
           pathname: "/payment-confirmation",
-          state: { from: 'dashboard', data: response.data }
+          state: { from: 'dashboard', data: response.data,courses : courseSlots }
         });
         //history.push("/payment-confirmation");
       }
@@ -139,7 +146,9 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
               toast.dismiss();
               toast.error(apiErrors[field][0]);
             });
+            stopLoading();
           } else {
+            stopLoading();
             console.error('An unexpected error occurred:', response.message);
             toast.dismiss();
             toast.error(response.message);
@@ -161,6 +170,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
       } else {
         console.error('An unexpected error occurred:', error);
       }
+      stopLoading();
       toast.dismiss();
       toast.error(error.message);
     }
@@ -195,7 +205,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                 <IonCardTitle>{data.course_name}</IonCardTitle>
                 <IonCardContent>
                   {data.properties && data.properties.length > 0 && data.properties.map((res: any, propertyIndex: any) => (
-                    <IonItem lines="none" key={`${data.id}-key`}>
+                    <IonItem lines="none" key={`${res.id}-key`}>
                       <div><IonCheckbox checked={res.isChecked} onIonChange={(event) => handlePropertyChange(event, data.id, res.id)} labelPlacement="end">{res.property} Price</IonCheckbox></div>
                       {res.id === '1' && <IonText slot="end"><h5>{data.course_price}</h5></IonText>}
                       {res.id === '2' && <IonText slot="end"><h5>{data.exam_price}</h5></IonText>}
@@ -211,7 +221,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
             ))}
           </div>
         </IonContent>
-                {isLoading && <Loader message={loadingMessage} />}
+        {isLoading && <Loader message={loadingMessage} />}
 
         <IonFooter>
           <IonToolbar>

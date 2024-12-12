@@ -37,25 +37,40 @@ import NoDataFound from '../components/NoDataFound';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import '@ionic/react/css/ionic-swiper.css';
-
+interface SlotItem {
+  course: any[];
+  slots: any[]; // Adjust the type of slots based on your data structure
+  timings: []
+}
 const SlotSelection: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const { userData } = useAuth();
   const selectedSlotData = localStorage.getItem('selectedSlots');
   const parsedData = selectedSlotData ? JSON.parse(selectedSlotData) : [];
-  const [slotList, setSlotList] = useState<any[]>([]);
+  const [slotList, setSlotList] = useState<SlotItem[]>([]);
   const history = useHistory();
-  const [selectedSlot, setSelectedSlot] = useState<any[]>(Array.isArray(parsedData) ? parsedData : []);
-  const [selectedSlotTimings, setSelectedSlotTimings] = useState<any[]>(Array.isArray(parsedData) ? parsedData : []);
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<number>(0);
+  const queryParams: any = history.location.state;
+  const [selectedSlot, setSelectedSlot] = useState<any[]>([]);
+  const [courseList, setCourseList] = useState<any[]>([]);
+  const [selectedSlotTimings, setSelectedSlotTimings] = useState<any[]>([]);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<any[]>([]);
 
   useEffect(() => {
     console.log(userData);
-    getSlots();
+    if (queryParams) {
+      setCourseList(queryParams.courses);
+      console.log(queryParams);
+      queryParams.courses.map((course: any) => {
+        getSlots(course);
+      });
+    } else {
+      alert('No course data found')
+    }
+    //getSlots();
   }, []);
 
-  const getSlots = async () => {
+  const getSlots = async (course: any) => {
     let payload = {
       "columns": [
         "tbl_slot_bookings.id as slot_id",
@@ -74,21 +89,34 @@ const SlotSelection: React.FC = () => {
         "tbl_slot_bookings.created_on": "DESC"
       },
       "filters": {
-        "tbl_slot_bookings.course_id": 2
+        "tbl_slot_bookings.course_id": course.id
       },
       "pagination": {
         "limit": "10",
         "page": "1"
       }
     }
-
     try {
       startLoading();
       const response = await getSlotAvailability(payload);
       console.log("Leave Details", response);
       if (response.status == 200 && response.success) {
         console.log(response);
-        setSlotList(response.data);
+        let newItem: SlotItem = {
+          course: course,
+          slots: response.data,
+          timings: []
+        }
+        setSlotList((prevItems) => {
+          const isDuplicate = prevItems.some((item) => item.course === newItem.course);
+
+          if (isDuplicate) {
+            return prevItems.map((item) =>
+              item.course === newItem.course ? { ...item, slots: newItem.slots, timings: [] } : item
+            );
+          }
+          return [...prevItems, newItem];
+        });
       }
       else {
         toast.dismiss();
@@ -99,88 +127,120 @@ const SlotSelection: React.FC = () => {
       console.error("Error fettching the leaves:", error);
     }
     finally {
+      console.log(slotList);
       stopLoading();
     }
   }
-
-  const handleSlotChange = async (event: any, data: any) => {
-    const { value, checked } = event.target;
-    console.log(data);
-    if (userData.user_type == 17) {
-      setSelectedSlot([]);
-    }
-    setSelectedSlot((prevSelectedItems) => {
-      if (checked) {
-        const isSelected = selectedSlot.find((item: any) => item.id == data.id);
-        // Add the item if it's checked and not already in the array
-        if (!isSelected) {
-          return [...prevSelectedItems, data];
-        } else {
-          return [...prevSelectedItems]
-        }
-
-      } else {
-        // Remove the item if it's unchecked
-        return prevSelectedItems.filter((item: any) => item.id !== data.id);
-      }
-    });
-  };
   useEffect(() => {
-    console.log('Updated selectedItems:', selectedSlot);
-  }, [selectedSlot]);
+    console.log('Updated selectedItems:', slotList);
+  }, [slotList]);
 
   const proceed = async () => {
-    if (selectedTimeSlot == 0) {
+    if (selectedTimeSlot.length == 0) {
       toast.dismiss();
-      toast.error('Please select atleast one slot');
+      toast.error('Please select slot for respective courses');
       return;
     }
-    let payload: any = [];
-    payload.push({
-      slot_time_id: selectedTimeSlot,
-      user_id: userData.id
-    }
-    )
-    try {
-      startLoading();
-      const response = await bookSlot(payload);
-      console.log("Leave Details", response);
-      if (response.status == 200 && response.success) {
-        console.log(response);
-        setSlotList(response.data);
-      }
-      else {
+    let errors = 0;
+    
+    slotList.forEach((course: any) => {
+      console.log(course);
+      const isSlotSelected = selectedTimeSlot.some(
+        (item) => item.course_id === course.course.id
+      );
+
+      if (!isSlotSelected) {
+        errors++;
         toast.dismiss();
-        toast.error(response.message);
+        toast.error(`Please select a slot for ${course.course.course_name}`); // Assuming course name is in `course.course.name`
+        return; // Exit the function immediately
       }
-    }
-    catch (error: any) {
-      console.error("Error fettching the leaves:", error);
-    }
-    finally {
-      stopLoading();
+    });
+    //return;
+    let payload: any = selectedTimeSlot;
+    // payload.push({
+    //   slot_time_id: selectedTimeSlot,
+    //   user_id: userData.id
+    // })
+    if(errors == 0){
+      try {
+        startLoading();
+        const response = await bookSlot(payload);
+        console.log("Details", response);
+        if (response.status == 201 && response.success) {
+          console.log(response);
+          toast.dismiss();
+          toast.success(response.message);
+          history.push({
+            pathname: "/",
+            state: {  }
+          });
+        }
+        else {
+          toast.dismiss();
+          toast.error(response.message);
+        }
+      }
+      catch (error: any) {
+        console.error("Error fettching the leaves:", error);
+      }
+      finally {
+        stopLoading();
+      }
     }
   };
 
-  const isItemSelected = (itemId: string) => {
-    console.log(selectedSlot);
-    return (selectedSlot || []).find((item: any) => item.id === itemId) !== undefined;
-  };
-  const viewSlotDetails = async (slot: any) => {
+  const viewSlotDetails = async (slot: any, course_id: any) => {
     console.log(slot);
-    setSelectedSlot(slot);
-    setSelectedSlotTimings(slot.timings);
+
+    let newItem: any = {
+      course_id: course_id,
+      slot_id: slot.slot_id
+    }
+    setSelectedSlot((prevItems) => {
+
+      const filteredItems = prevItems.filter((item) => item.course_id !== newItem.course_id);
+      return [...filteredItems, newItem];
+
+    });
+    setSlotList((prevItems) => {
+      const isDuplicate = prevItems.some((item: any) => item.course.id === course_id);
+      if (isDuplicate) {
+        return prevItems.map((item: any) =>
+          item.course.id === course_id ? { ...item, timings: slot.timings } : item
+        );
+      }
+      return [...prevItems, newItem];
+    });
+    console.log(slotList);
   }
-  const setTimeSlot = async (timeSlot: any) => {
-    console.log(timeSlot);
-    if ((timeSlot.no_of_attendees - timeSlot.attendees_booked) > 0) {
-      setSelectedTimeSlot(timeSlot.slot_time_id);
+  const isSlotSelected = (course_id: any, slot_id: any) => {
+    return (selectedSlot || []).find((item: any) => item.course_id === course_id && item.slot_id === slot_id) !== undefined;
+  };
+  const isTimeSlotSelected = (slot_time_id: any) => {
+    return (selectedTimeSlot || []).find((item: any) => item.slot_time_id === slot_time_id) !== undefined;
+  };
+  const setTimeSlot = async (timeSlot: any, course_id: any, slot_id: any) => {
+    if (timeSlot.no_of_attendees - timeSlot.attendees_booked > 0) {
+      let newItem: any = {
+        course_id: course_id,
+        slot_id: slot_id,
+        slot_time_id: timeSlot.slot_time_id,
+        user_id: userData.id,
+      };
+      setSelectedTimeSlot((prevItems) => {
+        const filteredItems = prevItems.filter((item) => item.course_id !== newItem.course_id);
+        return [...filteredItems, newItem];
+      });
+
+      console.log(selectedTimeSlot);
     } else {
       toast.dismiss();
-      toast.error('Slot full.Please select other time slot');
+      toast.error("Slot full. Please select another time slot.");
       return;
     }
-  }
+  };
+
   return (
     <>
       <IonPage>
@@ -195,94 +255,48 @@ const SlotSelection: React.FC = () => {
         </IonHeader>
         <IonContent fullscreen className="colorBg">
           <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
-          <div className="bgSvg">
-       
-            <div className="dateSelectionCard">
-              <h3>Select Date</h3>
+          {slotList && slotList.length > 0 && slotList.map((slot: any, index: any) => (
+            <div className="bgSvg">
+              <div className="dateSelectionCard">
+                <h3>{slot.course.course_name}</h3>
 
                 <Swiper slidesPerView={4} loop={false}>
-                  <SwiperSlide>
-                    <IonCard>
-                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
-                    </IonCard>
-                  </SwiperSlide>
-
-                  <SwiperSlide>
-                    <IonCard className="selectedDate">
-                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
-                    </IonCard>
-                  </SwiperSlide>
-
-                  <SwiperSlide>
-                    <IonCard>
-                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
-                    </IonCard>
-                  </SwiperSlide>
-
-                  <SwiperSlide>
-                    <IonCard>
-                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
-                    </IonCard>
-                  </SwiperSlide>
-
-                  <SwiperSlide>
-                    <IonCard>
-                    <IonText><h6>10 DEC 2024</h6> <p>to</p> <h6>17 DEC 2024</h6></IonText>
-                    </IonCard>
-                  </SwiperSlide>
-
-                      {/* ExtraSwiperSlide */}
-                          <SwiperSlide></SwiperSlide>
-                      {/* ExtraSwiperSlide */}
+                  {slot.slots && slot.slots.length > 0 && slot.slots.map((data: any, index: any) => (
+                    <SwiperSlide>
+                      <IonCard className={isSlotSelected(slot.course.id, data.slot_id) ? "selectedDate" : ""} onClick={(event) => viewSlotDetails(data, slot.course.id)}>
+                        <IonText><h6>{data.slot_start}</h6> <p>to</p> <h6>{data.slot_end}</h6></IonText>
+                      </IonCard>
+                    </SwiperSlide>
+                  ))}
+                  {/* ExtraSwiperSlide */}
+                  <SwiperSlide></SwiperSlide>
+                  {/* ExtraSwiperSlide */}
                 </Swiper>
+              </div>
+              {slot.timings && slot.timings.length > 0 && (
+                <IonCard className="timeSelecationCard">
+                  <h3>Select Time</h3>
+                  <IonGrid>
+                    <IonRow>
+                      {slot.timings.map((timing: any, index: any) => (
+                        <IonCol size="4" ><IonCard className={isTimeSlotSelected(timing.slot_time_id) ? "selectedTime" : ""} onClick={(event) => setTimeSlot(timing, slot.course.id, timing.slot_id)}><h4>{timing.start_time} - {timing.end_time}</h4></IonCard></IonCol>
+                      ))}
+                    </IonRow>
+                  </IonGrid>
+                </IonCard>
+              )}
+              {!selectedSlot && slot.timings && slot.timings.length == 0 && (
+                <NoDataFound message="Please select the slot" />
+              )}
+              {selectedSlot && slot.timings && slot.timings.length == 0 && (
+                <NoDataFound message="No Time slots available. Please select other slot" />
+              )}
+
             </div>
-
-            <div className="timeSelecationCard">
-              <h3>Select Time</h3>
-            <IonGrid>
-              <IonRow>
-                  <IonCol size="4" ><IonCard><h4>09AM To 06PM</h4></IonCard></IonCol>
-                  <IonCol size="4"><IonCard><h4>09AM To 06PM</h4></IonCard></IonCol>
-                  <IonCol size="4"><IonCard className="selectedTime"><h4>09AM To 06PM</h4></IonCard></IonCol>
-                  <IonCol size="4"><IonCard><h4>09AM To 06PM</h4></IonCard></IonCol>
-                  <IonCol size="4"><IonCard><h4>09AM To 06PM</h4></IonCard></IonCol>
-              </IonRow>
-              </IonGrid>
-         
-              
-
-            </div>
-        
-
- 
-         
-
-
-
-              {/* <IonList className="slotsItem" lines="none">
-                {slotList && slotList.length > 0 && slotList.map((data: any, index: any) => (
-                  <IonItem  key={`${index}-key`} className={isItemSelected(data.id) ? "itemActive" : ""}>
-                    <IonText className="enrollSlotsText">
-                      <div className="detailsArrow">
-                        <h3 onClick={(event) => viewSlotDetails(data)}>{data.slot_id}</h3>
-                        {data.timings && data.timings.length > 0 && data.timings.map((timing: any, index: any) => (
-                        <IonButton className={isItemSelected(data.id) ? "itemActive" : ""} onClick={(event) => viewSlotDetails(data)}>
-                          {timing.start_time} - {timing.end_time}
-                        </IonButton>
-                         ))}
-                      </div>
-
-                      <p>{data.description}</p>
-                    </IonText>
-                  </IonItem>
-                ))}
-                {slotList && slotList.length === 0 &&
-                    <NoDataFound message="Oops! Nothing to display here." />
-                }
-              </IonList> */}
-
-       
-          </div>
+          ))}
+          {slotList && slotList.length === 0 &&
+            <NoDataFound message="Oops! Nothing to display here." />
+          }
         </IonContent>
         {isLoading && <Loader message={loadingMessage} />}
 

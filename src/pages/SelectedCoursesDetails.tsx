@@ -24,6 +24,7 @@ import {
   IonSegmentButton,
   IonSegmentView,
   IonSegmentContent,
+  IonFooter,
 
 } from "@ionic/react";
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
@@ -48,6 +49,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const queryParams: any = history.location.state;
   const apiUrl: any = import.meta.env.VITE_API_URL;
   const fileUrl: any = getFilePath(apiUrl);
+  const [isSlotBooked, setIsSlotBooked] = useState<boolean>(false);
 
   useEffect(() => {
     getCourseData();
@@ -95,6 +97,14 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
       if (response.status == 200 && response.success) {
         console.log(response);
         setCourseDetails(response.data[0]);
+        const result = convertStringToArray(response.data[0].properties);
+        console.log(result);
+        const isCoursePurchased = result.find((item : any) => item == 1);
+        if(isCoursePurchased && response.data[0].is_slot_booked == 0){
+          setIsSlotBooked(false);
+        }else{
+          setIsSlotBooked(true);
+        }
       }
       else {
         toast.dismiss();
@@ -108,6 +118,11 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
       stopLoading();
     }
   }
+  const convertStringToArray = (inputString: string): string[] => {
+    if (!inputString) return []; // Handle empty or undefined strings
+  
+    return [...new Set(inputString.split(",").map((item) => item.trim()))];
+  };
   const openPDF = async (file_name: any, file: string) => {
     await Browser.open({ url: fileUrl + '' + file });
   };
@@ -226,6 +241,14 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
       console.error("user not loggedin")
     }
   }
+  const proceedWithSlotSelection = async () => {
+    let courses = [];
+    courses.push(courseDetails);
+    history.push({
+      pathname: "/slot-selection",
+      state: {courses : courses }
+    }); 
+  }
   return (
     <IonPage>
       <IonHeader className="ion-header">
@@ -280,7 +303,14 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
           </div>
         </div>
       </IonContent>
-                {isLoading && <Loader message={loadingMessage} />}
+      {isLoading && <Loader message={loadingMessage} />}
+      {!isSlotBooked && 
+      <IonFooter>
+          <IonToolbar>
+            <IonButton onClick={(event) => proceedWithSlotSelection()} shape="round" expand="block" color="primary" >Select slot</IonButton>
+          </IonToolbar>
+        </IonFooter>
+      }
     </IonPage>
   );
 };
