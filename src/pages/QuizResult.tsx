@@ -30,7 +30,11 @@ const QuizResult: React.FC = () => {
   const history = useHistory();
   const queryParams: any = history.location.state;
   const result = queryParams.data;
-
+  const resultList = JSON.parse(queryParams.data.quiz_details);
+  console.log(resultList);
+  const answeredCount = resultList.length;
+  const correctCount = resultList.filter((item : any) => item.answer_id === item.correct_answer).length;
+  console.log(correctCount);
   return (
     <>
       <IonPage>
@@ -61,7 +65,7 @@ const QuizResult: React.FC = () => {
                           <IonCard>
                             <IonText>
                               <h6>Total Questios</h6>
-                              <h3>05</h3>
+                              <h3>{queryParams.totalQuestions}</h3>
                               </IonText>
                           </IonCard>
                         </IonCol>
@@ -70,7 +74,7 @@ const QuizResult: React.FC = () => {
                           <IonCard>
                             <IonText>
                               <h6>Answered</h6>
-                              <h3>05</h3>
+                              <h3>{answeredCount}</h3>
                               </IonText>
                           </IonCard>
                         </IonCol>
@@ -79,7 +83,7 @@ const QuizResult: React.FC = () => {
                           <IonCard>
                             <IonText>
                               <h6>Correct</h6>
-                              <h3>04</h3>
+                              <h3>{correctCount}</h3>
                               </IonText>
                           </IonCard>
                         </IonCol>

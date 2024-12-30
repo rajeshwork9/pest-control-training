@@ -160,7 +160,7 @@ const Exam: React.FC = () => {
                 toast.success(response.message);
                 history.push({
                     pathname: "/quiz-result",
-                    state: { from: 'dashboard', data: response.data }
+                    state: { from: 'dashboard', data: response.data,totalQuestions : examData.no_of_questions,answered : response.data.length  }
                 });
                 //history.push("/dashboard");
             }
@@ -270,7 +270,7 @@ const Exam: React.FC = () => {
                                                 <div className="optionBlock">
 
                                                     <IonRadio value={option.answer_id}>{option.answer}</IonRadio>
-                                                    {examData.image != null &&
+                                                    {option.image != null &&
                                                         <IonImg className="optionImg" src={imgBaseUrl + option.image}></IonImg>
                                                     }
                                                 </div>
