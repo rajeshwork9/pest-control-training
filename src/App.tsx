@@ -86,6 +86,8 @@ import SlotSelection from './pages/SlotSelection';
 import CorporateSlotSelection from './pages/CorporateSlotSelection';
 import ForgotPassword from './pages/authentication/ForgotPassword';
 import ChangePassword from './pages/ChangePassword';
+import CertificateList from './pages/Certificates';
+import Certificates from './pages/Certificates';
 
 
 
@@ -215,6 +217,7 @@ const App: React.FC = () => {
               <AuthGuard roles={[8, 16]} path="/slot-selection" component={SlotSelection} />
               <AuthGuard roles={[8, 16]} path="/exam" component={Exam} />
               <AuthGuard roles={[8, 16]} path="/exam-result" component={ResultList} />
+              <AuthGuard roles={[8, 16]} path="/certificates" component={Certificates} />
 
               <AuthGuard roles={[8,16,17]} path="/profile" component={Profile} />
               <AuthGuard roles={[8,16,17]} path="/transactions" component={Transactions} />

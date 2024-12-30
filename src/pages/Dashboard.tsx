@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
                 >
                   <IonImg src="assets/images/notifications-icon.svg" />
                 </IonButton> */}
-                <IonIcon className="alertNotifi" icon={ellipse}></IonIcon>
+                {/* <IonIcon className="alertNotifi" icon={ellipse}></IonIcon> */}
               </div>
 
               <IonButton shape="round" routerLink="/profile">
@@ -153,6 +153,15 @@ const Dashboard: React.FC = () => {
                   </IonText>
                 </IonCard>
               </IonCol>
+              <IonCol size="6">
+                <IonCard routerLink="/certificates">
+                  <IonImg src="./assets/images/certificate-icon.svg" />
+                  <IonText>
+                    <h3>Certificates</h3>
+                  </IonText>
+                </IonCard>
+              </IonCol>
+
             </IonRow>
           </div>
         </IonContent>

@@ -129,7 +129,12 @@ ion-textarea {
   right: 0px;
   z-index: -1;
 }
-
+.examImg {
+  margin: 10px;
+}
+.optionImg {
+  margin: 10px;
+}
 .bgSvg:after {
   content: "";
   position: fixed;
@@ -1422,6 +1427,7 @@ ion-footer {
       margin-top: 2px;
       margin-bottom: 2px;
       width: 80%;
+
       h3 {
         font-size: 0.9rem;
         --font-weight: 500;
@@ -1469,7 +1475,8 @@ ion-footer {
         padding-top: 2px;
       }
     }
-    .slotCheckbox{
+
+    .slotCheckbox {
       margin: 12px 6px;
     }
   }
@@ -2071,11 +2078,12 @@ ion-radio-group.optionsRadioGroup.md {
 .questionsData {
   box-shadow: rgb(0 0 0 / 22%) 0px 3px 5px 0px;
 
-  ion-radio {
+  .optionBlock {
     border: solid 1px #ccc;
     padding: 10px 15px 10px 15px;
     border-radius: 30px;
     color: #333;
+    margin-bottom: 10px;
   }
 
   ion-radio::part(container) {
@@ -2501,5 +2509,33 @@ ion-radio-group.optionsRadioGroup.md {
     border: 2px solid #1b428a;
     border-radius: 5px;
     font-size: 20px;
+  }
+}
+
+.certificateWrapp {
+  ion-item.ion-justify-content-between.item.md.item-lines-none.in-list.ion-focusable {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  ion-button.scd-downloadBt.md.button.button-small.button-clear.ion-activatable.ion-focusable {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 12px;
+    margin: 0px;
+    margin-top: 5px;
+  }
+
+  .scd-iconText {
+    display: flex;
+  }
+
+  ion-img.md {
+    width: 40px;
+    margin-right: 10px;
   }
 }

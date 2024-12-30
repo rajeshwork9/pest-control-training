@@ -41,7 +41,7 @@ import { Browser } from "@capacitor/browser";
 
 const SelectedCoursesDetails: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
-const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
+  const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const { userData } = useAuth();
   const [courseDetails, setCourseDetails] = useState<any>([]);
   const history = useHistory();
@@ -99,10 +99,10 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
         setCourseDetails(response.data[0]);
         const result = convertStringToArray(response.data[0].properties);
         console.log(result);
-        const isCoursePurchased = result.find((item : any) => item == 1);
-        if(isCoursePurchased && response.data[0].is_slot_booked == 0){
+        const isCoursePurchased = result.find((item: any) => item == 1);
+        if (isCoursePurchased && response.data[0].is_slot_booked == 0) {
           setIsSlotBooked(false);
-        }else{
+        } else {
           setIsSlotBooked(true);
         }
       }
@@ -120,7 +120,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   }
   const convertStringToArray = (inputString: string): string[] => {
     if (!inputString) return []; // Handle empty or undefined strings
-  
+
     return [...new Set(inputString.split(",").map((item) => item.trim()))];
   };
   const openPDF = async (file_name: any, file: string) => {
@@ -129,10 +129,11 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const downloadFile = async (file_name: any, file_path: string) => {
     startLoading();
     setLoadingMessage('Downloading...');
-    getBase64Path({ file_path: file_path }).then(async (file) => {
-      if (file) {
-        console.log(file.data);
-        const base64Data = `data:${file.data.data.mime_type};base64,${file.data.data.file_data}`;
+    getBase64Path({ file_path: file_path }).then(async (response) => {
+      console.log(response);
+      if (response.status == 200 && response.success) {
+        console.log(response.data);
+        const base64Data = `data:${response.data.mime_type};base64,${response.data.file_data}`;
         //const base64Data = file;
         const currentDate = new Date().toLocaleString().replace(/[,:\s\/]/g, '-');
         const fileName = `${file_name}-${currentDate}.pdf`;
@@ -184,7 +185,9 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
           }
         }
       } else {
-        await toast.error("No proposal file found.");
+        stopLoading();
+        toast.dismiss();
+        toast.error(response.message);
       }
     }).catch((error) => {
       console.error('Failed to convert PDF:', error);
@@ -246,8 +249,8 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     courses.push(courseDetails);
     history.push({
       pathname: "/slot-selection",
-      state: {courses : courses }
-    }); 
+      state: { courses: courses }
+    });
   }
   return (
     <IonPage>
@@ -304,8 +307,8 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
         </div>
       </IonContent>
       {isLoading && <Loader message={loadingMessage} />}
-      {!isSlotBooked && 
-      <IonFooter>
+      {!isSlotBooked &&
+        <IonFooter>
           <IonToolbar>
             <IonButton onClick={(event) => proceedWithSlotSelection()} shape="round" expand="block" color="primary" >Select slot</IonButton>
           </IonToolbar>

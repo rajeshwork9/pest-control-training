@@ -63,7 +63,7 @@ const CorporateDashboard: React.FC = () => {
                 <IonButton routerLink="/notification" className="notificationsIcon" shape="round">
                   <IonImg src="assets/images/notifications-icon.svg" />
                 </IonButton>
-                <IonIcon className="alertNotifi" icon={ellipse}></IonIcon>
+                {/* <IonIcon className="alertNotifi" icon={ellipse}></IonIcon> */}
               </div>
 
               <IonButton shape="round" routerLink="/Profile">

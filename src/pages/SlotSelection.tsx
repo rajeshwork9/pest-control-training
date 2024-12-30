@@ -101,22 +101,24 @@ const SlotSelection: React.FC = () => {
       const response = await getSlotAvailability(payload);
       console.log("Leave Details", response);
       if (response.status == 200 && response.success) {
-        console.log(response);
-        let newItem: SlotItem = {
-          course: course,
-          slots: response.data,
-          timings: []
-        }
-        setSlotList((prevItems) => {
-          const isDuplicate = prevItems.some((item) => item.course === newItem.course);
-
-          if (isDuplicate) {
-            return prevItems.map((item) =>
-              item.course === newItem.course ? { ...item, slots: newItem.slots, timings: [] } : item
-            );
+        if(response.data.length > 0){
+          console.log(response);
+          let newItem: SlotItem = {
+            course: course,
+            slots: response.data,
+            timings: []
           }
-          return [...prevItems, newItem];
-        });
+          setSlotList((prevItems) => {
+            const isDuplicate = prevItems.some((item) => item.course === newItem.course);
+  
+            if (isDuplicate) {
+              return prevItems.map((item) =>
+                item.course === newItem.course ? { ...item, slots: newItem.slots, timings: [] } : item
+              );
+            }
+            return [...prevItems, newItem];
+          });
+        }
       }
       else {
         toast.dismiss();
@@ -295,16 +297,17 @@ const SlotSelection: React.FC = () => {
             </div>
           ))}
           {slotList && slotList.length === 0 &&
-            <NoDataFound message="Oops! Nothing to display here." />
+            <NoDataFound message="No Time slots configured. Please contact admin" />
           }
         </IonContent>
         {isLoading && <Loader message={loadingMessage} />}
-
+        {slotList && slotList.length > 0 &&
         <IonFooter>
           <IonToolbar>
             <IonButton onClick={(event) => proceed()} shape="round" expand="block" color="primary" >Book slot</IonButton>
           </IonToolbar>
         </IonFooter>
+        }
       </IonPage>
     </>
   );

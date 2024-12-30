@@ -36,8 +36,8 @@ import { useAuth } from "../api/AuthContext";
 import NoDataFound from "../components/NoDataFound";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-
-
+let url = import.meta.env.VITE_API_URL;
+//url = url.slice(0, url.lastIndexOf('/'));
 
 const Exam: React.FC = () => {
     const { isLoading, startLoading, stopLoading } = useLoading();
@@ -52,19 +52,26 @@ const Exam: React.FC = () => {
     const [questionsCount, setQuestionsCount] = useState<number>(0); // Track the current slide index
     const [submitExam, setSubmitExam] = useState<boolean>(false);
     const [submitExamMessage, setSubmitExamMessage] = useState<string>('');
+    const [imgBaseUrl, setImgBaseUrl] = useState<string>('');
     const swiperRef = useRef<any>(null); // Ref for the Swiper component
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
+        const imgBaseUrl = removeLastSegment(url);
+        setImgBaseUrl(imgBaseUrl);
         getExam();
     }, []);
     useEffect(() => {
         setProgress((selectedAnswers.length || 0) / questionsCount);
     }, [selectedAnswers]);
+
+    const removeLastSegment = (url: any) => {
+        const segments = url.split("/").filter(Boolean); // Split by "/" and remove empty segments
+        segments.pop(); // Remove the last segment
+        return segments.join("/") + "/"; // Rejoin and add trailing slash
+    };
+
     const getExam = async () => {
-
-
-
         try {
             startLoading();
             const response = await getExamData(queryParams.id);
@@ -146,7 +153,7 @@ const Exam: React.FC = () => {
         try {
             const response = await validateExam(payload);
             console.log(response);
-            
+
             if ((response.status == 200 || response.status == 201) && response.success == true) {
                 console.log(JSON.parse(response.data.quiz_details));
                 toast.dismiss();
@@ -247,14 +254,30 @@ const Exam: React.FC = () => {
                                 <SwiperSlide>
                                     <div className="questionNum">{index + 1}</div>
                                     <IonCard className="ion-padding questionsData">
-                                        <IonText className="headingtd"><h3> {data.question}</h3></IonText>
+                                        {data.question !== '' &&
+                                            <IonText className="headingtd">
+                                                <h3> {data.question}</h3>
+                                            </IonText>
+                                        }
+                                        {data.question_image != null &&
+                                            <IonImg className="examImg" src={imgBaseUrl + data.question_image}></IonImg>
+                                        }
                                         <IonRadioGroup className="optionsRadioGroup"
                                             value={selectedAnswers.find((ans) => ans.question_id === data.question_id)?.answer_id || ''}
                                             onIonChange={(e) => handleAnswerClick(data.question_id, e.detail.value)}
                                         >
                                             {data.options && data.options.length > 0 && data.options.map((option: any, optionIndex: any) => (
-                                                <IonRadio value={option.answer_id}>{option.answer}</IonRadio>
+                                                <div className="optionBlock">
+
+                                                    <IonRadio value={option.answer_id}>{option.answer}</IonRadio>
+                                                    {examData.image != null &&
+                                                        <IonImg className="optionImg" src={imgBaseUrl + option.image}></IonImg>
+                                                    }
+                                                </div>
+
+
                                             ))}
+
                                         </IonRadioGroup>
                                     </IonCard>
                                 </SwiperSlide>
@@ -270,15 +293,15 @@ const Exam: React.FC = () => {
             <IonFooter>
                 <IonToolbar>
                     <div style={{ display: "flex", justifyContent: "center" }}>
-                        <IonButton className="width100"  shape="round" expand="full" color="primary" fill="outline"
+                        <IonButton className="width100" shape="round" expand="full" color="primary" fill="outline"
                             onClick={prevSlide}
                             disabled={currentIndex === 0} // Disable "Previous" on the first slide
                         >
                             Previous
                         </IonButton>
-                        {currentIndex !== questionsCount- 1 &&
+                        {currentIndex !== questionsCount - 1 &&
 
-                            <IonButton className="width100"  shape="round" expand="full" color="primary"
+                            <IonButton className="width100" shape="round" expand="full" color="primary"
                                 onClick={nextSlide}
                             // Disable "Next" on the last slide
                             >

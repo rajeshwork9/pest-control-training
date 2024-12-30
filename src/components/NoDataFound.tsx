@@ -14,8 +14,8 @@ const NoDataFound: React.FC<NoDataFoundProps> = ({
   return (
     <div style={styles.container}>
       <IonIcon icon={icon} style={styles.icon} />
-      <IonText color="medium">
-        <h4>{message}</h4>
+      <IonText color="medium" >
+        <h4 style={styles.text}>{message}</h4>
       </IonText>
     </div>
   );
@@ -27,7 +27,7 @@ const styles = {
     flexDirection: 'column' as const,
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
+    height: '90vh',
     textAlign: 'center' as const,
   },
   icon: {
@@ -35,6 +35,9 @@ const styles = {
     marginBottom: '16px',
     color: '#6c757d',
   },
+  text: {
+    textTransform: 'capitalize' as const
+  }
 };
 
 export default NoDataFound;

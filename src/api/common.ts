@@ -172,7 +172,7 @@ export const enrollCourseTraining = async (payload: any) => {
 export const getBase64Path = async (payload: any) => {
   try {
     const response = await axiosInstance.post(`${apiUrl}v1/download-file`, payload);
-    return response;
+    return response.data;
   }
   catch (error: any) {
     return error.response.data;
@@ -292,9 +292,11 @@ export const getExamData = async (quiz_id: any) => {
       "tbl_training_questionnaires.id as question_id",
       "tbl_training_questionnaires.question",
       "tbl_training_questionnaires.marks",
+      "tbl_training_questionnaires.question_image",
       "tbl_training_answers.id as answer_id",
       "tbl_training_answers.answer",
-      "tbl_training_answers.is_correct"
+      "tbl_training_answers.is_correct",
+      "tbl_training_answers.image"
     ],
     "order_by": {
       "tbl_quiz.created_by": "DESC"
@@ -328,6 +330,15 @@ export const validateExam = async (payload: any) => {
 export const getResults = async (payload: any) => {
   try {
     const response = await axiosInstance.post(`${apiUrl}v1/test-result`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
+export const getCertificates = async (payload: any) => {
+  try {
+    const response = await axiosInstance.post(`${apiUrl}v1/test-certificates`, payload);
     return response.data;
   }
   catch (error: any) {
