@@ -7,10 +7,13 @@ import { toast } from 'react-toastify';
 import { App } from '@capacitor/app';
 import { Device } from '@capacitor/device';
 import { appSettings } from '../api/common';
+import Loader from './Loader';
 
 const AppUpdate: React.FC = () => {
     const [isUpdateAvailable, setUpdateAvailable] = useState<boolean>(false);
     const [updateLink, setUpdateLink] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
     useEffect(() => {
         checkUpdate();

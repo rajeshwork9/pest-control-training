@@ -22,6 +22,8 @@ import Loader from '../../components/Loader';
 
 const LoginWithMobile: React.FC = () => {
     const [showAlert, setShowAlert] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
     return (
         <>

@@ -15,6 +15,10 @@ import {
 // import './Home.css';
 
 const Home: React.FC = () => {
+
+  const navigatetoUae = async () => {
+    window.location.href = "https://stg-id.uaepass.ae/idshub/authorize?response_type=code&client_id=rakpsd_mobile_stage&scope=urn:uae:digitalid:profile:general&state=HnlHOJTkTb66Y5H&redirect_uri=http://localhost/uaepassverification&acr_values=urn:safelayer:tws:policies:authentication:level:low";  
+  }
   return (
     <IonPage>
       <IonContent fullscreen className="ionHome">
@@ -26,7 +30,7 @@ const Home: React.FC = () => {
             <IonText className="homeHeading">Training</IonText>
 
  
-            <IonItem className="loginOptionsBt" routerLink="/loginwithmobile" lines="none">            
+            <IonItem className="loginOptionsBt" onClick={navigatetoUae} lines="none">            
                 <IonImg slot="start" src="assets/images/uaepass-icon.svg" ></IonImg>
                 <IonText>Sign in with UAE PASS</IonText>               
             </IonItem>

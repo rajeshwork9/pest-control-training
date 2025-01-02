@@ -72,7 +72,7 @@ const OtpLogin = () => {
                     </div>
                 </div>
              </IonContent>
-                {isLoading && <Loader message={loadingMessage} />}
+                
         </IonPage>
       </>
     );
