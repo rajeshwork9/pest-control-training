@@ -28,6 +28,7 @@ import { getCourseList } from '../../api/common';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../api/AuthContext';
 import NoDataFound from '../../components/NoDataFound';
+import { getaccesstoken, uaeuserInfo } from '../../api/common';
 
 const UaePassVerification: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -36,13 +37,45 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const selectedCourseData = localStorage.getItem('selectedCourses');
   const parsedData = selectedCourseData ? JSON.parse(selectedCourseData) : [];
   const [courseList, setCourseList] = useState<any[]>([]);
+  
   const history = useHistory();
-  const [selectedCourses, setSelectedCourses] = useState<any[]>(Array.isArray(parsedData) ? parsedData : []);
+  const queryParams: any = history.location.state;
 
 
-  useEffect(() => {
-    
+  useEffect(() =>  {
+    if(queryParams){
+      const getAccessToken = async () => {
+        console.log(queryParams.access_token,"Authorization Code");
+      try{
+        const username = import.meta.env.VITE_USERNAME;
+        const password = import.meta.env.VITE_PASSWORD;
+        const credentials = `${username}:${password}`;
+        const creds = btoa(credentials);
+        const accessTokenResponse = await getaccesstoken(queryParams.authorization_code,creds);
+        console.log('Access Token', accessTokenResponse);
+        if(accessTokenResponse){
+          getUserInfo(accessTokenResponse.access_token);
+        }
+      }
+      catch(error: any){
+        console.error(error);
+      }
+      }
+      
+      getAccessToken();
+
+    }else{
+      alert('Error')
+    }
   }, []);
+  
+
+  const getUserInfo = async (token: any) => {
+    const response = await uaeuserInfo(token);
+    console.log('userInfo Response', response);
+  }
+  
+
 
   return (
     <>

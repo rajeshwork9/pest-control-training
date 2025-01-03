@@ -88,6 +88,7 @@ import ForgotPassword from './pages/authentication/ForgotPassword';
 import ChangePassword from './pages/ChangePassword';
 import CertificateList from './pages/Certificates';
 import Certificates from './pages/Certificates';
+import UaePassVerification from './pages/authentication/UaePassVerifiction';
 
 
 
@@ -203,6 +204,7 @@ const App: React.FC = () => {
               <Route path="/login" component={Login} />
               <Route path="/loginwithmobile" component={LoginWithMobile} />
               <Route path="/signup" component={Signup} />
+              <Route path="/uaepassverification" component={UaePassVerification} />
               <AuthGuard roles={[8, 16, 17]} path="/reset-password" component={ResetPassword} />
               <AuthGuard roles={[8, 16]} path="/dashboard" component={Dashboard} />
               <AuthGuard roles={[8, 16]} path="/attendance" component={Attendance} />

@@ -1,4 +1,4 @@
-import axios, { AxiosProgressEvent } from 'axios';
+import axios, { Axios, AxiosProgressEvent } from 'axios';
 import axiosInstance from '../interceptors/ApiInterceptor';
 
 import { formatDateTime } from '../utils/dateTimeUtils';
@@ -382,3 +382,25 @@ export const appSettings = async (payload: any) => {
     return error.response.data;
   }
 };
+
+export const uaeuserInfo = async (token: any) => {
+  try{
+    const response = await axios.get('https://stg-id.uaepass.ae/idshub/userinfo',
+    {headers:{'Authorization': `Bearer ${token}`}}
+  )
+  return response;
+  }catch(error: any){
+    return error
+  }
+}
+
+export const getaccesstoken = async (authorizationcode: any, creds: any) => {
+  try{
+    const response = await axios.post(`https://stg-id.uaepass.ae/idshub/token?grant_type=authorization_code&redirect_uri=http://localhost/uaepassverification&code= ${authorizationcode}`,
+    {headers:{'Authorization': `Basic ${creds}`, 'Content-Type':'multipart/form-data;charset=UTF-8'}}
+  )
+  return response;
+  }catch(error: any){
+    return error
+  }
+}
