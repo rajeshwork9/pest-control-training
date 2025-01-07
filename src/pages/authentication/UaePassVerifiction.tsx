@@ -43,9 +43,11 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
 
   useEffect(() =>  {
+    console.log("queryParams---------------",queryParams);
     if(queryParams){
+
       const getAccessToken = async () => {
-        console.log(queryParams.access_token,"Authorization Code");
+        console.log(queryParams.authorization_code,"Authorization Code");
       try{
         const username = import.meta.env.VITE_USERNAME;
         const password = import.meta.env.VITE_PASSWORD;

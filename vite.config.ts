@@ -10,6 +10,15 @@ export default defineConfig({
     react(),
     legacy()
   ],
+  server: {
+    proxy: {
+      '/': {
+        target: 'https://stg-id.uaepass.ae',
+        changeOrigin: true,
+        secure: false, // Use with HTTPS targets during development
+      },
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',

@@ -4,6 +4,7 @@ import axiosInstance from '../interceptors/ApiInterceptor';
 import { formatDateTime } from '../utils/dateTimeUtils';
 import { useIonLoading } from '@ionic/react';
 import { useState } from 'react';
+import { Http } from '@capacitor-community/http';
 
 const apiUrl: any = import.meta.env.VITE_API_URL;
 
@@ -384,23 +385,57 @@ export const appSettings = async (payload: any) => {
 };
 
 export const uaeuserInfo = async (token: any) => {
-  try{
+  try {
+
     const response = await axios.get('https://stg-id.uaepass.ae/idshub/userinfo',
-    {headers:{'Authorization': `Bearer ${token}`}}
-  )
-  return response;
-  }catch(error: any){
+      { headers: { 'Authorization': `Bearer ${token}` } }
+    )
+    return response;
+  } catch (error: any) {
     return error
   }
 }
+export const getaccesstocken = async (authorizationcode: any, creds: any) => {
+  try {
+    const apiUrl = 'https://stg-id.uaepass.ae/idshub/token';
+    const payload = {
+      grant_type: 'authorization_code',
+      redirect_uri: 'http://localhost/uaepassverification',
+      code: authorizationcode,
+    };
 
+    const response = await axios.post(apiUrl, payload, {
+      headers: {
+        Authorization: `Basic ${creds}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    console.log(response.data);
+  } catch (error: any) {
+    return error
+  }
+}
 export const getaccesstoken = async (authorizationcode: any, creds: any) => {
-  try{
-    const response = await axios.post(`https://stg-id.uaepass.ae/idshub/token?grant_type=authorization_code&redirect_uri=http://localhost/uaepassverification&code= ${authorizationcode}`,
-    {headers:{'Authorization': `Basic ${creds}`, 'Content-Type':'multipart/form-data;charset=UTF-8'}}
-  )
-  return response;
-  }catch(error: any){
+  try {
+    const apiUrl = 'https://stg-id.uaepass.ae/idshub/token';
+    const params = {
+      grant_type: 'authorization_code',
+      redirect_uri: 'http://localhost/uaepassverification',
+      code: authorizationcode,
+    };
+    const response = await Http.request({
+      method: 'POST',
+      url: `https://stg-id.uaepass.ae/idshub/token`,
+      params: params,
+      headers: {
+        Authorization: `Basic ${creds}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log(response.data);
+    return response;
+  } catch (error: any) {
     return error
   }
 }
