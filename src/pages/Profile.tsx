@@ -32,6 +32,8 @@ import { toast } from 'react-toastify';
 import { useAuth } from "../api/AuthContext";
 import { useState } from "react";
 import useLoading from "../components/useLoading";
+import { Browser } from "@capacitor/browser";
+import { App } from "@capacitor/app";
 
 const Profile: React.FC = () => {
   const { userData,logout } = useAuth();
@@ -42,7 +44,24 @@ const Profile: React.FC = () => {
   const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
   const logOut = async () => {
-    const response = await logout();
+    try {
+      const url = `https://stg-id.uaepass.ae/idshub/logout?redirect_uri=http://localhost/profile`;
+      await Browser.open({ url });
+
+      Browser.addListener('browserFinished', async () => {
+        console.log('Browser closed');
+      });
+
+      App.addListener('appUrlOpen', async (data: { url: string }) => {
+        console.log('Got URL:', data.url);
+        if (data.url.includes('localhost/profile')) {
+          const response = await logout();
+        }
+        
+      });
+    } catch (error) {
+      console.error('Error opening browser', error);
+    }
   }
   return (
     <IonPage>

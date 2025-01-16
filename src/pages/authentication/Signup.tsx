@@ -56,8 +56,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
     registration_type: "",
     email_id: "",
     mobile_no: "",
-    password: "",
-    confirmPassword: "",
+    emirates_id: "",
   };
 
   const handleSubmit = async (values: any) => {
@@ -217,6 +216,18 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                           <ErrorMessage name="email_id" />
                         </IonText>
                       )}
+                      <IonItem lines="none" className="ion-align-items-center ionItemShadow inputFiledSty">
+                        <div>
+                          <IonLabel className="fieldName">Emirates Id</IonLabel>
+                          <Field className="fieldControl" name="emirates_id" onIonChange={handleChange} value={values.emirates_id} placeholder="Enter Emirates Id"
+                            type="text" />
+                        </div>
+                      </IonItem>
+                      {touched.emirates_id && errors.emirates_id && (
+                        <IonText color="danger" className="errorMessage">
+                          <ErrorMessage name="emirates_id" />
+                        </IonText>
+                      )}
                       <IonItem lines="none" className="ion-align-items-center ionItemShadow">
                         <IonSelect
                           label="Register As"
@@ -283,30 +294,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                           <ErrorMessage name="mobile_no" />
                         </IonText>
                       )}
-                      <IonItem lines="none" className="ion-align-items-center ionItemShadow inputFiledSty">
-                        <div>
-                          <IonLabel className="fieldName">Password</IonLabel>
-                          <Field className="fieldControl" name="password" onIonChange={handleChange} value={values.password} placeholder="Enter Password"
-                            type="password" />
-                        </div>
-                      </IonItem>
-                      {touched.password && errors.password && (
-                        <IonText color="danger" className="errorMessage">
-                          <ErrorMessage name="password" />
-                        </IonText>
-                      )}
-                      <IonItem lines="none" className="ion-align-items-center ionItemShadow inputFiledSty">
-                        <div>
-                          <IonLabel className="fieldName">Confirm Password</IonLabel>
-                          <Field className="fieldControl" name="confirmPassword" onIonChange={handleChange} value={values.confirmPassword} placeholder="Enter Confirm Password"
-                            type="password" />
-                        </div>
-                      </IonItem>
-                      {touched.confirmPassword && errors.confirmPassword && (
-                        <IonText color="danger" className="errorMessage">
-                          <ErrorMessage name="confirmPassword" />
-                        </IonText>
-                      )}
+                      
                       <IonButton type="submit" className="ion-button" slot="primary" fill="solid" expand="block">Sign Up</IonButton>
                     </Form>
                   )}

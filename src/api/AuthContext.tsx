@@ -65,6 +65,11 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
       // console.log(error);
     }
   };
+  const updateUserData = async (user: any) => {
+    setUserData(user);
+    setIsLoggedIn(true);
+    return true;
+  }
   const register = async (formValue: any, app_name: any, app_version: any) => {
     let deviceToken: any = localStorage.getItem('device_token');
     console.log("apiUrl", apiUrl);
@@ -174,7 +179,7 @@ export const AuthProvider: React.FC<any> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login,register, logout,resetPassword,forgotPassword,changePassword, deviceInfo, getCurrentLocation, lat, long, treatmentID, userData }}>
+    <AuthContext.Provider value={{ isLoggedIn, login,register,updateUserData, logout,resetPassword,forgotPassword,changePassword, deviceInfo, getCurrentLocation, lat, long, treatmentID, userData }}>
       {children}
     </AuthContext.Provider>
   )

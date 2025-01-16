@@ -4,7 +4,8 @@ import axiosInstance from '../interceptors/ApiInterceptor';
 import { formatDateTime } from '../utils/dateTimeUtils';
 import { useIonLoading } from '@ionic/react';
 import { useState } from 'react';
-import { Http } from '@capacitor-community/http';
+import { Http, HttpOptions } from '@capacitor-community/http';
+import { CapacitorHttp } from '@capacitor/core';
 
 const apiUrl: any = import.meta.env.VITE_API_URL;
 
@@ -383,59 +384,68 @@ export const appSettings = async (payload: any) => {
     return error.response.data;
   }
 };
+export const validateUser = async (payload: any) => {
+  try {
+    const response = await axios.post(`${apiUrl}v1/validate-uae-pass-user`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
 
 export const uaeuserInfo = async (token: any) => {
   try {
+    const url = 'https://stg-id.uaepass.ae/idshub/userinfo'; // Your endpoint URL
 
-    const response = await axios.get('https://stg-id.uaepass.ae/idshub/userinfo',
-      { headers: { 'Authorization': `Bearer ${token}` } }
-    )
-    return response;
-  } catch (error: any) {
-    return error
-  }
-}
-export const getaccesstocken = async (authorizationcode: any, creds: any) => {
-  try {
-    const apiUrl = 'https://stg-id.uaepass.ae/idshub/token';
-    const payload = {
-      grant_type: 'authorization_code',
-      redirect_uri: 'http://localhost/uaepassverification',
-      code: authorizationcode,
+    // Create HTTP POST request options
+    const options: HttpOptions = {
+      url: url,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
     };
 
-    const response = await axios.post(apiUrl, payload, {
-      headers: {
-        Authorization: `Basic ${creds}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    // Send HTTP request using Capacitor Http plugin
+    const response = await CapacitorHttp.get(options);
 
-    console.log(response.data);
-  } catch (error: any) {
-    return error
+    // Handle the response
+    console.log('Response:', response);
+    return response.data;
+  } catch (error) {
+    console.error('Error sending form data:', error);
+    throw error;
   }
 }
-export const getaccesstoken = async (authorizationcode: any, creds: any) => {
+export const getaccesstoken = async (authorizationCode: any, creds: any) => {
+
   try {
-    const apiUrl = 'https://stg-id.uaepass.ae/idshub/token';
-    const params = {
-      grant_type: 'authorization_code',
-      redirect_uri: 'http://localhost/uaepassverification',
-      code: authorizationcode,
-    };
-    const response = await Http.request({
-      method: 'POST',
-      url: `https://stg-id.uaepass.ae/idshub/token`,
-      params: params,
+    const url = 'https://stg-id.uaepass.ae/idshub/token'; // Your endpoint URL
+
+    // Create form data
+    const formData = new URLSearchParams();
+    formData.append('grant_type', 'authorization_code');
+    formData.append('redirect_uri', 'http://localhost/uaepassverification');
+    formData.append('code', authorizationCode);
+
+    // Create HTTP POST request options
+    const options: HttpOptions = {
+      url: url,
       headers: {
-        Authorization: `Basic ${creds}`,
-        'Content-Type': 'multipart/form-data',
+        'Authorization': `Basic cmFrcHNkX21vYmlsZV9zdGFnZTpRNWl1WHdKR0hjbU5zY29E`,
+        'Content-Type': 'application/x-www-form-urlencoded', // Correct content type for URLSearchParams
       },
-    });
-    console.log(response.data);
-    return response;
-  } catch (error: any) {
-    return error
+      data: formData.toString(), // Serialize form data for application/x-www-form-urlencoded
+    };
+
+    // Send HTTP request using Capacitor Http plugin
+    const response = await CapacitorHttp.post(options);
+
+    // Handle the response
+    console.log('Response:', response);
+    return response.data;
+  } catch (error) {
+    console.error('Error sending form data:', error);
+    throw error;
   }
 }
