@@ -34,9 +34,9 @@ const validationSchema = Yup.object({
   }),
   registration_type: Yup.string().required('Registration Type is required'),
   email_id: Yup.string().email('Invalid email address').required('Email is required'),
-  mobile_no: Yup.string().required('Mobile Number is required'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-  confirmPassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match').required('Confirm Password is required'),
+  mobile_no: Yup.string()
+  .required('Mobile Number is required')
+  .matches(/^\d{9}$/, 'Mobile Number must be exactly 9 digits'),
 });
 
 const Signup: React.FC = () => {
@@ -62,26 +62,17 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
   const handleSubmit = async (values: any) => {
     console.log('Form Data:', values);
     startLoading();
-    // let deviceToken: any = localStorage.getItem('device_token');
-    // if(deviceToken === null) {
-    //     await PushNotifications.register();
-    // }
+    let deviceToken: any = localStorage.getItem('device_token');
+    if(deviceToken === null) {
+        await PushNotifications.register();
+    }
     try {
       console.log("values", values);
       const response = await register(values, app_name, app_version);
       if (response.status == 200 && response.success == true) {
-        console.log("hi")
-        localStorage.setItem('token', response.data.api_token);
-        localStorage.setItem('userData', JSON.stringify(response.data));
-        localStorage.setItem('userPermissions', JSON.stringify(response.data.permission_types));
+        console.log(response);
         toast.success(response.message);
-        if (response.data.user_type == 8) {
-
-          history.push("/dashboard");
-        }
-        else {
-          history.push("/dashboard");
-        }
+        history.push("/dashboard");
       }
       else {
         if (response.status == 400 && response.success == false) {

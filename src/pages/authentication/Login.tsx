@@ -16,6 +16,7 @@ import {
     IonButtons,
     IonBackButton,
     IonIcon,
+    IonFooter,
 } from "@ionic/react";
 import { useHistory } from 'react-router';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -42,7 +43,7 @@ const Login: React.FC = () => {
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email address').required('Email is required'),
         password: Yup.string()
-            .min(6, "Password must be at least 8 characters")
+            .min(6, "Password must be at least 6 characters")
             .required("Password is required"),
         rememberMe: Yup.boolean()
     });
@@ -55,7 +56,12 @@ const Login: React.FC = () => {
     useEffect(() => {
         const storedUserData: any = localStorage.getItem('userData');
         if (storedUserData) {
-            history.push('/dashboard');
+            if (storedUserData.user_type == 8 || storedUserData.user_type == 16) {
+                history.push("/dashboard");
+            }
+            else {
+                history.push("/corporate-dashboard");
+            }
         }
     }, []);
     const onSubmit = async (values: any) => {
@@ -135,7 +141,7 @@ const Login: React.FC = () => {
                                     {({ touched, errors, handleChange, handleSubmit, setFieldValue, values }) => (
                                         <Form>
                                             <IonItem lines="none" className="ion-align-items-center ionItemShadow  inputFiledSty">
-                                            <div className='width100'>
+                                                <div className='width100'>
                                                     <IonLabel className="fieldName">Email Address</IonLabel>
                                                     <Field className="fieldControl" name="email" onIonChange={handleChange} value={values.email} placeholder="Enter Your Email"
                                                         type="email" />
@@ -186,7 +192,9 @@ const Login: React.FC = () => {
 
                         </div>
                     </div>
-
+                    <IonText className='networkTimeText'>
+                        <p>App Version &nbsp;{app_version}</p>
+                    </IonText>
                 </IonContent>
                 {isLoading && <Loader message={loadingMessage} />}
             </IonPage>

@@ -47,7 +47,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
  
 
   useEffect(() => {
-    console.log(selectedCourse);
+    console.log("33333333333333333333333",selectedCourse);
     setTotalAmount(selectedCourse.total * selectedUsers.length);
   }, []);
 

@@ -23,6 +23,7 @@ import {
   IonSegmentButton,
   IonSegmentView,
   IonSegmentContent,
+  IonFooter,
 
 } from "@ionic/react";
 import { useHistory } from 'react-router';
@@ -45,20 +46,21 @@ const Profile: React.FC = () => {
 
   const logOut = async () => {
     try {
-      const url = `https://stg-id.uaepass.ae/idshub/logout?redirect_uri=http://localhost/profile`;
-      await Browser.open({ url });
+      const response = await logout();
+      // const url = `https://stg-id.uaepass.ae/idshub/logout?redirect_uri=http://localhost/profile`;
+      // await Browser.open({ url });
 
-      Browser.addListener('browserFinished', async () => {
-        console.log('Browser closed');
-      });
+      // Browser.addListener('browserFinished', async () => {
+      //   console.log('Browser closed');
+      // });
 
-      App.addListener('appUrlOpen', async (data: { url: string }) => {
-        console.log('Got URL:', data.url);
-        if (data.url.includes('localhost/profile')) {
-          const response = await logout();
-        }
+      // App.addListener('appUrlOpen', async (data: { url: string }) => {
+      //   console.log('Got URL:', data.url);
+      //   if (data.url.includes('localhost/profile')) {
+      //     const response = await logout();
+      //   }
         
-      });
+      // });
     } catch (error) {
       console.error('Error opening browser', error);
     }
@@ -98,7 +100,14 @@ const Profile: React.FC = () => {
         </IonCard>
 
       </IonContent>
-                {isLoading && <Loader message={loadingMessage} />}
+      {isLoading && <Loader message={loadingMessage} />}
+      <IonFooter className="ion-footer networkTimeText">
+          <IonToolbar>
+              <IonText className=''>
+                  <p>App Version &nbsp;{app_version}</p>
+              </IonText>
+          </IonToolbar>
+      </IonFooter>
     </IonPage>
   );
 };

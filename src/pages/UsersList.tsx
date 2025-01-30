@@ -72,7 +72,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
         <IonHeader className="ion-header">
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton></IonBackButton>
+              <IonBackButton defaultHref="/corporate-dashboard"></IonBackButton>
             </IonButtons>
             <IonTitle className="ion-no-padding">Users List</IonTitle>
           </IonToolbar>
@@ -80,7 +80,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
 
         <IonContent className="colorBg dashboardWrapp">
           <IonImg className="topbg" src="./assets/images/top-bg.svg"></IonImg>
-          <IonSearchbar className="ion-seachbar"></IonSearchbar>
+          {/* <IonSearchbar className="ion-seachbar"></IonSearchbar> */}
 
           <div className="statusIndicat">
             <p className="statusActive"><IonIcon className="statusEllipse" icon={ellipse}></IonIcon>Active</p>
@@ -100,9 +100,9 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
                   <IonText>
                     <div className="detailsArrow">
                       <h3>{data.first_name} {data.last_name}</h3>
-                      <IonButton className="detailsArrowIcon" fill="clear" routerLink="/user-details">
+                      {/* <IonButton className="detailsArrowIcon" fill="clear" routerLink="/user-details">
                         <IonImg src="./assets/images/details-arrow-icon.svg"></IonImg>
-                      </IonButton>
+                      </IonButton> */}
                     </div>
                     <IonText className="phoneEmail">
                       <p><IonIcon icon={call}></IonIcon>{data.mobile_no}</p>

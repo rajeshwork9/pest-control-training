@@ -133,6 +133,20 @@ const SlotSelection: React.FC = () => {
       stopLoading();
     }
   }
+  const goHome = async () => {
+    if(userData.user_type == 17){
+      history.push({
+        pathname: "/corporate-dashboard",
+        state: { }
+      });
+    }else{
+      history.push({
+        pathname: "/dashboard",
+        state: { }
+      });
+    }
+    
+  }
   useEffect(() => {
     console.log('Updated selectedItems:', slotList);
   }, [slotList]);
@@ -250,7 +264,7 @@ const SlotSelection: React.FC = () => {
         <IonHeader className="ion-header">
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton></IonBackButton>
+              
             </IonButtons>
             <IonTitle>Select slots of interest</IonTitle>
           </IonToolbar>
@@ -305,6 +319,13 @@ const SlotSelection: React.FC = () => {
         <IonFooter>
           <IonToolbar>
             <IonButton onClick={(event) => proceed()} shape="round" expand="block" color="primary" >Book slot</IonButton>
+          </IonToolbar>
+        </IonFooter>
+        }
+        {slotList && slotList.length == 0 &&
+        <IonFooter>
+          <IonToolbar>
+            <IonButton onClick={(event) => goHome()} shape="round" expand="block" color="primary" >Home</IonButton>
           </IonToolbar>
         </IonFooter>
         }

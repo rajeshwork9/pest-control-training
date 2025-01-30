@@ -295,6 +295,7 @@ export const getExamData = async (quiz_id: any) => {
       "tbl_training_questionnaires.question",
       "tbl_training_questionnaires.marks",
       "tbl_training_questionnaires.question_image",
+      "tbl_training_questionnaires.type",
       "tbl_training_answers.id as answer_id",
       "tbl_training_answers.answer",
       "tbl_training_answers.is_correct",

@@ -145,21 +145,10 @@ const App: React.FC = () => {
 
   async function handlePlatform() {
     try {
-      const payload = { "type": "SETTINGS" }
-      const AppSettings = await appSettings(payload);
-      console.log(AppSettings);
-      if (AppSettings && AppSettings.data.success) {
-        const GoogleKey = AppSettings.data.data.find((setting: any) => setting.title === "Google_Map_API_Key");
-        console.log(GoogleKey);
-        if (GoogleKey) {
-          localStorage.setItem('Google_Map_API_Key', GoogleKey.description);
-        }
-      }
       const info = await Device.getInfo();
       const platform = info.platform;
       console.log(platform);
       if (platform === 'ios' || platform === 'android') {
-        requestPermissions();
         const deviceToken: any = localStorage.getItem('device_token');
         // Request permission to use Push Notifications
         if (deviceToken === null) {
@@ -210,7 +199,7 @@ const App: React.FC = () => {
               <AuthGuard roles={[8, 16]} path="/attendance" component={Attendance} />
               <AuthGuard roles={[8, 16, 17]} path="/enrollcourses" component={EnrollCourses} />
               <AuthGuard roles={[8, 16, 17]} path="/enroll-courses-details" component={EnrollCoursesDetails} />
-              <AuthGuard roles={[8, 16, 17]} path="/payment-details" component={user_type == 17 ? CorporatePaymentDetails : PaymentDetails} />
+              <AuthGuard roles={[8, 16]} path="/payment-details" component={PaymentDetails} />
               <AuthGuard roles={[8, 16, 17]} path="/payment-confirmation" component={PaymentConfirmation} />
               <AuthGuard roles={[8, 16]} path="/selected-courses" component={SelectedCourses} />
               <AuthGuard roles={[8, 16]} path="/selected-courses-details" component={SelectedCoursesDetails} />
@@ -228,7 +217,7 @@ const App: React.FC = () => {
               <Route path="/forgot-password" component={ForgotPassword} />
               <AuthGuard roles={[8, 16, 17]} path="/change-password" component={ChangePassword} />
               
-
+              <AuthGuard roles={[17]} path="/corporate-payment-details" component={CorporatePaymentDetails} />
               <AuthGuard roles={[17]} path="/corporate-dashboard" component={CorporateDashboard} />
               <AuthGuard roles={[17]} path="/corporate-selected-courses" component={CorporateSelectedCourses} />
               <AuthGuard roles={[17]} path="/corporate-selected-courses-details" component={CorporateSelectedCoursesDetails} />

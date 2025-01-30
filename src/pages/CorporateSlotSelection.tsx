@@ -171,6 +171,20 @@ const CorporateSlotSelection: React.FC = () => {
       return;
     }
   }
+  const goHome = async () => {
+    if(userData.user_type == 17){
+      history.push({
+        pathname: "/corporate-dashboard",
+        state: { }
+      });
+    }else{
+      history.push({
+        pathname: "/dashboard",
+        state: { }
+      });
+    }
+    
+  }
   const viewCourseDetails = async () => {
     history.push({
         pathname: "/corporate-selected-courses-details",
@@ -237,15 +251,24 @@ const CorporateSlotSelection: React.FC = () => {
             </div>
           }
           {slotList && slotList.length === 0 &&
-            <NoDataFound message="Oops! Nothing to display here." />
+            <NoDataFound message="No Time slots configured. Please contact admin" />
           }
         </IonContent>
         {isLoading && <Loader message={loadingMessage} />}
+        {slotList && slotList.length > 0 &&
         <IonFooter>
           <IonToolbar>
             <IonButton onClick={(event) => proceed()} shape="round" expand="block" color="primary" >Book slot</IonButton>
           </IonToolbar>
         </IonFooter>
+        }
+        {slotList && slotList.length == 0 &&
+        <IonFooter>
+          <IonToolbar>
+            <IonButton onClick={(event) => goHome()} shape="round" expand="block" color="primary" >Home</IonButton>
+          </IonToolbar>
+        </IonFooter>
+        }
       </IonPage>
     </>
   );

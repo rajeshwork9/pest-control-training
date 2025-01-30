@@ -160,7 +160,7 @@ const Exam: React.FC = () => {
                 toast.success(response.message);
                 history.push({
                     pathname: "/quiz-result",
-                    state: { from: 'dashboard', data: response.data,totalQuestions : examData.no_of_questions,answered : response.data.length  }
+                    state: { from: 'dashboard', data: response.data,totalQuestions : questionsCount,answered : response.data.length  }
                 });
                 //history.push("/dashboard");
             }
@@ -209,7 +209,7 @@ const Exam: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton></IonBackButton>
                     </IonButtons>
-                    <IonTitle>Exam</IonTitle>
+                    <IonTitle>Quiz</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
@@ -259,7 +259,7 @@ const Exam: React.FC = () => {
                                                 <h3> {data.question}</h3>
                                             </IonText>
                                         }
-                                        {data.question_image != null &&
+                                        {data.question_image != null && data.question_image !== '' &&
                                             <IonImg className="examImg" src={imgBaseUrl + data.question_image}></IonImg>
                                         }
                                         <IonRadioGroup className="optionsRadioGroup"
@@ -270,7 +270,7 @@ const Exam: React.FC = () => {
                                                 <div className="optionBlock">
 
                                                     <IonRadio value={option.answer_id}>{option.answer}</IonRadio>
-                                                    {option.image != null &&
+                                                    {option.image != null && option.image !== '' &&
                                                         <IonImg className="optionImg" src={imgBaseUrl + option.image}></IonImg>
                                                     }
                                                 </div>

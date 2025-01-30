@@ -117,7 +117,7 @@ const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
       selectedCourse.total = parseFloat(selectedCourse.total).toFixed(2);
     });
     localStorage.setItem('selectedUsers', JSON.stringify(selectedUsers));
-    history.push("/payment-details");
+    history.push("/corporate-payment-details");
 
   };
   return (

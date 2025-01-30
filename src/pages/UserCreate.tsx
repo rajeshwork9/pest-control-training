@@ -38,7 +38,9 @@ const validationSchema = Yup.object({
   last_name: Yup.string().required('Last Name is required'),
   user_type: Yup.string().required('User Type is required'),
   email_id: Yup.string().email('Invalid email address').required('Email is required'),
-  mobile_no: Yup.string().required('Mobile Number is required')
+  mobile_no: Yup.string()
+  .required('Mobile Number is required')
+  .matches(/^\d{9}$/, 'Mobile Number must be exactly 9 digits'),
 });
 
 const UserCreate: React.FC = () => {

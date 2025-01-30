@@ -132,24 +132,24 @@ const Quiz: React.FC = () => {
 
                 <div className="quizCount">
                   <IonRow>
-                    <IonCol size="4">
+                    <IonCol size="6">
                       <IonText>
                         <p>Marks</p>
                         <h6>{data.total_marks}</h6>
                       </IonText>
                     </IonCol>
-                    <IonCol size="4">
+                    <IonCol size="6">
                       <IonText>
                         <p>Questions</p>
                         <h6>{data.no_of_questions}</h6>
                       </IonText>
                     </IonCol>
-                    <IonCol size="4">
+                    {/* <IonCol size="4">
                       <IonText>
                         <p>Time</p>
                         <h6>{data.no_of_questions}</h6>
                       </IonText>
-                    </IonCol>
+                    </IonCol> */}
                   </IonRow>
                 </div>
               </IonCard>

@@ -65,14 +65,26 @@ const PaymentConfirmation: React.FC = () => {
     }
     
   }
-
+  const goHome = async () => {
+    if(userData.user_type == 17){
+      history.push({
+        pathname: "/corporate-dashboard",
+        state: {users : userList,course_id : courseId }
+      });
+    }else{
+      history.push({
+        pathname: "/dashboard",
+        state: {courses : queryParams.courses }
+      });
+    }
+    
+  }
   return (
     <>
       <IonPage>
       <IonHeader className="ion-header">
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton></IonBackButton>
           </IonButtons>
           <IonTitle>Payment Confirmation</IonTitle>
         </IonToolbar>
