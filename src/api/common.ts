@@ -171,6 +171,15 @@ export const enrollCourseTraining = async (payload: any) => {
     return error.response.data;
   }
 };
+export const savePaymentStatus = async (payload: any) => {
+  try {
+    const response = await axiosInstance.post(`${apiUrl}v1/update-enroll-details`, payload);
+    return response.data;
+  }
+  catch (error: any) {
+    return error.response.data;
+  }
+};
 export const getBase64Path = async (payload: any) => {
   try {
     const response = await axiosInstance.post(`${apiUrl}v1/download-file`, payload);

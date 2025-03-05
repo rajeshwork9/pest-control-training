@@ -89,7 +89,9 @@ import ChangePassword from './pages/ChangePassword';
 import CertificateList from './pages/Certificates';
 import Certificates from './pages/Certificates';
 import UaePassVerification from './pages/authentication/UaePassVerifiction';
-
+import Payment from './pages/Payment';
+import { App  as Appp} from '@capacitor/app';
+import AppListener from './components/AppListener';
 
 
 
@@ -97,6 +99,7 @@ setupIonicReact({
   swipeBackEnabled: false,
 });
 const App: React.FC = () => {
+  
   const history = useHistory();
   const { isLoggedIn, userData } = useAuth();
   const token = localStorage.getItem('token');
@@ -119,7 +122,15 @@ const App: React.FC = () => {
     registerPushHandlers();
     handlePlatform();
   }, []);
-
+  useEffect(() => {
+    // Handle deep links when the app is opened via a URL
+    Appp.addListener('appUrlOpen', (data: any) => {
+      console.log("Deep link data:", data);
+      if (data.url.includes("psdapp://payment")) {
+        window.location.href = "/payment"; // Redirect to the content page
+      }
+    });
+  }, []);
   const requestPermissions = async () => {
     try {
       // Request Location Permission
@@ -187,6 +198,7 @@ const App: React.FC = () => {
 
       <AuthProvider>
         <IonReactRouter>
+        <AppListener></AppListener>
           <IonRouterOutlet>
             <Switch>
               <Route path="/home" component={Home} />
@@ -200,6 +212,7 @@ const App: React.FC = () => {
               <AuthGuard roles={[8, 16, 17]} path="/enrollcourses" component={EnrollCourses} />
               <AuthGuard roles={[8, 16, 17]} path="/enroll-courses-details" component={EnrollCoursesDetails} />
               <AuthGuard roles={[8, 16]} path="/payment-details" component={PaymentDetails} />
+              <AuthGuard roles={[8, 16, 17]} path="/payment" component={Payment} />
               <AuthGuard roles={[8, 16, 17]} path="/payment-confirmation" component={PaymentConfirmation} />
               <AuthGuard roles={[8, 16]} path="/selected-courses" component={SelectedCourses} />
               <AuthGuard roles={[8, 16]} path="/selected-courses-details" component={SelectedCoursesDetails} />

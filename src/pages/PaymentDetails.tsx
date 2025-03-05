@@ -23,16 +23,22 @@ import {
   IonCardTitle,
   IonCardContent,
   IonFooter,
+  IonActionSheet,
+  IonModal,
 } from "@ionic/react";
 
 import { useHistory } from 'react-router';
 import Loader from '../components/Loader';
-import { ribbon, checkmark, create } from 'ionicons/icons'
+import { ribbon, checkmark, create, closeOutline, timeOutline } from 'ionicons/icons'
 
 import useLoading from '../components/useLoading';
-import { enrollCourseTraining, getCourseList } from '../api/common';
+import { enrollCourseTraining, getCourseList, savePaymentStatus } from '../api/common';
 import { toast } from 'react-toastify';
 import { useAuth } from '../api/AuthContext';
+import { checkPaymentStatus, createSession, generateOrderId } from '../api/Payment';
+import { Browser } from '@capacitor/browser';
+import { generate } from 'rxjs';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 const PaymentDetails: React.FC = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
@@ -43,7 +49,213 @@ const PaymentDetails: React.FC = () => {
   const [selectedCourses, setSelectedCourses] = useState<any[]>(JSON.parse(selectedCourseData ? JSON.parse(selectedCourseData) : []));
   const [totalAmount, setTotalAmount] = useState<any>(0);
   const [slotSelectionCourses, setSlotSelectionCourses] = useState<any[]>([]);
+  const [checkoutReady, setCheckoutReady] = useState(false);
+  const [orderId, setOrderId] = useState<any>('');
+  const [showActionSheet, setShowActionSheet] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes (300 seconds)
+  let intervalId: NodeJS.Timeout | null = null;
 
+  const apiUrl: any = import.meta.env.VITE_PAYMENT_GATEWAY_URL;
+  const checkoutScript: any = import.meta.env.VITE_CHECKOUT_SCRIPT;
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (showActionSheet) {
+      setShowLoading(true); // Show loader initially
+
+      // Start the countdown
+      timer = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            setShowActionSheet(false); // Auto-close after countdown ends
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      // Hide loader after a few seconds (simulating API response)
+      setTimeout(() => {
+        setShowLoading(false);
+      }, 5000);
+    }
+
+    return () => clearInterval(timer);
+  }, [showActionSheet]);
+
+  useEffect(() => {
+    startLoading();
+    const script = document.createElement("script");
+    script.src = checkoutScript;
+    script.async = true;
+    script.onload = () => {
+      if (window.Checkout) {
+        stopLoading();
+        setCheckoutReady(true);
+      }
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+  // Format time in MM:SS format
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  };
+
+  const startPayment2 = async (paymentMethod: "LIGHTBOX" | "PAYMENT_PAGE") => {
+    startLoading();
+    if (!checkoutReady || !window.Checkout) {
+      console.error("Checkout.js is not ready yet.");
+      return;
+    }
+
+    try {
+      // 🔹 Simulating API request to get a new session ID
+      const order_id = await generateOrderId();
+      localStorage.setItem('order_id', order_id);
+      console.log(order_id);
+      setOrderId(order_id);
+      const sessionResponse = await createSession(totalAmount, order_id);
+
+      console.log(sessionResponse);
+
+      if (sessionResponse.result === "SUCCESS") {
+        const sessionId = sessionResponse.session.id;
+
+        // 🔹 Configure Checkout with the new session ID
+        window.Checkout.configure({
+          session: {
+            id: sessionId,
+          },
+        });
+        console.log("Checkout object after configuration:", window.Checkout);
+        // 🔹 Ensure Checkout functions exist before calling them
+        // if (paymentMethod === "LIGHTBOX" && typeof window.Checkout.showEmbeddedPage === "function") {
+        //   window.Checkout.showEmbeddedPage("#embedded-checkout");
+        // } else if (paymentMethod === "PAYMENT_PAGE" && typeof window.Checkout.showPaymentPage === "function") {
+
+        // } else {
+        //   console.error("Checkout function is not available.");
+        // }
+        stopLoading();
+        setShowActionSheet(true);
+        setTimeLeft(300);
+
+        intervalId = setInterval(updatePaymentStatus, 5000); // Start polling
+
+        setTimeout(() => {
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+            console.log("Repetition stopped after 5 minutes.");
+          }
+        }, 300000);
+        window.Checkout.showPaymentPage();
+      }
+    } catch (error) {
+      console.error("Payment initialization error:", error);
+    }
+  };
+
+  const startPayment = async (paymentMethod: "LIGHTBOX" | "PAYMENT_PAGE") => {
+    startLoading();
+    if (!checkoutReady || !window.Checkout) {
+      console.error("Checkout.js is not ready yet.");
+      return;
+    }
+
+    try {
+      // 🔹 Simulating API request to get a new session ID
+      const order_id = await generateOrderId();
+      localStorage.setItem('order_id', order_id);
+      console.log(order_id);
+      setOrderId(order_id);
+      const sessionResponse = await createSession(totalAmount, order_id);
+
+      console.log(sessionResponse);
+
+      if (sessionResponse.result === "SUCCESS") {
+        const sessionId = sessionResponse.session.id;
+        // 🔹 Configure Checkout with the new session ID
+        window.Checkout.configure({
+          session: {
+            id: sessionId,
+          },
+        });
+        console.log("Checkout object after configuration:", window.Checkout);
+        const paymentURL = apiUrl + 'checkout/pay/' + sessionId + '?checkoutVersion=1.0.0';
+        openPaymentPage(paymentURL);
+      }
+
+
+    } catch (error) {
+      console.error("Payment initialization error:", error);
+    }
+  };
+
+  const openPaymentPage = (paymentURL: any) => {
+    // Open a browser instance
+    const browser = InAppBrowser.create(
+      paymentURL, // URL to open
+      '_self',             // Target ('_self', '_blank', '_system')
+      'location=yes,toolbarcolor=#ffffff' // Additional options
+    );
+
+    // Listen for the `loadstart` event (when a page starts loading)
+    browser.on('loadstart').subscribe(async (event) => {
+      if (event.url.includes('payment-confirmation')) {
+        updatePaymentStatus();
+        await browser.close();
+      }
+      else {
+        console.log('Unknown URL:', event.url);
+      }
+
+      console.log('Page loading started:', event.url);
+    });
+
+    // Listen for the `loadstop` event (when a page finishes loading)
+    browser.on('loadstop').subscribe(() => {
+      console.log('Page fully loaded.');
+    });
+
+    // Listen for the `exit` event (when the browser is closed)
+    browser.on('exit').subscribe(() => {
+      stopLoading();
+      console.log('Browser closed.');
+    });
+  };
+
+  const updatePaymentStatus = async () => {
+    const element = document.getElementById("hc-loader-container");
+    if (element) {
+      element.remove(); // Removes the element from the DOM
+      //setIsRemoved(true); // Update state to reflect removal
+    }
+
+    const paymentStatus = await checkPaymentStatus(localStorage.getItem('order_id'));
+    console.log(paymentStatus);
+    if (paymentStatus.result === 'SUCCESS' && paymentStatus.status === 'CAPTURED') {
+      if (paymentStatus.transaction[1].response.acquirerCode === '00' && paymentStatus.transaction[1].result === 'SUCCESS') {
+        // Stop interval when payment is successful
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = null;
+          console.log("Payment successful. Interval stopped.");
+        }
+        EnrollCourses(paymentStatus.transaction[1].transaction.receipt, paymentStatus.status, paymentStatus);
+      }
+    }
+  };
   useEffect(() => {
     setTotalAmount(selectedCourses.reduce((accumulator, currentItem) => {
       return accumulator + parseInt(currentItem.total);
@@ -79,11 +291,11 @@ const PaymentDetails: React.FC = () => {
         return course;
       })
     );
-    
+
   };
 
-  const proceedWithPayment = async () => {
-    let courseSlots : any = [];
+  const EnrollCourses = async (receipt: any, status: any, responseBody: any) => {
+    let courseSlots: any = [];
     console.log(slotSelectionCourses);
     startLoading();
     // Check if there is at least one unchecked property (isChecked = false)
@@ -112,7 +324,7 @@ const PaymentDetails: React.FC = () => {
             amount: property.price,
             user_id: userData.id
           })
-          if(property.id == 1){
+          if (property.id == 1) {
             courseSlots.push(course);
           }
         };
@@ -128,15 +340,52 @@ const PaymentDetails: React.FC = () => {
       const response = await enrollCourseTraining(payload);
       console.log(response);
       if ((response.status === 200 || response.status == 201) && response.success == true) {
-        localStorage.removeItem('selectedCourses');
-        toast.dismiss();
-        toast.success(response.message);
-        stopLoading();
-        history.push({
-          pathname: "/payment-confirmation",
-          state: { from: 'dashboard', data: response.data,courses : courseSlots }
-        });
-        //history.push("/payment-confirmation");
+        if (userData.is_internal_user == 1) {
+          localStorage.removeItem('selectedCourses');
+          toast.dismiss();
+          toast.success(response.message);
+          stopLoading();
+          setShowActionSheet(false);
+          history.push({
+            pathname: "/payment-confirmation", //pathname: "/payment-confirmation",
+            state: { from: 'dashboard', data: response.data, courses: courseSlots }
+          });
+          //history.push("/payment-confirmation");
+        } else {
+          try {
+            const paymentPayload = {
+              "enrollment_id": response.data.enrollment_id,
+              "payment_status": status,
+              "payment_id": receipt,
+              "payment_details": JSON.stringify(responseBody)
+            }
+            const paymentResponse = await savePaymentStatus(paymentPayload);
+            console.log(paymentResponse);
+            if (paymentResponse.status === '200' && paymentResponse.success == true) {
+              localStorage.removeItem('selectedCourses');
+              toast.dismiss();
+              toast.success(response.message);
+              stopLoading();
+              setShowActionSheet(false);
+              history.push({
+                pathname: "/payment-confirmation", //pathname: "/payment-confirmation",
+                state: { from: 'dashboard', data: response.data, courses: courseSlots }
+              });
+              //history.push("/payment-confirmation");
+            }
+          }
+          catch (error: any) {
+            console.log(error);
+            stopLoading();
+            toast.dismiss();
+            toast.error(error.message);
+          }
+          finally {
+            stopLoading();
+          }
+        }
+
+
       }
       else {
         if (response.status == 400 && response.success == false) {
@@ -220,12 +469,44 @@ const PaymentDetails: React.FC = () => {
               </IonCard>
             ))}
           </div>
+          <IonModal isOpen={showActionSheet} className="awaitingResponse custom-modal" backdropDismiss={false}>
+            <IonContent className="ion-padding modal-content">
+              <div className="modal-container">
+                {/* <div className="modal-header">
+                  <IonIcon icon={closeOutline} className="close-icon" />
+                </div> */}
+                <IonText className="modal-title">Awaiting Response</IonText>
+                <IonText className="modal-subtitle">
+                  Please wait while we process your payment.
+                </IonText>
+                <IonIcon icon={timeOutline} className="timer-icon" />
+                <IonText className="timer">{formatTime(timeLeft)}</IonText>
+              </div>
+            </IonContent>
+          </IonModal>
+          {/* <IonActionSheet
+            isOpen={showActionSheet}
+            header="Payment in Process"
+            subHeader={`Please wait... ${formatTime(timeLeft)} remaining`}
+            buttons={[]} // No buttons
+            backdropDismiss={false} // Prevent manual dismissal
+          /> */}
         </IonContent>
         {isLoading && <Loader message={loadingMessage} />}
 
         <IonFooter>
           <IonToolbar>
-            <IonButton onClick={(event) => proceedWithPayment()} shape="round" expand="block" color="primary" >Proceed to Payment</IonButton>
+            {/* <IonButton onClick={(event) => proceedWithPayment()} shape="round" expand="block" color="primary" >Proceed to Payment</IonButton> */}
+            {userData.is_internal_user == 0 &&
+              <span>
+                <IonButton onClick={() => startPayment("PAYMENT_PAGE")} disabled={!checkoutReady} shape="round" expand="block" color="primary" >Proceed to Payment</IonButton>
+                {/* <IonButton onClick={() => startPayment2("PAYMENT_PAGE")} disabled={!checkoutReady} shape="round" expand="block" color="primary" >External Browser</IonButton> */}
+              </span>
+
+            }
+            {userData.is_internal_user == 1 &&
+              <IonButton onClick={() => EnrollCourses("", "", "'")} shape="round" expand="block" color="primary" >Enroll</IonButton>
+            }
           </IonToolbar>
         </IonFooter>
 

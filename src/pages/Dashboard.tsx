@@ -39,7 +39,11 @@ const Dashboard: React.FC = () => {
   const { login } = useAuth();
   const { isLoading, startLoading, stopLoading } = useLoading();
   const [loadingMessage, setLoadingMessage] = useState<string>('Loading....');
+  const [statusBarHeight, setStatusBarHeight] = useState("0px");
 
+  useEffect(() => {
+    
+  }, []);
   
   useEffect(() => {
     getDashboardCount();
@@ -161,7 +165,8 @@ const Dashboard: React.FC = () => {
                   </IonText>
                 </IonCard>
               </IonCol>
-
+              <div>
+            </div>
             </IonRow>
           </div>
         </IonContent>

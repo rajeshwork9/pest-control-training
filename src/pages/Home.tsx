@@ -14,7 +14,7 @@ import {
 import { Browser } from '@capacitor/browser';
 import { App } from "@capacitor/app";
 import { useHistory } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Capacitor, Plugins } from "@capacitor/core";
 // import ExploreContainer from '../components/ExploreContainer';
 // import './Home.css';
@@ -22,11 +22,16 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 const { WebViewCache } = Plugins;
 import { Storage } from '@capacitor/storage';
 import { toast } from "react-toastify";
+import ModalComponent from "../components/ModalComponent";
 
 const Home: React.FC = () => {
   const history = useHistory();
   const app_version: any = localStorage.getItem('app_version');
+  const [statusBarHeight, setStatusBarHeight] = useState("0px");
 
+  useEffect(() => {
+    
+  }, []);
 
   useEffect(() => {
     const storedUserData: any = localStorage.getItem('userData');
@@ -170,8 +175,6 @@ const Home: React.FC = () => {
               <IonImg slot="start" src="assets/images/login-icon.svg"></IonImg>
               <IonText>Login</IonText>
             </IonItem>
-
-
           </div>
         </div>
       </IonContent>
