@@ -35,7 +35,7 @@ import useLoading from '../components/useLoading';
 import { enrollCourseTraining, getCourseList, savePaymentStatus } from '../api/common';
 import { toast } from 'react-toastify';
 import { useAuth } from '../api/AuthContext';
-import { checkPaymentStatus, createSession, generateOrderId } from '../api/Payment';
+import { checkPaymentStatus, createPurchase, createSession, generateOrderId, getCheckoutDetails } from '../api/Payment';
 import { Browser } from '@capacitor/browser';
 import { generate } from 'rxjs';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -47,6 +47,7 @@ const PaymentDetails: React.FC = () => {
   const { userData } = useAuth();
   const selectedCourseData = JSON.stringify(localStorage.getItem('selectedCourses'));
   const [selectedCourses, setSelectedCourses] = useState<any[]>(JSON.parse(selectedCourseData ? JSON.parse(selectedCourseData) : []));
+  const [paymentGatewayType, setPaymentGatewayType] = useState<string>(localStorage.getItem('paymentGateway') || '');
   const [totalAmount, setTotalAmount] = useState<any>(0);
   const [slotSelectionCourses, setSlotSelectionCourses] = useState<any[]>([]);
   const [checkoutReady, setCheckoutReady] = useState(false);
@@ -64,7 +65,6 @@ const PaymentDetails: React.FC = () => {
 
     if (showActionSheet) {
       setShowLoading(true); // Show loader initially
-
       // Start the countdown
       timer = setInterval(() => {
         setTimeLeft((prev) => {
@@ -76,7 +76,6 @@ const PaymentDetails: React.FC = () => {
           return prev - 1;
         });
       }, 1000);
-
       // Hide loader after a few seconds (simulating API response)
       setTimeout(() => {
         setShowLoading(false);
@@ -110,62 +109,6 @@ const PaymentDetails: React.FC = () => {
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
-
-  const startPayment2 = async (paymentMethod: "LIGHTBOX" | "PAYMENT_PAGE") => {
-    startLoading();
-    if (!checkoutReady || !window.Checkout) {
-      console.error("Checkout.js is not ready yet.");
-      return;
-    }
-
-    try {
-      // 🔹 Simulating API request to get a new session ID
-      const order_id = await generateOrderId();
-      localStorage.setItem('order_id', order_id);
-      console.log(order_id);
-      setOrderId(order_id);
-      const sessionResponse = await createSession(totalAmount, order_id);
-
-      console.log(sessionResponse);
-
-      if (sessionResponse.result === "SUCCESS") {
-        const sessionId = sessionResponse.session.id;
-
-        // 🔹 Configure Checkout with the new session ID
-        window.Checkout.configure({
-          session: {
-            id: sessionId,
-          },
-        });
-        console.log("Checkout object after configuration:", window.Checkout);
-        // 🔹 Ensure Checkout functions exist before calling them
-        // if (paymentMethod === "LIGHTBOX" && typeof window.Checkout.showEmbeddedPage === "function") {
-        //   window.Checkout.showEmbeddedPage("#embedded-checkout");
-        // } else if (paymentMethod === "PAYMENT_PAGE" && typeof window.Checkout.showPaymentPage === "function") {
-
-        // } else {
-        //   console.error("Checkout function is not available.");
-        // }
-        stopLoading();
-        setShowActionSheet(true);
-        setTimeLeft(300);
-
-        intervalId = setInterval(updatePaymentStatus, 5000); // Start polling
-
-        setTimeout(() => {
-          if (intervalId) {
-            clearInterval(intervalId);
-            intervalId = null;
-            console.log("Repetition stopped after 5 minutes.");
-          }
-        }, 300000);
-        window.Checkout.showPaymentPage();
-      }
-    } catch (error) {
-      console.error("Payment initialization error:", error);
-    }
-  };
-
   const startPayment = async (paymentMethod: "LIGHTBOX" | "PAYMENT_PAGE") => {
     startLoading();
     if (!checkoutReady || !window.Checkout) {
@@ -201,25 +144,88 @@ const PaymentDetails: React.FC = () => {
       console.error("Payment initialization error:", error);
     }
   };
+  const startCheckout = async () => {
+    startLoading();
+    try {
+      // 🔹 Simulating API request to get a new session ID
+      const order_id = await generateOrderId();
+      localStorage.setItem('order_id', order_id);
+      console.log(order_id);
+      setOrderId(order_id);
+      const sessionResponse = await createPurchase(totalAmount, order_id);
+
+      console.log(sessionResponse);
+
+      if (sessionResponse.http_code == "200" && sessionResponse.status == true) {
+        const checkoutId = sessionResponse.response.checkoutId;
+        localStorage.setItem('checkoutId', checkoutId);
+        console.log("Checkout object after configuration:", window.Checkout);
+        const paymentURL = sessionResponse.response.checkoutUrl;
+        openCheckoutPage(paymentURL);
+      }
+
+
+    } catch (error) {
+      console.error("Payment initialization error:", error);
+    }
+  };
+  const openCheckoutPage = (paymentURL: string) => {
+    let shouldCloseBrowser = false;
+
+    const browser = InAppBrowser.create(
+      paymentURL,
+      '_self',
+      'location=no,toolbar=no,hideurlbar=yes' // Additional options
+    );
+
+    browser.on('loadstart').subscribe(async (event) => {
+      try {
+        const url = new URL(event.url);
+        const status = url.searchParams.get('status');
+
+        console.log('Payment status:', status);
+
+        if (status === 'payment_deposited') {
+          shouldCloseBrowser = true;
+
+          await updateCheckoutStatus(); // backend success
+          // ❌ DO NOT close here
+        }
+      } catch (err) {
+        console.log('Invalid URL:', event.url);
+      }
+    });
+
+    browser.on('loadstop').subscribe(() => {
+      console.log('Page fully loaded.');
+
+      if (shouldCloseBrowser) {
+        browser.close(); // ✅ SAFE PLACE
+      }
+    });
+
+    browser.on('exit').subscribe(() => {
+      stopLoading();
+      console.log('Browser closed.');
+    });
+  };
 
   const openPaymentPage = (paymentURL: any) => {
     // Open a browser instance
     const browser = InAppBrowser.create(
       paymentURL, // URL to open
       '_self',             // Target ('_self', '_blank', '_system')
-      'location=yes,toolbarcolor=#ffffff' // Additional options
+      'location=no,toolbar=no,hideurlbar=yes' // Additional options
     );
-
     // Listen for the `loadstart` event (when a page starts loading)
     browser.on('loadstart').subscribe(async (event) => {
       if (event.url.includes('payment-confirmation')) {
         updatePaymentStatus();
-        await browser.close();
+        browser.close();
       }
       else {
         console.log('Unknown URL:', event.url);
       }
-
       console.log('Page loading started:', event.url);
     });
 
@@ -234,7 +240,6 @@ const PaymentDetails: React.FC = () => {
       console.log('Browser closed.');
     });
   };
-
   const updatePaymentStatus = async () => {
     const element = document.getElementById("hc-loader-container");
     if (element) {
@@ -254,6 +259,18 @@ const PaymentDetails: React.FC = () => {
         }
         EnrollCourses(paymentStatus.transaction[1].transaction.receipt, paymentStatus.status, paymentStatus);
       }
+    }
+  };
+  const updateCheckoutStatus = async () => {
+    const checkoutStatus = await getCheckoutDetails(localStorage.getItem('order_id'), localStorage.getItem('checkoutId'));
+    console.log("checkoutStatus", checkoutStatus);
+    if (checkoutStatus.checkoutStatus === 'CLOSED' && checkoutStatus.responseCode == 0) {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+        console.log("Payment successful. Interval stopped.");
+      }
+      EnrollCourses(checkoutStatus.purchaseBreakdown.uniqueReferenceNumber, checkoutStatus.checkoutStatus, checkoutStatus);
     }
   };
   useEffect(() => {
@@ -499,7 +516,7 @@ const PaymentDetails: React.FC = () => {
             {/* <IonButton onClick={(event) => proceedWithPayment()} shape="round" expand="block" color="primary" >Proceed to Payment</IonButton> */}
             {userData.is_internal_user == 0 &&
               <span>
-                <IonButton onClick={() => startPayment("PAYMENT_PAGE")} disabled={!checkoutReady} shape="round" expand="block" color="primary" >Proceed to Payment</IonButton>
+                <IonButton onClick={() => paymentGatewayType === 'old' ? startPayment("PAYMENT_PAGE") : startCheckout()} disabled={!checkoutReady} shape="round" expand="block" color="primary" >Proceed to Payment</IonButton>
                 {/* <IonButton onClick={() => startPayment2("PAYMENT_PAGE")} disabled={!checkoutReady} shape="round" expand="block" color="primary" >External Browser</IonButton> */}
               </span>
 

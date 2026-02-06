@@ -111,6 +111,7 @@ const App: React.FC = () => {
 
   const [appInfo, setAppInfo] = useState<any>([]);
   const [googleApiKey, setGoogleApiKey] = useState<string>(localStorage.getItem('Google_Map_API_Key') || '');
+  
   const [appVersion, setAppVersion] = useState<string>('');
   const storedUserData: any = localStorage.getItem('userData');
   const parsedUserData: any = JSON.parse(storedUserData);
@@ -156,6 +157,17 @@ const App: React.FC = () => {
 
   async function handlePlatform() {
     try {
+      
+      const AppSettings = await appSettings({"type":"SETTINGS"});
+      console.log(AppSettings);
+      if (AppSettings && AppSettings.data.success) {
+        const paymentGateway = AppSettings.data.data.find((setting: any) => setting.title === "paymentGateway");
+        console.log(paymentGateway);
+        if (paymentGateway) {
+            localStorage.setItem('paymentGateway',paymentGateway.description);
+
+        }
+      }
       const info = await Device.getInfo();
       const platform = info.platform;
       console.log(platform);
